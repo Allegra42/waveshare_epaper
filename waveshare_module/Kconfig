@@ -1,0 +1,6 @@
+config WAVESHARE
+tristate = "Driver for Waveshare e-paper display"
+depends on ARM
+default m
+help
+waveshare
