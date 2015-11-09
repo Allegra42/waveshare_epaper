@@ -30,9 +30,12 @@ static dev_t waveshare_dev_number = 0; //Devicenumber
 static struct cdev *waveshare_obj = NULL; //Driverobject
 struct class *waveshare_class = NULL; //Class for sysfs
 static struct device *waveshare_dev = NULL;
+static wait_queue_head_t wq_read;
+static wait_queue_head_t wq_write; // read/write waitqueues
 
-static atomic_t bytes_to_write = ATOMIC_INIT(0); //how much bytes are available for writing?
-static atomic_t bytes_available = ATOMIC_INIT(0); // how much are available for reading?
+//TODO real number reading/writing
+static atomic_t bytes_to_write = ATOMIC_INIT(10); //how much bytes are available for writing?
+static atomic_t bytes_available = ATOMIC_INIT(5); // how much are available for reading?
 static atomic_t access_counter = ATOMIC_INIT(-1); // open device just for one writing instance 
 
 #define READ_POSSIBLE (atomic_read(&bytes_available) != 0)
@@ -50,7 +53,7 @@ static struct file_operations fops = {
 	.release = waveshare_driver_close,
 	.read =  waveshare_driver_read,
 	.write = waveshare_driver_write,
-	//do i need poll? .poll = ;
+ 	.poll = waveshare_driver_poll, 
 };
 
 
@@ -117,11 +120,13 @@ static int waveshare_driver_open (struct inode *devicefile, struct file *driveri
 	if ( ((driverinstance->f_flags&O_ACCMODE) == O_RDWR) ||
 	     ((driverinstance->f_flags&O_ACCMODE) == O_WRONLY) ) {
 		
+  		// true if result is 0 -> inital -1 -> one instance allowed
 		if (atomic_inc_and_test(&access_counter)) {
 			return 0;
 		}
-		
+		// dec counter, cause instance isn't allowed to access driver
 		atomic_dec(&access_counter);
+		PRINT ("sorry - just one writing instance");
 		return -EBUSY;
 	}
 
@@ -129,6 +134,7 @@ static int waveshare_driver_open (struct inode *devicefile, struct file *driveri
 }
 
 static int waveshare_driver_close (struct inode *devicefile, struct file *driverinstance) {
+	// if a writing instance called close, decrement counter so an other instance is able to write
 	if ( ((driverinstance->f_flags&O_ACCMODE) == O_RDWR) ||
 	     ((driverinstance->f_flags&O_ACCMODE) == O_WRONLY) ) {
 		atomic_dec(&access_counter);
@@ -138,7 +144,90 @@ static int waveshare_driver_close (struct inode *devicefile, struct file *driver
 }
 
 ssize_t waveshare_driver_read (struct file *driverinstance, char __user *buffer, size_t max_bytes_to_read, loff_t *offset) {
+
+
+	// TODO Idea: print actual display content to userspace -> need to store display content 
+	// -> able to recover display content after sleep? 
+	// -> needed? e-paper hold its content without power supply
+	
+	size_t to_copy = 0; 
+	size_t not_copied = 0; 
+
+	//read from displaybuffer
+
+	char kern_buffer[128]; //correcting to max chars at the display
+	kern_buffer[0] = 'H';
+	kern_buffer[1] = 'A';
+	kern_buffer[2] = 'L';
+	kern_buffer[3] = 'L';
+	kern_buffer[4] = 'O';
+	kern_buffer[5] = '\n';
+	
+	PRINT ("in the read function");
+
+	// no data available, nonblocking
+	if ((!READ_POSSIBLE) && (driverinstance->f_flags&O_NONBLOCK)) {
+		PRINT ("failed at reading, no data available, nonblock");
+		return -EAGAIN;
+	} 
+	
+	// signal while sleeping
+	if (wait_event_interruptible (wq_read, READ_POSSIBLE)) {
+		PRINT ("failed at reading, sig while sleep");
+		return -ERESTARTSYS;
+	}
+
+	to_copy = min ((size_t) atomic_read (&bytes_available), max_bytes_to_read);
+	not_copied = copy_to_user (buffer, kern_buffer, to_copy);
+	atomic_sub ((to_copy - not_copied), &bytes_available);
+	*offset += to_copy - not_copied;
+	
+	return (to_copy - not_copied);	
 }
 
 ssize_t waveshare_driver_write (struct file *driverinstance, const char __user *buffer, size_t max_bytes_to_write, loff_t *offset) {
+	size_t to_copy;
+	size_t not_copied;
+	
+	char kern_buffer [56]; //anpassen
+	
+	// writing not possible, nonblocking
+	if ((!WRITE_POSSIBLE) && (driverinstance->f_flags&O_NONBLOCK)) {
+		PRINT ("failed at writing, not possible, nonblock");
+		return - EAGAIN;
+	}
+	
+	if (wait_event_interruptible (wq_write, WRITE_POSSIBLE)) {
+		PRINT ("failed at writing, sig while sleep");
+		return -ERESTARTSYS;
+	}
+	
+	to_copy = min ((size_t) atomic_read(&bytes_to_write), max_bytes_to_write);
+	not_copied = copy_from_user (kern_buffer, buffer, to_copy);
+
+	//write to display
+	
+	printk (KERN_INFO "waveshare - you wrote %s to driver \n" , kern_buffer);
+
+	atomic_sub ((to_copy - not_copied), &bytes_to_write);
+	*offset += (to_copy - not_copied);
+
+	return (to_copy - not_copied);
 }
+
+unsigned int waveshare_driver_poll (struct file *driverinstance, struct poll_table_struct *event_list) {
+	unsigned int mask = 0;
+	
+	poll_wait (driverinstance, &wq_read, event_list);
+	poll_wait (driverinstance, &wq_write, event_list);
+
+	if (READ_POSSIBLE) {
+		mask |= POLLIN | POLLRDNORM;
+	}
+	if (WRITE_POSSIBLE) {
+		mask |= POLLOUT | POLLWRNORM;
+	}
+
+	return mask;
+}
+

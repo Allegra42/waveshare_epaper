@@ -10,5 +10,6 @@ static int waveshare_driver_open (struct inode *devicefile, struct file *driveri
 static int waveshare_driver_close (struct inode *devicefile, struct file *driverinstance);
 ssize_t waveshare_driver_read (struct file *driverinstance, char __user *buffer, size_t max_bytes_to_read, loff_t *offset);
 ssize_t waveshare_driver_write (struct file *driverinstance, const char __user *buffer, size_t max_bytes_to_write, loff_t *offset);
+unsigned int waveshare_driver_poll (struct file *driverinstance, struct poll_table_struct *event_list);
 
 #endif
