@@ -177,10 +177,10 @@ ssize_t waveshare_driver_read (struct file *driverinstance, char __user *buffer,
 		return -ERESTARTSYS;
 	}
 
-	to_copy = min ((size_t) atomic_read (&bytes_available), max_bytes_to_read);
+	to_copy = min ((size_t) atomic_read (&bytes_available), max_bytes_to_read+1);
 	not_copied = copy_to_user (buffer, kern_buffer, to_copy);
-	atomic_sub ((to_copy - not_copied), &bytes_available);
-	*offset += to_copy - not_copied;
+	//atomic_sub ((to_copy - not_copied), &bytes_available);
+	//*offset += to_copy - not_copied;
 	
 	return (to_copy - not_copied);	
 }
@@ -202,15 +202,22 @@ ssize_t waveshare_driver_write (struct file *driverinstance, const char __user *
 		return -ERESTARTSYS;
 	}
 	
+	if (atomic_read(&bytes_to_write) < 1) {
+		PRINT ("no bytes to write - i am alive before calc min");
+	}
+
 	to_copy = min ((size_t) atomic_read(&bytes_to_write), max_bytes_to_write);
+	printk (KERN_INFO "waveshare - write - to copy = %d ", to_copy);
+	
 	not_copied = copy_from_user (kern_buffer, buffer, to_copy);
+	printk (KERN_INFO "waveshare - write - not_copied = %d ", not_copied);
 
 	//write to display
 	
 	printk (KERN_INFO "waveshare - you wrote %s to driver \n" , kern_buffer);
 
-	atomic_sub ((to_copy - not_copied), &bytes_to_write);
-	*offset += (to_copy - not_copied);
+	//atomic_sub ((to_copy - not_copied), &bytes_to_write);
+	//*offset += (to_copy - not_copied);
 
 	return (to_copy - not_copied);
 }
