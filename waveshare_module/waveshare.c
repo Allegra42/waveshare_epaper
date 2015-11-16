@@ -7,6 +7,9 @@
 #include <linux/poll.h>
 #include <asm/uaccess.h>
 #include <asm/atomic.h>
+#include <linux/serial_core.h>
+#include <linux/platform_device.h>
+#include <linux/io.h>
 
 #include "waveshare.h"
 
@@ -24,7 +27,8 @@ MODULE_AUTHOR ("Anna-Lena Marx");
 #endif // DEBUG
 
 #define WAVESHARE "waveshare"
-
+#define TTY_NAME "ttyWAV"
+#define DEVICENAME "waveshare_epaper"
 
 static dev_t waveshare_dev_number = 0; //Devicenumber
 static struct cdev *waveshare_obj = NULL; //Driverobject
@@ -32,6 +36,37 @@ struct class *waveshare_class = NULL; //Class for sysfs
 static struct device *waveshare_dev = NULL;
 static wait_queue_head_t wq_read;
 static wait_queue_head_t wq_write; // read/write waitqueues
+
+static int major_nr; 
+static int minor_nr;
+
+//Structs for UART
+static struct uart_driver waveshare_uart_driver = {
+	.owner = THIS_MODULE,
+	.driver_name = "waveshare",
+	.dev_name = DEVICENAME,
+//	.major = major_nr,
+//	.minor = minor_nr,
+	//.nr=,
+};
+
+static struct platform_driver waveshare_serial_driver = {
+	.probe = waveshare_uart_probe,
+	.remove = waveshare_uart_remove,
+//	.suspend = waveshare_serial_suspend,
+//	.resume = waveshare_serial_resume,
+	.driver = {
+		.name = "waveshare_uart",
+		.owner = THIS_MODULE,
+	},
+};
+
+struct waveshare_uart_port {
+	struct uart_port port;
+// 	unsigned int min_baud;
+//	unsigned int max_baud;
+//	struct clk *clk;
+};
 
 //TODO real number reading/writing
 static atomic_t bytes_to_write = ATOMIC_INIT(10); //how much bytes are available for writing?
@@ -63,8 +98,19 @@ static int __init waveshare_init (void) {
 		goto free_device_number;
 	}
 	
+	major_nr = MAJOR(waveshare_dev_number);
+	minor_nr = MINOR(waveshare_dev_number);
+
 	waveshare_obj = cdev_alloc();
+
+	if (uart_register_driver(&waveshare_uart_driver)) {
+		goto free_uart;
+	}
 	
+	if (platform_driver_register(&waveshare_serial_driver)) {
+		goto free_platform;
+	}
+
 	if (waveshare_obj == NULL) {
 		goto free_device_number;
 	}
@@ -87,6 +133,7 @@ static int __init waveshare_init (void) {
 
   	waveshare_dev = device_create (waveshare_class, NULL, waveshare_dev_number, NULL, "%s", WAVESHARE);
 	
+
 	PRINT ("module init seemed to be successful");	
 
 	return 0;
@@ -99,12 +146,24 @@ free_cdev:
 free_device_number:
 	PRINT ("alloc_chrdev_region or cdev_alloc failed");
 	unregister_chrdev_region (waveshare_dev_number, 1);
-	return -EIO;	
+	//return -EIO;	
+
+free_platform:
+	PRINT ("register_platform failed");
+	platform_driver_unregister(&waveshare_serial_driver);	
+
+free_uart:
+	PRINT ("register_uart failed");
+	uart_unregister_driver(&waveshare_uart_driver);
+	return -EIO;
+
 }
 
 
 static void __exit waveshare_exit (void) {
 
+	platform_driver_unregister(&waveshare_serial_driver);
+	uart_unregister_driver(&waveshare_uart_driver);
 	device_destroy (waveshare_class, waveshare_dev_number);
 	class_destroy (waveshare_class);
 	cdev_del (waveshare_obj);
@@ -236,5 +295,66 @@ unsigned int waveshare_driver_poll (struct file *driverinstance, struct poll_tab
 	}
 
 	return mask;
+}
+
+static int waveshare_uart_probe (struct platform_device *pdev) {
+	
+	struct waveshare_uart_port *wav_port;
+	struct uart_port *port;
+	struct resource *mem_res;
+	unsigned int baud;
+	
+	wav_port = devm_kzalloc (&pdev->dev, sizeof (struct waveshare_uart_port), GFP_KERNEL);
+	if (!wav_port) {
+		return -EINVAL;
+	}
+
+	port = &wav_port->port;
+	
+	mem_res = platform_get_resource (pdev, IORESOURCE_MEM, 0);
+	port->membase = devm_ioremap_resource(&pdev->dev, mem_res);
+	if (IS_ERR(port->membase)) {
+		return PTR_ERR(port->membase);
+	}
+
+	port->mapbase = mem_res->start;
+	port->dev = &pdev->dev;
+
+//	port->ops = &waveshare_uart_ops;
+
+	baud = 115200;
+
+	if (uart_add_one_port(&waveshare_uart_driver, &wav_port->port)) {
+		goto free_uart_add_one_port;
+	}
+	
+	platform_set_drvdata(pdev, wav_port);
+
+
+free_uart_add_one_port:
+	PRINT ("failed add uart_add_one_port");
+	return -1;	
+}
+
+static int waveshare_uart_remove (struct platform_device *pdev) {
+
+	struct waveshare_uart_port *wav_port;
+
+	wav_port = platform_get_drvdata(pdev);
+
+	if (wav_port) {
+		uart_remove_one_port(&waveshare_uart_driver, &wav_port->port);
+	}
+	
+	return 0;
+}
+
+
+static inline unsigned int waveshare_uart_read (struct waveshare_uart_port *up, int offset) {
+	return readl (up->port.membase + offset);
+}
+
+static inline void waveshare_uart_write (struct waveshare_uart_port *up, int offset, unsigned int value) {
+	return writel (value, up->port.membase + offset);
 }
 

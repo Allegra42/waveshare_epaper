@@ -12,4 +12,9 @@ ssize_t waveshare_driver_read (struct file *driverinstance, char __user *buffer,
 ssize_t waveshare_driver_write (struct file *driverinstance, const char __user *buffer, size_t max_bytes_to_write, loff_t *offset);
 unsigned int waveshare_driver_poll (struct file *driverinstance, struct poll_table_struct *event_list);
 
+static int waveshare_uart_probe (struct platform_device *pdev);
+static int waveshare_uart_remove (struct platform_device *pdev);
+//static int waveshare_serial_suspend (struct platform_device *pdev, pm_message_t state);
+//static int waveshare_serial_resume (struct platform_device *pdev);
+
 #endif
