@@ -17,4 +17,6 @@ static int waveshare_uart_remove (struct platform_device *pdev);
 //static int waveshare_serial_suspend (struct platform_device *pdev, pm_message_t state);
 //static int waveshare_serial_resume (struct platform_device *pdev);
 
+static int waveshare_uart_startup (struct uart_port *port);
+
 #endif

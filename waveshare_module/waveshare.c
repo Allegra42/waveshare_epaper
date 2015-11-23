@@ -47,7 +47,8 @@ static struct uart_driver waveshare_uart_driver = {
 	.dev_name = DEVICENAME,
 //	.major = major_nr,
 //	.minor = minor_nr,
-	//.nr=,
+//	.nr=,
+	.cons = NULL,
 };
 
 static struct platform_driver waveshare_serial_driver = {
@@ -66,6 +67,10 @@ struct waveshare_uart_port {
 // 	unsigned int min_baud;
 //	unsigned int max_baud;
 //	struct clk *clk;
+};
+
+static struct uart_ops waveshare_uart_ops = {
+	.startup = waveshare_uart_startup,
 };
 
 //TODO real number reading/writing
@@ -93,15 +98,21 @@ static struct file_operations fops = {
 
 
 static int __init waveshare_init (void) {
+
+	PRINT ("in waveshare_init");
 	
 	if (alloc_chrdev_region (&waveshare_dev_number, 0, 1, WAVESHARE) < 0 ) {
 		goto free_device_number;
 	}
 	
+	PRINT ("init_chrdev_region success");
+	
 	major_nr = MAJOR(waveshare_dev_number);
 	minor_nr = MINOR(waveshare_dev_number);
 
 	waveshare_obj = cdev_alloc();
+
+	PRINT ("waveshare obj before uart_register_driver");
 
 	if (uart_register_driver(&waveshare_uart_driver)) {
 		goto free_uart;
@@ -320,7 +331,7 @@ static int waveshare_uart_probe (struct platform_device *pdev) {
 	port->mapbase = mem_res->start;
 	port->dev = &pdev->dev;
 
-//	port->ops = &waveshare_uart_ops;
+	port->ops = &waveshare_uart_ops;
 
 	baud = 115200;
 
@@ -351,10 +362,25 @@ static int waveshare_uart_remove (struct platform_device *pdev) {
 
 
 static inline unsigned int waveshare_uart_read (struct waveshare_uart_port *up, int offset) {
-	return readl (up->port.membase + offset);
+	return readb (up->port.membase + offset);
 }
 
-static inline void waveshare_uart_write (struct waveshare_uart_port *up, int offset, unsigned int value) {
-	return writel (value, up->port.membase + offset);
+static inline void waveshare_uart_write (struct waveshare_uart_port *up, int offset, char value) {
+	return writeb (value, up->port.membase + offset);
 }
 
+static int waveshare_uart_startup (struct uart_port *port) {
+	
+	struct waveshare_uart_port *wave_port = container_of (port, struct waveshare_uart_port, port);
+	
+	waveshare_uart_write (wave_port, 0x00, 0xA5);
+	waveshare_uart_write (wave_port, 0x00, 0x00);
+	waveshare_uart_write (wave_port, 0x00, 0x09);
+	waveshare_uart_write (wave_port, 0x00, 0x2E);
+	waveshare_uart_write (wave_port, 0x00, 0xCC);
+	waveshare_uart_write (wave_port, 0x00, 0x33);
+	waveshare_uart_write (wave_port, 0x00, 0xC3);
+	waveshare_uart_write (wave_port, 0x00, 0x3C);
+		
+	return 0;
+}

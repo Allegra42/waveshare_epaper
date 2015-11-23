@@ -46,6 +46,7 @@ __attribute__((section("__versions"))) = {
 	{ 0xa58bb484, __VMLINUX_SYMBOL_STR(platform_get_resource) },
 	{ 0xf5c649bd, __VMLINUX_SYMBOL_STR(devm_kmalloc) },
 	{ 0xcbecd0f, __VMLINUX_SYMBOL_STR(uart_remove_one_port) },
+	{ 0x5dcf6341, __VMLINUX_SYMBOL_STR(outer_cache) },
 	{ 0x2e5810c6, __VMLINUX_SYMBOL_STR(__aeabi_unwind_cpp_pr1) },
 	{ 0xb1ad28e0, __VMLINUX_SYMBOL_STR(__gnu_mcount_nc) },
 };
