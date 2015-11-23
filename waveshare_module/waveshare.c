@@ -40,6 +40,7 @@ static wait_queue_head_t wq_write; // read/write waitqueues
 static int major_nr; 
 static int minor_nr;
 
+//TODO think I need static dev numbers
 //Structs for UART
 static struct uart_driver waveshare_uart_driver = {
 	.owner = THIS_MODULE,
