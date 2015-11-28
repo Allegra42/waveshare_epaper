@@ -1,4 +1,3 @@
-
 #include <linux/fs.h>
 #include <linux/module.h>
 #include <linux/cdev.h>
@@ -10,6 +9,8 @@
 #include <linux/serial_core.h>
 #include <linux/platform_device.h>
 #include <linux/io.h>
+#include <linux/of.h>
+#include <linux/of_platform.h>
 
 #include "waveshare.h"
 
@@ -48,9 +49,16 @@ static struct uart_driver waveshare_uart_driver = {
 	.dev_name = DEVICENAME,
 //	.major = major_nr,
 //	.minor = minor_nr,
-//	.nr=,
+	.nr =  1,
 	.cons = NULL,
 };
+
+//Match uart port to driver
+static const struct of_device_id waveshare_uart_of_ids[] = {
+	{ .compatible = "ti,omap3-uart" },
+	{},
+};
+MODULE_DEVICE_TABLE(of, waveshare_uart_of_ids);
 
 static struct platform_driver waveshare_serial_driver = {
 	.probe = waveshare_uart_probe,
@@ -60,6 +68,7 @@ static struct platform_driver waveshare_serial_driver = {
 	.driver = {
 		.name = "waveshare_uart",
 		.owner = THIS_MODULE,
+		.of_match_table = of_match_ptr (waveshare_uart_of_ids),
 	},
 };
 
@@ -97,7 +106,6 @@ static struct file_operations fops = {
  	.poll = waveshare_driver_poll, 
 };
 
-
 static int __init waveshare_init (void) {
 
 	PRINT ("in waveshare_init");
@@ -113,15 +121,7 @@ static int __init waveshare_init (void) {
 
 	waveshare_obj = cdev_alloc();
 
-	PRINT ("waveshare obj before uart_register_driver");
-
-	if (uart_register_driver(&waveshare_uart_driver)) {
-		goto free_uart;
-	}
-	
-	if (platform_driver_register(&waveshare_serial_driver)) {
-		goto free_platform;
-	}
+	PRINT ("waveshare obj before cdev_add");
 
 	if (waveshare_obj == NULL) {
 		goto free_device_number;
@@ -133,6 +133,15 @@ static int __init waveshare_init (void) {
 	if (cdev_add (waveshare_obj, waveshare_dev_number,1)) {
 		goto free_cdev;
 	}
+	PRINT ("waveshare obj before platform_driver");
+	if (platform_driver_register(&waveshare_serial_driver)) {
+		goto free_platform;
+	}
+        PRINT ("waveshare obj before uart_register_driver");
+        if (uart_register_driver(&waveshare_uart_driver)) {
+		goto free_uart;
+	}
+	
 
 	waveshare_class = class_create (THIS_MODULE, WAVESHARE);
 	
@@ -149,26 +158,26 @@ static int __init waveshare_init (void) {
 	PRINT ("module init seemed to be successful");	
 
 	return 0;
-	
-	
+
+        
 free_cdev:
 	PRINT ("adding cdev failed");
-	kobject_put (&waveshare_obj->kobj);
+        kobject_put (&waveshare_obj->kobj);
 
-free_device_number:
-	PRINT ("alloc_chrdev_region or cdev_alloc failed");
-	unregister_chrdev_region (waveshare_dev_number, 1);
-	//return -EIO;	
-
-free_platform:
-	PRINT ("register_platform failed");
-	platform_driver_unregister(&waveshare_serial_driver);	
 
 free_uart:
 	PRINT ("register_uart failed");
 	uart_unregister_driver(&waveshare_uart_driver);
-	return -EIO;
-
+        
+free_platform:
+	PRINT ("register_platform failed");
+	platform_driver_unregister(&waveshare_serial_driver);	
+        
+free_device_number:
+	PRINT ("alloc_chrdev_region or cdev_alloc failed");
+	unregister_chrdev_region (waveshare_dev_number, 1);
+	return -EIO;	
+	
 }
 
 
@@ -315,7 +324,9 @@ static int waveshare_uart_probe (struct platform_device *pdev) {
 	struct uart_port *port;
 	struct resource *mem_res;
 	unsigned int baud;
-	
+
+	PRINT (" in waveshare_uart_probe");
+		
 	wav_port = devm_kzalloc (&pdev->dev, sizeof (struct waveshare_uart_port), GFP_KERNEL);
 	if (!wav_port) {
 		return -EINVAL;
@@ -372,6 +383,8 @@ static inline void waveshare_uart_write (struct waveshare_uart_port *up, int off
 
 static int waveshare_uart_startup (struct uart_port *port) {
 	
+	PRINT ("in waveshare_uart_startup");
+
 	struct waveshare_uart_port *wave_port = container_of (port, struct waveshare_uart_port, port);
 	
 	waveshare_uart_write (wave_port, 0x00, 0xA5);

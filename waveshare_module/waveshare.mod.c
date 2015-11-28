@@ -21,15 +21,15 @@ __attribute__((section("__versions"))) = {
 	{ 0xfd94efca, __VMLINUX_SYMBOL_STR(cdev_del) },
 	{ 0x8c073f99, __VMLINUX_SYMBOL_STR(class_destroy) },
 	{ 0x3df221a8, __VMLINUX_SYMBOL_STR(device_destroy) },
-	{ 0x64de54b8, __VMLINUX_SYMBOL_STR(uart_unregister_driver) },
-	{ 0xfd811f2f, __VMLINUX_SYMBOL_STR(platform_driver_unregister) },
 	{ 0x7485e15e, __VMLINUX_SYMBOL_STR(unregister_chrdev_region) },
+	{ 0xfd811f2f, __VMLINUX_SYMBOL_STR(platform_driver_unregister) },
+	{ 0x64de54b8, __VMLINUX_SYMBOL_STR(uart_unregister_driver) },
 	{ 0x68abb700, __VMLINUX_SYMBOL_STR(kobject_put) },
 	{ 0x24b193f1, __VMLINUX_SYMBOL_STR(device_create) },
 	{ 0x60e273ca, __VMLINUX_SYMBOL_STR(__class_create) },
-	{ 0x13a368b3, __VMLINUX_SYMBOL_STR(cdev_add) },
-	{ 0x815e9ad6, __VMLINUX_SYMBOL_STR(__platform_driver_register) },
 	{ 0x1a341cee, __VMLINUX_SYMBOL_STR(uart_register_driver) },
+	{ 0x815e9ad6, __VMLINUX_SYMBOL_STR(__platform_driver_register) },
+	{ 0x13a368b3, __VMLINUX_SYMBOL_STR(cdev_add) },
 	{ 0x81b72b1c, __VMLINUX_SYMBOL_STR(cdev_alloc) },
 	{ 0x29537c9e, __VMLINUX_SYMBOL_STR(alloc_chrdev_region) },
 	{ 0xfbc74f64, __VMLINUX_SYMBOL_STR(__copy_from_user) },
@@ -40,13 +40,13 @@ __attribute__((section("__versions"))) = {
 	{ 0x344b7739, __VMLINUX_SYMBOL_STR(prepare_to_wait_event) },
 	{ 0x1000e51, __VMLINUX_SYMBOL_STR(schedule) },
 	{ 0x8f678b07, __VMLINUX_SYMBOL_STR(__stack_chk_guard) },
-	{ 0x27e1a049, __VMLINUX_SYMBOL_STR(printk) },
 	{ 0x6c25f0ae, __VMLINUX_SYMBOL_STR(uart_add_one_port) },
 	{ 0xf741d330, __VMLINUX_SYMBOL_STR(devm_ioremap_resource) },
 	{ 0xa58bb484, __VMLINUX_SYMBOL_STR(platform_get_resource) },
 	{ 0xf5c649bd, __VMLINUX_SYMBOL_STR(devm_kmalloc) },
 	{ 0xcbecd0f, __VMLINUX_SYMBOL_STR(uart_remove_one_port) },
 	{ 0x5dcf6341, __VMLINUX_SYMBOL_STR(outer_cache) },
+	{ 0x27e1a049, __VMLINUX_SYMBOL_STR(printk) },
 	{ 0x2e5810c6, __VMLINUX_SYMBOL_STR(__aeabi_unwind_cpp_pr1) },
 	{ 0xb1ad28e0, __VMLINUX_SYMBOL_STR(__gnu_mcount_nc) },
 };
@@ -56,3 +56,4 @@ __used
 __attribute__((section(".modinfo"))) =
 "depends=";
 
+MODULE_ALIAS("of:N*T*Cti,omap3-uart*");
