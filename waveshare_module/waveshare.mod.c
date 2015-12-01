@@ -57,3 +57,4 @@ __attribute__((section(".modinfo"))) =
 "depends=";
 
 MODULE_ALIAS("of:N*T*Cti,omap3-uart*");
+MODULE_ALIAS("platform:omap3-uart");

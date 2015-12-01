@@ -38,10 +38,6 @@ static struct device *waveshare_dev = NULL;
 static wait_queue_head_t wq_read;
 static wait_queue_head_t wq_write; // read/write waitqueues
 
-static int major_nr; 
-static int minor_nr;
-
-//TODO think I need static dev numbers
 //Structs for UART
 static struct uart_driver waveshare_uart_driver = {
 	.owner = THIS_MODULE,
@@ -53,24 +49,38 @@ static struct uart_driver waveshare_uart_driver = {
 	.cons = NULL,
 };
 
+static const struct platform_device_id waveshare_uart_platform_ids[] = {
+	{ .name = "omap3-uart"},
+	{ },
+};
+MODULE_DEVICE_TABLE(platform, waveshare_uart_platform_ids);
+
+
+#ifdef CONFIG_OF
 //Match uart port to driver
 static const struct of_device_id waveshare_uart_of_ids[] = {
 	{ .compatible = "ti,omap3-uart" },
-	{},
+	{ },
 };
 MODULE_DEVICE_TABLE(of, waveshare_uart_of_ids);
+#endif
+
 
 static struct platform_driver waveshare_serial_driver = {
 	.probe = waveshare_uart_probe,
 	.remove = waveshare_uart_remove,
 //	.suspend = waveshare_serial_suspend,
 //	.resume = waveshare_serial_resume,
+	.id_table = waveshare_uart_platform_ids,
 	.driver = {
 		.name = "waveshare_uart",
 		.owner = THIS_MODULE,
 		.of_match_table = of_match_ptr (waveshare_uart_of_ids),
 	},
 };
+
+//module_platform_driver(waveshare_serial_driver);
+
 
 struct waveshare_uart_port {
 	struct uart_port port;
@@ -116,9 +126,6 @@ static int __init waveshare_init (void) {
 	
 	PRINT ("init_chrdev_region success");
 	
-	major_nr = MAJOR(waveshare_dev_number);
-	minor_nr = MINOR(waveshare_dev_number);
-
 	waveshare_obj = cdev_alloc();
 
 	PRINT ("waveshare obj before cdev_add");
