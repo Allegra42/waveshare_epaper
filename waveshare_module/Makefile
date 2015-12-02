@@ -1,4 +1,4 @@
-KERNEL_DIR=~/Development/linux
+KERNEL_DIR=~/Development/linux-stable
 
 obj-$(CONFIG_WAVESHARE) += waveshare.o
 obj-m := waveshare.o

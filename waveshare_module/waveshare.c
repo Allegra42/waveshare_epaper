@@ -50,20 +50,20 @@ static struct uart_driver waveshare_uart_driver = {
 };
 
 static const struct platform_device_id waveshare_uart_platform_ids[] = {
-	{ .name = "omap3-uart"},
+	{ .name = "omap3-uart" ,},
+	{ .name = "am3352-uartti" ,},
 	{ },
 };
 MODULE_DEVICE_TABLE(platform, waveshare_uart_platform_ids);
 
 
-#ifdef CONFIG_OF
 //Match uart port to driver
 static const struct of_device_id waveshare_uart_of_ids[] = {
-	{ .compatible = "ti,omap3-uart" },
+	{ .compatible = "ti,omap3-uart" ,},
+	{ .compatible = "ti,am3352-uartti" ,},
 	{ },
 };
 MODULE_DEVICE_TABLE(of, waveshare_uart_of_ids);
-#endif
 
 
 static struct platform_driver waveshare_serial_driver = {
