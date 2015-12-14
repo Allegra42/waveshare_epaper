@@ -11,6 +11,9 @@
 #include <linux/io.h>
 #include <linux/of.h>
 #include <linux/of_platform.h>
+#include <linux/gpio.h>
+#include <linux/interrupt.h>
+#include <linux/delay.h>
 
 #include "waveshare.h"
 
@@ -30,6 +33,9 @@ MODULE_AUTHOR ("Anna-Lena Marx");
 #define WAVESHARE "waveshare"
 #define TTY_NAME "ttyWAV"
 #define DEVICENAME "waveshare_epaper"
+
+static unsigned int resetPin = 49; //P9_23
+static unsigned int wakeupPin = 115; //P9_27
 
 static dev_t waveshare_dev_number = 0; //Devicenumber
 static struct cdev *waveshare_obj = NULL; //Driverobject
@@ -160,7 +166,22 @@ static int __init waveshare_init (void) {
 	// init powermanagement
 
   	waveshare_dev = device_create (waveshare_class, NULL, waveshare_dev_number, NULL, "%s", WAVESHARE);
+	//try to reset display
+	PRINT ("try to reset display");
+	static bool val = true;
+	gpio_request(resetPin, "sysfs");
+	gpio_direction_output(resetPin, val);
 	
+	gpio_request(wakeupPin, "sysfs");
+	gpio_direction_output(wakeupPin, val);
+
+	gpio_set_value(resetPin, !val);
+	mdelay(10);
+	gpio_set_value(resetPin, val);
+	mdelay(500);
+	gpio_set_value(resetPin, !val);
+	mdelay(3000);
+	PRINT("finished reset"); 
 
 	PRINT ("module init seemed to be successful");	
 
