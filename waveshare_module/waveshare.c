@@ -55,14 +55,6 @@ static struct uart_driver waveshare_uart_driver = {
 	.cons = NULL,
 };
 
-static const struct platform_device_id waveshare_uart_platform_ids[] = {
-	{ .name = "omap3-uart" ,},
-	{ .name = "am3352-uartti" ,},
-	{ },
-};
-MODULE_DEVICE_TABLE(platform, waveshare_uart_platform_ids);
-
-
 //Match uart port to driver
 static const struct of_device_id waveshare_uart_of_ids[] = {
 	{ .compatible = "ti,omap3-uart" ,},
@@ -77,7 +69,7 @@ static struct platform_driver waveshare_serial_driver = {
 	.remove = waveshare_uart_remove,
 //	.suspend = waveshare_serial_suspend,
 //	.resume = waveshare_serial_resume,
-	.id_table = waveshare_uart_platform_ids,
+	.id_table = waveshare_uart_of_ids,
 	.driver = {
 		.name = "waveshare_uart",
 		.owner = THIS_MODULE,
@@ -146,15 +138,16 @@ static int __init waveshare_init (void) {
 	if (cdev_add (waveshare_obj, waveshare_dev_number,1)) {
 		goto free_cdev;
 	}
+
+	PRINT ("waveshare obj before uart_register_driver");
+        if (uart_register_driver(&waveshare_uart_driver)) {
+		goto free_uart;
+	}
+
 	PRINT ("waveshare obj before platform_driver");
 	if (platform_driver_register(&waveshare_serial_driver)) {
 		goto free_platform;
 	}
-        PRINT ("waveshare obj before uart_register_driver");
-        if (uart_register_driver(&waveshare_uart_driver)) {
-		goto free_uart;
-	}
-	
 
 	waveshare_class = class_create (THIS_MODULE, WAVESHARE);
 	
@@ -166,7 +159,7 @@ static int __init waveshare_init (void) {
 	// init powermanagement
 
   	waveshare_dev = device_create (waveshare_class, NULL, waveshare_dev_number, NULL, "%s", WAVESHARE);
-	//try to reset display
+	// reset display
 	PRINT ("try to reset display");
 	static bool val = true;
 	gpio_request(resetPin, "sysfs");
@@ -185,21 +178,26 @@ static int __init waveshare_init (void) {
 
 	PRINT ("module init seemed to be successful");	
 
+	
 	return 0;
 
         
 free_cdev:
+	gpio_set_value(resetPin, !val);
+	gpio_set_value(wakeupPin, !val);
+	gpio_free(resetPin);
+	gpio_free(wakeupPin);
+	PRINT ("adding cdev failed");
 	PRINT ("adding cdev failed");
         kobject_put (&waveshare_obj->kobj);
 
+free_platform:
+	PRINT ("register_platform failed");
+	platform_driver_unregister(&waveshare_serial_driver);	
 
 free_uart:
 	PRINT ("register_uart failed");
 	uart_unregister_driver(&waveshare_uart_driver);
-        
-free_platform:
-	PRINT ("register_platform failed");
-	platform_driver_unregister(&waveshare_serial_driver);	
         
 free_device_number:
 	PRINT ("alloc_chrdev_region or cdev_alloc failed");
@@ -211,8 +209,13 @@ free_device_number:
 
 static void __exit waveshare_exit (void) {
 
-	platform_driver_unregister(&waveshare_serial_driver);
+	gpio_set_value(resetPin, false);
+	gpio_set_value(wakeupPin, false);
+	gpio_free(resetPin);
+	gpio_free(wakeupPin);
+
 	uart_unregister_driver(&waveshare_uart_driver);
+	platform_driver_unregister(&waveshare_serial_driver);
 	device_destroy (waveshare_class, waveshare_dev_number);
 	class_destroy (waveshare_class);
 	cdev_del (waveshare_obj);

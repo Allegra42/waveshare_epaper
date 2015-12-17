@@ -22,9 +22,10 @@ __attribute__((section("__versions"))) = {
 	{ 0x405d9a68, __VMLINUX_SYMBOL_STR(class_destroy) },
 	{ 0x65896a74, __VMLINUX_SYMBOL_STR(device_destroy) },
 	{ 0x7485e15e, __VMLINUX_SYMBOL_STR(unregister_chrdev_region) },
-	{ 0x2c5f18c8, __VMLINUX_SYMBOL_STR(platform_driver_unregister) },
 	{ 0x8f59f1bd, __VMLINUX_SYMBOL_STR(uart_unregister_driver) },
+	{ 0x2c5f18c8, __VMLINUX_SYMBOL_STR(platform_driver_unregister) },
 	{ 0x68abb700, __VMLINUX_SYMBOL_STR(kobject_put) },
+	{ 0xfe990052, __VMLINUX_SYMBOL_STR(gpio_free) },
 	{ 0x567648d2, __VMLINUX_SYMBOL_STR(gpiod_set_raw_value) },
 	{ 0x2ff82fae, __VMLINUX_SYMBOL_STR(gpiod_direction_output_raw) },
 	{ 0x60e34a36, __VMLINUX_SYMBOL_STR(gpio_to_desc) },
@@ -32,8 +33,8 @@ __attribute__((section("__versions"))) = {
 	{ 0xb84f5be9, __VMLINUX_SYMBOL_STR(device_create) },
 	{ 0x8e865d3c, __VMLINUX_SYMBOL_STR(arm_delay_ops) },
 	{ 0x6ffe713c, __VMLINUX_SYMBOL_STR(__class_create) },
-	{ 0xf635c4e7, __VMLINUX_SYMBOL_STR(uart_register_driver) },
 	{ 0x736808d7, __VMLINUX_SYMBOL_STR(__platform_driver_register) },
+	{ 0xf635c4e7, __VMLINUX_SYMBOL_STR(uart_register_driver) },
 	{ 0xf5891015, __VMLINUX_SYMBOL_STR(cdev_add) },
 	{ 0xbdbf795c, __VMLINUX_SYMBOL_STR(cdev_alloc) },
 	{ 0x29537c9e, __VMLINUX_SYMBOL_STR(alloc_chrdev_region) },
@@ -63,5 +64,3 @@ __attribute__((section(".modinfo"))) =
 
 MODULE_ALIAS("of:N*T*Cti,omap3-uart*");
 MODULE_ALIAS("of:N*T*Cti,am3352-uartti*");
-MODULE_ALIAS("platform:omap3-uart");
-MODULE_ALIAS("platform:am3352-uartti");
