@@ -73,7 +73,7 @@ static struct platform_driver waveshare_serial_driver = {
 	.driver = {
 		.name = "waveshare_uart",
 		.owner = THIS_MODULE,
-		.of_match_table = of_match_ptr (waveshare_uart_of_ids),
+		.of_match_table = waveshare_uart_of_ids,
 	},
 };
 
@@ -100,7 +100,8 @@ static atomic_t access_counter = ATOMIC_INIT(-1); // open device just for one wr
 #define WRITE_POSSIBLE (atomic_read(&bytes_to_write) != 0)
 
 
-
+// Probieren auszukommentieren, wenn display an strom
+// ATM sieht diese Variante erfolgreicher aus
 module_init (waveshare_init);
 module_exit (waveshare_exit);
 
@@ -115,6 +116,8 @@ static struct file_operations fops = {
 };
 
 static int __init waveshare_init (void) {
+
+	static bool val = true;
 
 	PRINT ("in waveshare_init");
 	
@@ -161,7 +164,6 @@ static int __init waveshare_init (void) {
   	waveshare_dev = device_create (waveshare_class, NULL, waveshare_dev_number, NULL, "%s", WAVESHARE);
 	// reset display
 	PRINT ("try to reset display");
-	static bool val = true;
 	gpio_request(resetPin, "sysfs");
 	gpio_direction_output(resetPin, val);
 	
@@ -349,6 +351,36 @@ unsigned int waveshare_driver_poll (struct file *driverinstance, struct poll_tab
 	return mask;
 }
 
+//read with sysfs from kernel space
+static ssize_t waveshare_sysfs_read (struct device *dev, struct device_attribute *attr, char *buf) {
+	//read some useful data
+	char example [] = {"TEST"};
+	return sprintf (buf, "%s \n", example); 
+}
+
+//write with sysfs in the kernelspace
+static ssize_t waveshare_sysfs_write (struct device *dev, struct device_attribute *attr, const char *buf, size_t size) {
+	int val = 0;
+	PRINT ("write a number");
+	
+	val = simple_strtoul (buf, NULL, 10);
+	
+	printk (KERN_INFO "You wrote %d \n", val);	
+	
+	return size;
+}
+
+static DEVICE_ATTR (wav_sysfs, 0644, waveshare_sysfs_read, waveshare_sysfs_write);
+
+static const struct attribute *waveshare_attrs[] = {
+	&dev_attr_wav_sysfs.attr,
+	NULL,
+};
+
+static const struct attribute_group waveshare_attr_group = {
+	.attrs = waveshare_attrs,
+};
+
 static int waveshare_uart_probe (struct platform_device *pdev) {
 	
 	struct waveshare_uart_port *wav_port;
@@ -413,10 +445,10 @@ static inline void waveshare_uart_write (struct waveshare_uart_port *up, int off
 }
 
 static int waveshare_uart_startup (struct uart_port *port) {
-	
-	PRINT ("in waveshare_uart_startup");
 
 	struct waveshare_uart_port *wave_port = container_of (port, struct waveshare_uart_port, port);
+	
+	PRINT ("in waveshare_uart_startup");
 	
 	waveshare_uart_write (wave_port, 0x00, 0xA5);
 	waveshare_uart_write (wave_port, 0x00, 0x00);
