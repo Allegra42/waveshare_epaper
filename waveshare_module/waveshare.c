@@ -115,6 +115,29 @@ static struct file_operations fops = {
  	.poll = waveshare_driver_poll, 
 };
 
+
+//read with sysfs from kernel space
+static ssize_t waveshare_sysfs_read (struct device *dev, struct device_attribute *attr, char *buf) {
+	//read some useful data
+	char example [] = {"TEST"};
+	return sprintf (buf, "%s \n", example); 
+}
+
+//write with sysfs in the kernelspace
+static ssize_t waveshare_sysfs_write (struct device *dev, struct device_attribute *attr, const char *buf, size_t size) {
+	int val = 0;
+	PRINT ("write a number");
+	
+	val = simple_strtoul (buf, NULL, 10);
+	
+	printk (KERN_INFO "You wrote %d \n", val);	
+	
+	return size;
+}
+
+static DEVICE_ATTR (wav_sysfs, 0644, waveshare_sysfs_read, waveshare_sysfs_write);
+
+
 static int __init waveshare_init (void) {
 
 	static bool val = true;
@@ -158,10 +181,14 @@ static int __init waveshare_init (void) {
 		PRINT ("sysfs class creation failed, no udev support");
 		goto free_cdev;
 	}
-
+	
 	// init powermanagement
 
   	waveshare_dev = device_create (waveshare_class, NULL, waveshare_dev_number, NULL, "%s", WAVESHARE);
+	if(device_create_file(waveshare_dev, &dev_attr_wav_sysfs)) {
+		PRINT ("failed to register file under /dev/waveshare");
+	}
+
 	// reset display
 	PRINT ("try to reset display");
 	gpio_request(resetPin, "sysfs");
@@ -350,36 +377,6 @@ unsigned int waveshare_driver_poll (struct file *driverinstance, struct poll_tab
 
 	return mask;
 }
-
-//read with sysfs from kernel space
-static ssize_t waveshare_sysfs_read (struct device *dev, struct device_attribute *attr, char *buf) {
-	//read some useful data
-	char example [] = {"TEST"};
-	return sprintf (buf, "%s \n", example); 
-}
-
-//write with sysfs in the kernelspace
-static ssize_t waveshare_sysfs_write (struct device *dev, struct device_attribute *attr, const char *buf, size_t size) {
-	int val = 0;
-	PRINT ("write a number");
-	
-	val = simple_strtoul (buf, NULL, 10);
-	
-	printk (KERN_INFO "You wrote %d \n", val);	
-	
-	return size;
-}
-
-static DEVICE_ATTR (wav_sysfs, 0644, waveshare_sysfs_read, waveshare_sysfs_write);
-
-static const struct attribute *waveshare_attrs[] = {
-	&dev_attr_wav_sysfs.attr,
-	NULL,
-};
-
-static const struct attribute_group waveshare_attr_group = {
-	.attrs = waveshare_attrs,
-};
 
 static int waveshare_uart_probe (struct platform_device *pdev) {
 	
