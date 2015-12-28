@@ -1,3 +1,6 @@
+//TODO find the platform_device structure, needed for accessing the probe function
+
+
 #include <linux/fs.h>
 #include <linux/module.h>
 #include <linux/cdev.h>
@@ -208,8 +211,8 @@ static int __init waveshare_init (void) {
 	PRINT ("module init seemed to be successful");	
 
 	
+//	waveshare_uart_probe();
 	return 0;
-
         
 free_cdev:
 	gpio_set_value(resetPin, !val);
@@ -387,7 +390,7 @@ static int waveshare_uart_probe (struct platform_device *pdev) {
 
 	PRINT (" in waveshare_uart_probe");
 		
-	wav_port = devm_kzalloc (&pdev->dev, sizeof (struct waveshare_uart_port), GFP_KERNEL);
+/*	wav_port = devm_kzalloc (&pdev->dev, sizeof (struct waveshare_uart_port), GFP_KERNEL);
 	if (!wav_port) {
 		return -EINVAL;
 	}
@@ -412,11 +415,13 @@ static int waveshare_uart_probe (struct platform_device *pdev) {
 	}
 	
 	platform_set_drvdata(pdev, wav_port);
+	
+*/	return 0;
 
-
-free_uart_add_one_port:
+/*free_uart_add_one_port:
 	PRINT ("failed add uart_add_one_port");
 	return -1;	
+*/
 }
 
 static int waveshare_uart_remove (struct platform_device *pdev) {
