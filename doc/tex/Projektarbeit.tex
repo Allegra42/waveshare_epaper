@@ -1,0 +1,35 @@
+\documentclass[a4paper, oneside, 12pt]{scrbook}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{minted}
+
+\pagestyle {headings}
+\bibliographystyle{alphadin}
+
+
+
+\title{Entwicklung eines Linux Gerätetreibers am Beispiel eines e-Paper Displays}
+\author{Anna-Lena Marx}
+\date{\today}
+
+
+\begin{document}
+\frontmatter
+\maketitle
+%abstract
+\input{Abstract}
+\tableofcontents
+\newpage
+
+\mainmatter
+%mainpart
+\input{Einleitung}
+\newpage \appendix
+%appendix
+\addcontentsline{toc} {chapter} {Bibliografie}
+%\bibliography{}
+\listoflistings %auf deutsch umbenennen
+\listoffigures %auf deutsch umbenennen
+\end{document}
