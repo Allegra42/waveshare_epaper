@@ -1,6 +1,6 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.14)  14 DEC 2015 20:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.14)  11 JAN 2016 15:43
 entering extended mode
- restricted \write18 enabled.
+ \write18 enabled.
  %&-line parsing enabled.
 **Projektarbeit.tex
 (./Projektarbeit.tex
@@ -560,9 +560,10 @@ Package: ifplatform 2010/10/22 v0.4 Testing for the operating system
 (/usr/share/texmf-dist/tex/generic/oberdiek/catchfile.sty
 Package: catchfile 2011/03/01 v1.6 Catch the contents of a file (HO)
 )
+runsystem(uname -s > "Projektarbeit.w18")...executed.
 
-Package ifplatform Warning: 
-    shell escape is disabled, so I can only detect \ifwindows.
+ (./Projektarbeit.w18)
+runsystem(rm -- "Projektarbeit.w18")...executed.
 
 ) (/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2015/08/02 v2.2a e-TeX tools for LaTeX (JAW)
@@ -609,72 +610,33 @@ LaTeX Info: Redefining \\ on input line 3056.
 \@float@every@listing=\toks20
 \c@listing=\count120
 )
-runsystem(mkdir -p "_minted-Projektarbeit")...disabled (restricted).
+runsystem(pygmentize -S default -f latex -P commandprefix=PYGdefault > ".texpad
+tmp/Projektarbeit.out.pyg")...executed.
 
 
+(./.texpadtmp/Projektarbeit.out.pyg)
+runsystem(which "pygmentize" && touch "Projektarbeit.aex")...executed.
 
-! Package minted Error: You must invoke LaTeX with the -shell-escape flag.
+runsystem(rm "Projektarbeit.aex")...executed.
 
-See the minted package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.7 
-    
-Pass the -shell-escape flag to LaTeX. Refer to the minted.sty documentation for
- more information.
-
-runsystem(pygmentize -S default -f latex -P commandprefix=PYGdefault > "_minted
--Projektarbeit/default.pygstyle")...disabled (restricted).
-
-
-! Package minted Error: Missing Pygments output; \inputminted was
-probably given a file that does not exist--otherwise, you may need 
-the outputdir package option, or may be using an incompatible build tool.
-
-See the minted package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.7 ^^M
-       
-This could be caused by using -output-directory or -aux-directory 
-without setting minted's outputdir, or by using a build tool that 
-changes paths in ways minted cannot detect.
-
-runsystem(which "pygmentize" && touch "Projektarbeit.aex")...disabled (restrict
-ed).
-
-
-! Package minted Error: You must have `pygmentize' installed to use this packag
-e.
-
-See the minted package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.18 \begin{document}
-                     
-Refer to the installation instructions in the minted documentation for more inf
-ormation.
-
-No file Projektarbeit.aux.
+ (./Projektarbeit.aux)
 \openout1 = `Projektarbeit.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+
 (/usr/share/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count121
@@ -704,7 +666,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box35
-Package hyperref Info: Link coloring OFF on input line 18.
+Package hyperref Info: Link coloring OFF on input line 19.
 
 (/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -714,9 +676,11 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count127
 )
-LaTeX Info: Redefining \ref on input line 18.
-LaTeX Info: Redefining \pageref on input line 18.
-LaTeX Info: Redefining \nameref on input line 18.
+LaTeX Info: Redefining \ref on input line 19.
+LaTeX Info: Redefining \pageref on input line 19.
+LaTeX Info: Redefining \nameref on input line 19.
+
+(./Projektarbeit.out) (./Projektarbeit.out)
 \@outlinefile=\write6
 \openout6 = `Projektarbeit.out'.
 
@@ -738,62 +702,184 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
 )
-runsystem(pygmentize -S default -f latex -P commandprefix=PYG > "_minted-Projek
-tarbeit/default-pyg-prefix.pygstyle")...disabled (restricted).
+runsystem(pygmentize -S default -f latex -P commandprefix=PYG > ".texpadtmp/Pro
+jektarbeit.out.pyg")...executed.
 
 
-
-! Package minted Error: Missing Pygments output; \inputminted was
-probably given a file that does not exist--otherwise, you may need 
-the outputdir package option, or may be using an incompatible build tool.
-
-See the minted package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.18 \begin{document}
-                     ^^M
-This could be caused by using -output-directory or -aux-directory 
-without setting minted's outputdir, or by using a build tool that 
-changes paths in ways minted cannot detect.
-
+(./.texpadtmp/Projektarbeit.out.pyg)
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <17.28> on input line 22.
+(Font)              <17.28> on input line 23.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 22.
+(Font)              <12> on input line 23.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 22.
+(babel)             in language  on input line 23.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 22.
+(babel)             in language  on input line 23.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 22.
+(babel)             in language  on input line 23.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 22.
-[1
+(babel)             in language  on input line 23.
+ [1
 
 
 
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./Abstract.tex)
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 24.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 24.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 24.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 24.
+ [2] (./Projektarbeit.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 4.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 4.
+)
 \tf@toc=\write7
 \openout7 = `Projektarbeit.toc'.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 23.
+(babel)             in language  on input line 25.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 23.
+(babel)             in language  on input line 25.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 23.
+(babel)             in language  on input line 25.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 23.
- [2
+(babel)             in language  on input line 25.
+ [3
+
+
+] (./Einleitung.tex
+chapter 1.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 3.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 3.
+
+Class scrbook Warning: \float@addtolists detected!
+(scrbook)              Implementation of \float@addtolist became
+(scrbook)              deprecated in KOMA-Script v3.01 2008/11/14 and
+(scrbook)              has been replaced by several more flexible
+(scrbook)              features of package `tocbasic`.
+(scrbook)              Since Version 3.12 support for deprecated
+(scrbook)              \float@addtolist interface has been
+(scrbook)              restricted to only some of the KOMA-Script
+(scrbook)              features and been removed from others.
+(scrbook)              Loading of package `scrhack' may help to
+(scrbook)              avoid this warning, if you are using a
+(scrbook)              a package that still implements the
+(scrbook)              deprecated \float@addtolist interface .
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--8
+
+ []
+
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 14.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 14.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 14.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 14.
+[1
+
 
 
 ]
+chapter 2.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 29.
+(babel)             in language  on input line 14.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 29.
+(babel)             in language  on input line 14.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 16.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 16.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 20.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 20.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 25.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 25.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 25.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 25.
+[2
+
+
+]
+chapter 3.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 25.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 25.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 33.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 33.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 34.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 34.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 40.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 40.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 43.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 43.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 43.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 43.
+[3
+
+
+]
+Package hyperref Info: bookmark level for unknown listing defaults to 0 on inpu
+t line 48.
+\openout3 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o ".texp
+adtmp/Projektarbeit.out.pyg" ".texpadtmp/Projektarbeit.pyg" )...executed.
+
+ (./.texpadtmp/Projektarbeit.out.pyg)
+\openout3 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o ".texp
+adtmp/Projektarbeit.out.pyg" ".texpadtmp/Projektarbeit.pyg" )...executed.
+
+ (./.texpadtmp/Projektarbeit.out.pyg)
+\openout5 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o ".texp
+adtmp/Projektarbeit.out.pyg" ".texpadtmp/Projektarbeit.pyg" )...executed.
+
+
+(./.texpadtmp/Projektarbeit.out.pyg))
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 30.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 30.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 30.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 30.
+ [4]
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 32.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 32.
 
 
 Class scrbook Warning: \float@listhead detected!
@@ -806,70 +892,70 @@ Class scrbook Warning: \float@listhead detected!
 (scrbook)              Loading of package `scrhack' may help to
 (scrbook)              avoid this warning, if you are using a
 (scrbook)              a package that still implements the
-(scrbook)              deprecated \float@listhead interface  on input line 31.
+(scrbook)              deprecated \float@listhead interface  on input line 34.
 
+(./Projektarbeit.lol)
 \tf@lol=\write8
 \openout8 = `Projektarbeit.lol'.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 32.
+(babel)             in language  on input line 35.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 32.
+(babel)             in language  on input line 35.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 32.
+(babel)             in language  on input line 35.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 32.
-[1
+(babel)             in language  on input line 35.
+ [5
 
 
-
-]
+] (./Projektarbeit.lof)
 \tf@lof=\write9
 \openout9 = `Projektarbeit.lof'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 33.
+runsystem(rm ".texpadtmp//Projektarbeit.out.pyg")...executed.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 36.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 33.
+(babel)             in language  on input line 36.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 33.
+(babel)             in language  on input line 36.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 33.
+(babel)             in language  on input line 36.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 33.
- [2
+(babel)             in language  on input line 36.
+ [6
 
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 33.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 36.
  (./Projektarbeit.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 33.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 33.
-
-
-Package rerunfilecheck Warning: File `Projektarbeit.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Projektarbeit.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  91D452C5F0BCFEEA871657708695C6D6;48.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 33.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 36.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 36.
+Package rerunfilecheck Info: File `Projektarbeit.out' has not changed.
+(rerunfilecheck)             Checksum: B3E758095C7866C99583C22C0E3DFEF6;464.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 36.
  ) 
 Here is how much of TeX's memory you used:
- 10154 strings out of 493054
- 162768 string characters out of 6140585
- 357502 words of memory out of 5000000
- 13562 multiletter control sequences out of 15000+600000
- 6531 words of font info for 24 fonts, out of 8000000 for 9000
+ 10410 strings out of 493054
+ 166392 string characters out of 6140585
+ 363682 words of memory out of 5000000
+ 13766 multiletter control sequences out of 15000+600000
+ 9301 words of font info for 33 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 43i,7n,66p,919b,399s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmssbx10.pfb>
-Output written on Projektarbeit.pdf (4 pages, 32588 bytes).
+ 43i,8n,66p,919b,399s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/sha
+re/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl12.pfb></usr/share/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmtt12.pfb>
+Output written on Projektarbeit.pdf (9 pages, 112942 bytes).
 PDF statistics:
- 42 PDF objects out of 1000 (max. 8388607)
- 32 compressed objects within 1 object stream
- 8 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 136 PDF objects out of 1000 (max. 8388607)
+ 114 compressed objects within 2 object streams
+ 23 named destinations out of 1000 (max. 500000)
+ 65 words of extra memory for PDF output out of 10000 (max. 10000000)
 

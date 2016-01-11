@@ -5,5 +5,7 @@
 \contentsline {section}{\numberline {2.2}Waveshare e-Paper-Display}{2}{section.2.2}
 \contentsline {chapter}{\numberline {3}Aufbau und Vorbereitungen}{3}{chapter.3}
 \contentsline {section}{\numberline {3.1}Aufbau der Hardware}{3}{section.3.1}
-\contentsline {section}{\numberline {3.2}Vorbereitungen zum Coding}{3}{section.3.2}
-\contentsline {chapter}{Bibliografie}{5}{section.3.2}
+\contentsline {section}{\numberline {3.2}Vorbereitungen zum Coding}{4}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Kernelquellen}{4}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Buildsystem}{4}{subsection.3.2.2}
+\contentsline {chapter}{Bibliografie}{7}{listing.2}
