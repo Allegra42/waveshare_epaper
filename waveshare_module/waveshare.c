@@ -210,6 +210,7 @@ static int __init waveshare_init (void) {
 
 	PRINT ("module init seemed to be successful");	
 
+// TODO try here with uart_add_one_port
 	
 //	waveshare_uart_probe();
 	return 0;

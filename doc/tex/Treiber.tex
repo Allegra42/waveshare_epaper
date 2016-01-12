@@ -1,0 +1,15 @@
+% !TEX root = Projektarbeit.tex
+
+\chapter{Kernelmodul} %TODO Artikel uart_add_one_port ausprobieren! 
+Der Treiber für das e-Paper-Display wird kein von Grunde auf neu geschriebener Treiber werden, sondern soll als sogenannter \glqq Stacked~Driver\grqq~gestapelt auf schon vorhandenen Low-Level-Treibern des Linux-Kernels aufgebaut werden. 
+Um das \texttt{UART}-Interface im Kernel anzusprechen wird auf dem \texttt{serial-core} Low-Level-Treiber für serielle Kommunikation aufgesetzt. 
+
+\subsection{Kernelspace - eine Vorwarnung}
+Zu beachten ist, dass die C-Standartbibliothek im Kernel nicht zur Verfügung steht. Viele oft benötigte Funktionen werden allerdings als leicht gewichtigere Funktionen angeboten. Ebenso gibt es keinen Speicherschutz wie zwischen Anwendungen im Userspace. Fehler in einem Modul können sich auf den gesamten Kernel auswirken und diesen zum Absturz führen. 
+
+\subsection{Debugging}
+Debugging ist im Kernel nicht ohne weiteres möglich. Debugger, wie aus modernen IDEs für viele Programmiersprachen bekannt, gibt es so nicht. Dem am nächsten kommt der Kerneldebugger \texttt{kgdb}, der es möglich macht auf Hochsprachenniveau Kernelcode zu betrachten. Allerdings sind dazu zwei Rechner mit einem komplexen Aufbau nötig, es dauert sehr lange bis der noch experimentelle \texttt{kgdb} lange Symbollisten auflöst und noch nicht alle Hardwareplattformen werden unterstützt. %TODO Kernelbuch S 42
+Im Rahmen dieser Arbeit wird daher auf die im Kernel alt hergebrachte Art der Fehlersuche mit \texttt{printk} gesetzt, das mit \texttt{printf} in der C-Standartbibliothek vergleichbar ist. Über \texttt{printk} können mit einer Priorität versehene Kernellogs geschrieben werden, die sich beispielsweise mit \texttt{dmesg} auslesen lassen. An relevanten Stellen lassen sich so Ausgaben, zum Beispiel von Variablenwerten generieren.
+
+\section{Der Treiber}
+%TODO beschreibung des Treibers

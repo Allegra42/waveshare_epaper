@@ -1,4 +1,10 @@
 \select@language {ngerman}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {\relax 2.1}{\ignorespaces Beaglebone Black}}{2}{figure.2.1}
+\contentsline {figure}{\numberline {\relax 2.2}{\ignorespaces Waveshare e-Paper-Display}}{3}{figure.2.2}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {e-Paper Display Front}}}{3}{figure.2.2}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {R\IeC {\"u}ckseite}}}{3}{figure.2.2}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {\relax 3.1}{\ignorespaces Minicom Ausgabe w\IeC {\"a}hrend des Boot-Vorgangs}}{5}{figure.3.1}
 \addvspace {10\p@ }

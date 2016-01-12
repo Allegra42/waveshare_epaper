@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.14)  11 JAN 2016 20:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.14)  12 JAN 2016 21:46
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -615,40 +615,60 @@ rojektarbeit.out.pyg")...executed.
 
 
 (./build/Projektarbeit.out.pyg)
+(/usr/share/texmf-dist/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/03/15 v2.1.5 subfigure package
+\subfigtopskip=\skip52
+\subfigcapskip=\skip53
+\subfigcaptopadj=\dimen122
+\subfigbottomskip=\skip54
+\subfigcapmargin=\dimen123
+\subfiglabelskip=\skip55
+\c@subfigure=\count121
+\c@lofdepth=\count122
+\c@subtable=\count123
+\c@lotdepth=\count124
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/usr/share/texmf-dist/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip56
+\subfig@bottom=\skip57
+)
 runsystem(which "pygmentize" && touch "Projektarbeit.aex")...executed.
 
 runsystem(rm "Projektarbeit.aex")...executed.
 
- (build/Projektarbeit.aux)
+
+(build/Projektarbeit.aux)
 \openout1 = `Projektarbeit.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-
-(/usr/share/texmf-dist/tex/context/base/supp-pdf.mkii
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+ (/usr/share/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count121
-\scratchdimen=\dimen122
+\scratchcounter=\count125
+\scratchdimen=\dimen124
 \scratchbox=\box34
-\nofMPsegments=\count122
-\nofMParguments=\count123
+\nofMPsegments=\count126
+\nofMParguments=\count127
 \everyMPshowfont=\toks21
-\MPscratchCnt=\count124
-\MPscratchDim=\dimen123
-\MPnumerator=\count125
-\makeMPintoPDFobject=\count126
+\MPscratchCnt=\count128
+\MPscratchDim=\dimen125
+\MPnumerator=\count129
+\makeMPintoPDFobject=\count130
 \everyMPtoPDFconversion=\toks22
 ) (/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
@@ -666,7 +686,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box35
-Package hyperref Info: Link coloring OFF on input line 19.
+Package hyperref Info: Link coloring OFF on input line 20.
 
 (/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -674,11 +694,11 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/share/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count127
+\c@section@level=\count131
 )
-LaTeX Info: Redefining \ref on input line 19.
-LaTeX Info: Redefining \pageref on input line 19.
-LaTeX Info: Redefining \nameref on input line 19.
+LaTeX Info: Redefining \ref on input line 20.
+LaTeX Info: Redefining \pageref on input line 20.
+LaTeX Info: Redefining \nameref on input line 20.
 
 (build/Projektarbeit.out) (build/Projektarbeit.out)
 \@outlinefile=\write6
@@ -708,17 +728,17 @@ rbeit.out.pyg")...executed.
 
 (./build/Projektarbeit.out.pyg)
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <17.28> on input line 23.
+(Font)              <17.28> on input line 24.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 23.
+(Font)              <12> on input line 24.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 23.
+(babel)             in language  on input line 24.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 23.
+(babel)             in language  on input line 24.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 23.
+(babel)             in language  on input line 24.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 23.
+(babel)             in language  on input line 24.
  [1
 
 
@@ -726,13 +746,13 @@ Package babel Info: Redefining ngerman shorthand "~
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./Abstract.tex)
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 24.
+(babel)             in language  on input line 25.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 24.
+(babel)             in language  on input line 25.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 24.
+(babel)             in language  on input line 25.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 24.
+(babel)             in language  on input line 25.
  [2] (build/Projektarbeit.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 4.
@@ -743,13 +763,13 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \openout7 = `Projektarbeit.toc'.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 25.
+(babel)             in language  on input line 26.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 25.
+(babel)             in language  on input line 26.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 25.
+(babel)             in language  on input line 26.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 25.
+(babel)             in language  on input line 26.
  [3
 
 
@@ -801,39 +821,95 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 16.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 16.
+<beagleboneblack_beaglebone_org.jpg, id=97, 391.4625pt x 579.16376pt>
+File: beagleboneblack_beaglebone_org.jpg Graphic file (type jpg)
+
+<use beagleboneblack_beaglebone_org.jpg>
+Package pdftex.def Info: beagleboneblack_beaglebone_org.jpg used on input line 
+24.
+(pdftex.def)             Requested size: 391.46153pt x 579.16234pt.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 21.
+(babel)             in language  on input line 30.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 21.
+(babel)             in language  on input line 30.
+
+<43inch-e-paper-3_waveshare_com.jpg, id=98, 803.0pt x 803.0pt>
+File: 43inch-e-paper-3_waveshare_com.jpg Graphic file (type jpg)
+
+<use 43inch-e-paper-3_waveshare_com.jpg>
+Package pdftex.def Info: 43inch-e-paper-3_waveshare_com.jpg used on input line 
+41.
+(pdftex.def)             Requested size: 200.74951pt x 200.74951pt.
+
+<43inch-e-paper-4back_waveshare_com.jpg, id=99, 803.0pt x 803.0pt>
+File: 43inch-e-paper-4back_waveshare_com.jpg Graphic file (type jpg)
+
+<use 43inch-e-paper-4back_waveshare_com.jpg>
+Package pdftex.def Info: 43inch-e-paper-4back_waveshare_com.jpg used on input l
+ine 41.
+(pdftex.def)             Requested size: 200.74951pt x 200.74951pt.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 27.
+(babel)             in language  on input line 47.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 27.
+(babel)             in language  on input line 47.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 27.
+(babel)             in language  on input line 47.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 27.
-[2
+(babel)             in language  on input line 47.
+ [2
 
 
-]
+pdfTeX warning (ext4): destination with the same identifier (name{figure.2.1}) 
+has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.47 \chapter
+             {Aufbau und Vorbereitungen} %Vorläufiger Titel <./beagleboneblack
+_beaglebone_org.jpg>]
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 47.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 47.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 47.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 47.
+ [3pdfTeX warning (ext4): destination with the same identifier (name{figure.2.2
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.47 \chapter
+             {Aufbau und Vorbereitungen} %Vorläufiger Titel <./43inch-e-paper-
+3_waveshare_com.jpg> <./43inch-e-paper-4back_waveshare_com.jpg>]
 chapter 3.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 27.
+(babel)             in language  on input line 47.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 27.
+(babel)             in language  on input line 47.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 34.
+(babel)             in language  on input line 54.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 34.
+(babel)             in language  on input line 54.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 35.
+(Font)              <7> on input line 55.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 35.
+(Font)              <5> on input line 55.
+<minicom2.jpg, id=115, 1028.34187pt x 578.16pt>
+File: minicom2.jpg Graphic file (type jpg)
+ <use minicom2.jpg>
+Package pdftex.def Info: minicom2.jpg used on input line 68.
+(pdftex.def)             Requested size: 452.47183pt x 254.39117pt.
+
+Overfull \hbox (18.97412pt too wide) in paragraph at lines 68--69
+ [][] 
+ []
+
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 43.
+(babel)             in language  on input line 73.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 43.
+(babel)             in language  on input line 73.
 \openout5 = `Projektarbeit.pyg'.
 
 runsystem(pygmentize -l bash -f latex -P commandprefix=PYG -F tokenmerge -o "bu
@@ -841,30 +917,30 @@ ild/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
 
 (./build/Projektarbeit.out.pyg)
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 46.
+(babel)             in language  on input line 76.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 46.
+(babel)             in language  on input line 76.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 46.
+(babel)             in language  on input line 76.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 46.
- [3
+(babel)             in language  on input line 76.
+ [4
 
 
 ]
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 47.
+(babel)             in language  on input line 77.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 47.
+(babel)             in language  on input line 77.
 
-Overfull \hbox (11.62032pt too wide) in paragraph at lines 48--49
+Overfull \hbox (11.62032pt too wide) in paragraph at lines 78--79
 \OT1/cmr/m/n/12 wer-den soll. Liegt die-ser au-^^Yer-halb der von \OT1/cmtt/m/n
 /12 PATH[][][] \OT1/cmr/m/n/12 er-fass-ten Pfa-de, muss hier der vollst[]andige
 
  []
 
 Package hyperref Info: bookmark level for unknown listing defaults to 0 on inpu
-t line 51.
+t line 81.
 \openout3 = `Projektarbeit.pyg'.
 
 runsystem(pygmentize -l bash -f latex -P commandprefix=PYG -F tokenmerge -o "bu
@@ -872,18 +948,24 @@ ild/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
 
 (./build/Projektarbeit.out.pyg)
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 73.
+(babel)             in language  on input line 102.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 73.
+(babel)             in language  on input line 102.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 76.
+(babel)             in language  on input line 102.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 76.
+(babel)             in language  on input line 102.
+ [5pdfTeX warning (ext4): destination with the same identifier (name{figure.3.1
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.102 
+       <./minicom2.jpg (PNG copy)>]
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 76.
+(babel)             in language  on input line 103.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 76.
- [4]
+(babel)             in language  on input line 103.
 \openout3 = `Projektarbeit.pyg'.
 
 runsystem(pygmentize -l make -f latex -P commandprefix=PYG -F tokenmerge -o "bu
@@ -893,6 +975,15 @@ ild/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
 (Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 6.
 )
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 138.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 138.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 138.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 138.
+ [6]
 \openout5 = `Projektarbeit.pyg'.
 
 runsystem(pygmentize -l bash -f latex -P commandprefix=PYG -F tokenmerge -o "bu
@@ -926,32 +1017,58 @@ ild/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
 
 
 (./build/Projektarbeit.out.pyg)
-Overfull \hbox (49.0037pt too wide) in paragraph at lines 111--113
+Overfull \hbox (49.0037pt too wide) in paragraph at lines 141--143
 \OT1/cmr/m/n/12 das Mo-dul im Ziel-sys-tem un-ter []
  []
 
+) (./Treiber.tex
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 113.
+(babel)             in language  on input line 3.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 113.
+(babel)             in language  on input line 3.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 113.
+(babel)             in language  on input line 3.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 113.
-[5])
+(babel)             in language  on input line 3.
+ [7]
+chapter 4.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 30.
+(babel)             in language  on input line 3.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 30.
+(babel)             in language  on input line 3.
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 7.
+
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 30.
+(babel)             in language  on input line 7.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 30.
- [6]
+(babel)             in language  on input line 7.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 10.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 10.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 14.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 14.
+)
 Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 32.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 32.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 32.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 32.
+ [8
+
+
+]
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 34.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 34.
 
 
 Class scrbook Warning: \float@listhead detected!
@@ -964,21 +1081,21 @@ Class scrbook Warning: \float@listhead detected!
 (scrbook)              Loading of package `scrhack' may help to
 (scrbook)              avoid this warning, if you are using a
 (scrbook)              a package that still implements the
-(scrbook)              deprecated \float@listhead interface  on input line 34.
+(scrbook)              deprecated \float@listhead interface  on input line 36.
 
 (build/Projektarbeit.lol)
 \tf@lol=\write8
 \openout8 = `Projektarbeit.lol'.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 35.
+(babel)             in language  on input line 37.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 35.
+(babel)             in language  on input line 37.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 35.
+(babel)             in language  on input line 37.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 35.
- [7
+(babel)             in language  on input line 37.
+ [9
 
 
 ] (build/Projektarbeit.lof)
@@ -989,33 +1106,33 @@ runsystem(rm "build//Projektarbeit.pyg")...executed.
 
 runsystem(rm "build//Projektarbeit.out.pyg")...executed.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 36.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 38.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 36.
+(babel)             in language  on input line 38.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 36.
+(babel)             in language  on input line 38.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 36.
+(babel)             in language  on input line 38.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 36.
- [8
+(babel)             in language  on input line 38.
+ [10
 
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 36.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 38.
 
 (build/Projektarbeit.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 36.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 36.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 38.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 38.
 Package rerunfilecheck Info: File `Projektarbeit.out' has not changed.
 (rerunfilecheck)             Checksum: B3E758095C7866C99583C22C0E3DFEF6;464.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 36.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 38.
  ) 
 Here is how much of TeX's memory you used:
- 10440 strings out of 493054
- 167006 string characters out of 6140585
- 365667 words of memory out of 5000000
- 13778 multiletter control sequences out of 15000+600000
+ 10648 strings out of 493054
+ 170250 string characters out of 6140585
+ 368794 words of memory out of 5000000
+ 13960 multiletter control sequences out of 15000+600000
  9931 words of font info for 36 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  43i,10n,66p,990b,497s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1029,10 +1146,10 @@ share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist
 lic/amsfonts/cm/cmsl12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/c
 m/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb
 ></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on build/Projektarbeit.pdf (11 pages, 164268 bytes).
+Output written on build/Projektarbeit.pdf (13 pages, 524572 bytes).
 PDF statistics:
- 171 PDF objects out of 1000 (max. 8388607)
- 144 compressed objects within 2 object streams
- 29 named destinations out of 1000 (max. 500000)
- 81 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 216 PDF objects out of 1000 (max. 8388607)
+ 183 compressed objects within 2 object streams
+ 40 named destinations out of 1000 (max. 500000)
+ 133 words of extra memory for PDF output out of 10000 (max. 10000000)
 

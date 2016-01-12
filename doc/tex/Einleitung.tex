@@ -16,13 +16,33 @@ Der Fokus soll hierbei vor allem auf allgemeinen Prinzipien und Funktionsweisen 
 \section{Beaglebone Black}
 Zur Durchführung der Projektarbeit wird das \textsc{Beaglebone Black}, ein eingebettetes Entwicklerboard auf Basis des ARM-Prozessors AM335x von \textsc{Texas Instruments} eingesetzt. Das Beaglebone bietet mit einer Taktrate von 1GHz (Singlecore), 512MB RAM und vielen zugänglichen Hardware- und Debug-Schnittstellen, sowie einer sehr guten Dokumentation ideale Voraussetzungen für Hardwareintegration und Debugging. 
 
-%TODO Bild Beaglebone
+%Bild: beaglebone.org
+\begin{figure}[ht]
+  \centering
+  \fbox{
+   \includegraphics[angle=270, scale=0.4]{beagleboneblack_beaglebone_org}
+  }
+  \caption{Beaglebone Black}
+  \label{pic:Beaglebone}
+\end{figure}
+
 
 \section{Waveshare e-Paper-Display}
 Bei dem e-Paper-Display handelt es sich um ein Modell des Herstellers \textsc{Waveshare} mit einer Auflösung von 800 x 600 Pixeln und einer Größe von 4,3 inch, dass sehr einfach über die bekannte \texttt{UART}-Schnittstelle angesprochen werden kann. 
 E-Paper-Displays sind vor allem dadurch interessant, dass einige Modelle wie auch das Gewählte, in der Lage sind die Anzeige auch ohne Spannungszufuhr aufrecht zu erhalten.
-%Was ist e-Paper, warum gewählt
-%TODO bild display
+%TODO Was ist e-Paper, warum gewählt
+
+%Bilder: waveshare.com
+\begin{figure}
+  \centering
+  \fbox{
+  \subfigure[e-Paper Display Front]{\includegraphics[scale=0.25]{43inch-e-paper-3_waveshare_com}}
+  \subfigure[Rückseite]{\includegraphics[scale=0.25]{43inch-e-paper-4back_waveshare_com}}
+  }
+  \caption{Waveshare e-Paper-Display}
+  \label{pic:waveshare}
+\end{figure}
+
 
 \chapter{Aufbau und Vorbereitungen} %Vorläufiger Titel
 Das \textsc{Beaglebone} wird mit \textsc{Ubuntu}-Linux und dem Kernel 4.1.12-ti-r29 betrieben. Allerdings ist der Treibercode nicht von einer speziellen Kernelversion, einer Linux-Distribution oder einem spezifischen Development-Board abhängig. 
@@ -38,7 +58,17 @@ Das \textsc{Beaglebone} selbst wird über ein USB-Kabel an den Hostrechner anges
 
 Um schon ab dem Bootvorgang Kernellogs zeitgleich lesen zu können wird die serielle Debugging-Schnittstelle des \textsc{Beaglebone} mithilfe eines USB-Serial-Wandlers und dem Programm \texttt{Minicom} ausgelesen. 
 
-%TODO Bild Hardwareaufbau/Anschlüsse usw
+%TODO Bild Hardwareaufbau/Anschlüsse usw, 
+
+%my screenshot
+\begin{figure}[ht]
+  \centering
+  \fbox{
+   \includegraphics[scale=0.44]{minicom2}
+  }
+  \caption{Minicom Ausgabe während des Boot-Vorgangs}
+  \label{pic:minicom}
+\end{figure}
 
 \section{Vorbereitungen zum Coding} %Titel ändern!
 Kernelmodule müssen genau zu der Kernelversion, also den Schnittstellen des Kernels passen, auf dem sie ausgeführt werden sollen. Daher müssen die Quelltexte des Kernels vorliegen um dafür ein Kernelmodul zu erstellen. Sind Zielsystem des Treibers und dass auf dem das Modul kompiliert werden soll identisch, werden die Quelltexte traditionell unter \mintinline{bash}{/usr/src} abgelegt und mit dem \texttt{GCC}-Kompiler kompiliert.
