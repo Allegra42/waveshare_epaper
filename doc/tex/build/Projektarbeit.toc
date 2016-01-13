@@ -11,5 +11,6 @@
 \contentsline {chapter}{\numberline {4}Kernelmodul}{8}{chapter.4}
 \contentsline {subsection}{\numberline {4.0.1}Kernelspace - eine Vorwarnung}{8}{subsection.4.0.1}
 \contentsline {subsection}{\numberline {4.0.2}Debugging}{8}{subsection.4.0.2}
-\contentsline {section}{\numberline {4.1}Der Treiber}{8}{section.4.1}
-\contentsline {chapter}{Bibliografie}{9}{section.4.1}
+\contentsline {section}{\numberline {4.1}Das Grund-Modul - \mintinline {c}{__init} und \mintinline {c}{__exit}}{9}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Init des Waveshare e-Paper-Treibers}{9}{subsection.4.1.1}
+\contentsline {chapter}{Bibliografie}{11}{listing.4}

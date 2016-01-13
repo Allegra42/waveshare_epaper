@@ -1,6 +1,8 @@
 % !TEX root = Projektarbeit.tex
 
-\chapter{Kernelmodul} %TODO Artikel uart_add_one_port ausprobieren! 
+\chapter{Kernelmodul} 
+Am Beispiel des Treibers für das Waveshare e-Paper-Display sollen nun der Aufbau und die prinzipielle Funktionsweise eines Linux-Treibers sowie auftretende Probleme bei der Umsetzung erläutert werden. 
+
 Der Treiber für das e-Paper-Display wird kein von Grunde auf neu geschriebener Treiber werden, sondern soll als sogenannter \glqq Stacked~Driver\grqq~gestapelt auf schon vorhandenen Low-Level-Treibern des Linux-Kernels aufgebaut werden. 
 Um das \texttt{UART}-Interface im Kernel anzusprechen wird auf dem \texttt{serial-core} Low-Level-Treiber für serielle Kommunikation aufgesetzt. 
 
@@ -9,7 +11,57 @@ Zu beachten ist, dass die C-Standartbibliothek im Kernel nicht zur Verfügung st
 
 \subsection{Debugging}
 Debugging ist im Kernel nicht ohne weiteres möglich. Debugger, wie aus modernen IDEs für viele Programmiersprachen bekannt, gibt es so nicht. Dem am nächsten kommt der Kerneldebugger \texttt{kgdb}, der es möglich macht auf Hochsprachenniveau Kernelcode zu betrachten. Allerdings sind dazu zwei Rechner mit einem komplexen Aufbau nötig, es dauert sehr lange bis der noch experimentelle \texttt{kgdb} lange Symbollisten auflöst und noch nicht alle Hardwareplattformen werden unterstützt. %TODO Kernelbuch S 42
-Im Rahmen dieser Arbeit wird daher auf die im Kernel alt hergebrachte Art der Fehlersuche mit \texttt{printk} gesetzt, das mit \texttt{printf} in der C-Standartbibliothek vergleichbar ist. Über \texttt{printk} können mit einer Priorität versehene Kernellogs geschrieben werden, die sich beispielsweise mit \texttt{dmesg} auslesen lassen. An relevanten Stellen lassen sich so Ausgaben, zum Beispiel von Variablenwerten generieren.
+Im Rahmen dieser Arbeit wird daher auf die im Kernel alt hergebrachte Art der Fehlersuche mit \texttt{printk} gesetzt, das mit \texttt{printf} in der C-Standartbibliothek vergleichbar ist. Über \texttt{printk} können mit einer Priorität versehene Kernellogs geschrieben werden, die sich beispielsweise mit \texttt{dmesg} auslesen lassen. An relevanten Stellen lassen sich so Ausgaben, zum Beispiel von Variablenwerten generieren. Um nicht bei jeder Debug-Ausgabe eine Priorität setzen und ein Kürzel für das eigene Modul einfügen zu müssen, wird im Treiber hierfür zuerst ein Makro definiert:
 
-\section{Der Treiber}
-%TODO beschreibung des Treibers
+\begin{listing} [H]
+\caption{Debug-Macro}
+\label{lst:debugmacro}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+#ifdef DEBUG
+#define PRINT(msg) 	do { printk(KERN_INFO "waveshare - %s \n", msg); } while (0)
+#endif
+\end{minted}
+\end{listing}
+
+\section{Das Grund-Modul - \mintinline{c}{__init} und \mintinline{c}{__exit}}
+Ein minimales Modul braucht nicht viel mehr als eine \mintinline{c}{__init}, eine \mintinline{c}{__exit} Funktion und ein Macro, dass dessen Lizenz angibt. Nur Module, die einer Form der GPL\footnote{GNU General Public License; verlangt, dass jedes Programm das in irgendeiner Art und Weise von einem unter GPL lizenzierten Programm abgeleitet wird selbst unter diese Lizenz gestellt und offengelegt werden muss} unterliegen, können den vollständigen Umfang der Funktionen des Linux-Kernels benutzen. %TODO Kernelbuch S. 65
+Die \mintinline{c}{__init} Funktion wird aufgerufen, sobald das Modul mit \mintinline{bash}{insmod} oder \mintinline{bash}{modprobe} zum Kernel hinzugeladen und so gestartet wird. Sie initialisiert den Treiber und ist abzugrenzen von der \mintinline{c}{probe} Funktion, die normalerweise dazu genutzt wird nach der grundlegenden Treiberinitialisierung hardwarespezifische Bestandteile des Treibers anzulegen. 
+Die \mintinline{c}{__exit} Funktion wird aufgerufen, wenn der Treiber entladen werden soll. Alle Initialisierungen und Reservierungen, vor allem reservierter Speicher müssen freigegeben werden. 
+
+\subsection{Init des Waveshare e-Paper-Treibers}
+Der Name der Init-Funktion ist frei wählbar. Über das Macro \mintinline {c}{module_init(waveshare_init);} wird  definiert, dass hier die parameterlose Funktion mit dem Namen \texttt{waveshare\_init} und dem Rückgabetyp \texttt{int} verwendet werden soll. 
+
+Die Initialisierung beginnt mit der Anforderung von Gerätenummern für ein Character basiertes Gerät, die dazu genutzt werden den zugehörigen Treiber zu identifizieren sowie die einzelnen Geräte auseinander zu halten. Sie lösen das Konzept von Major-Nummer (Treiberidentifikation) und Minor-Nummer (Geräte auseinander halten) ab und sind in der Lage mehr physikalische bzw. logische Geräte zu unterscheiden. Gerätenummern und Major-/Minor-Nummern können in einander überführt werden. Zur Anforderung der Gerätenummern wird die Funktion \mintinline{c}{alloc_chrdev_region()} (Listing \ref{lst:waveshare_init}, Zeile 5) verwendet. Dabei gibt der ist der erste Parameter eine Referenz auf eine Struktur vom Typ \texttt{dev\_t}, eine Gerätenummer, dort wird die erste angeforderte Nummer abgelegt. Mit dem zweiten wird angegeben bei welchem Wert die Minor-Nummern starten, mit dem dritten, wie viele verschiedene Geräte unterschieden werden sollen. Der letzte Parameter gibt den Namen des Treibers an, der mit der Gerätenummer assoziiert wird. 
+%TODO weiter nach alloc_chrdev_region -> gotos nicht vergessen
+
+
+\begin{listing} [H]
+\caption{\texttt{waveshare\_init}}
+\label{lst:waveshare_init}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static int __init waveshare_init (void) {
+
+[...]
+
+	if (alloc_chrdev_region (&waveshare_dev_number, 0, 1, WAVESHARE) < 0 ) {
+		goto free_device_number;
+	}
+	
+	waveshare_obj = cdev_alloc();
+
+	if (waveshare_obj == NULL) {
+		goto free_device_number;
+	}
+
+	waveshare_obj->owner = THIS_MODULE;
+	waveshare_obj->ops = &fops;
+
+	if (cdev_add (waveshare_obj, waveshare_dev_number,1)) {
+		goto free_cdev;
+	}
+
+[...]
+	
+}
+\end{minted}
+\end{listing}
