@@ -1,6 +1,6 @@
 % !TEX root = Projektarbeit.tex
 
-\chapter{Kernelmodul} 
+\chapter{Das Kernelmodul} 
 Am Beispiel des Treibers für das Waveshare e-Paper-Display sollen nun der Aufbau und die prinzipielle Funktionsweise eines Linux-Treibers sowie auftretende Probleme bei der Umsetzung erläutert werden. 
 
 Der Treiber für das e-Paper-Display wird kein von Grunde auf neu geschriebener Treiber werden, sondern soll als sogenannter \glqq Stacked~Driver\grqq~gestapelt auf schon vorhandenen Low-Level-Treibern des Linux-Kernels aufgebaut werden. 
@@ -31,14 +31,32 @@ Die \mintinline{c}{__exit} Funktion wird aufgerufen, wenn der Treiber entladen w
 \subsection{Init des Waveshare e-Paper-Treibers}
 Der Name der Init-Funktion ist frei wählbar. Über das Macro \mintinline {c}{module_init(waveshare_init);} wird  definiert, dass hier die parameterlose Funktion mit dem Namen \texttt{waveshare\_init} und dem Rückgabetyp \texttt{int} verwendet werden soll. 
 
-Die Initialisierung beginnt mit der Anforderung von Gerätenummern für ein Character basiertes Gerät, die dazu genutzt werden den zugehörigen Treiber zu identifizieren sowie die einzelnen Geräte auseinander zu halten. Sie lösen das Konzept von Major-Nummer (Treiberidentifikation) und Minor-Nummer (Geräte auseinander halten) ab und sind in der Lage mehr physikalische bzw. logische Geräte zu unterscheiden. Gerätenummern und Major-/Minor-Nummern können in einander überführt werden. Zur Anforderung der Gerätenummern wird die Funktion \mintinline{c}{alloc_chrdev_region()} (Listing \ref{lst:waveshare_init}, Zeile 5) verwendet. Dabei gibt der ist der erste Parameter eine Referenz auf eine Struktur vom Typ \texttt{dev\_t}, eine Gerätenummer, dort wird die erste angeforderte Nummer abgelegt. Mit dem zweiten wird angegeben bei welchem Wert die Minor-Nummern starten, mit dem dritten, wie viele verschiedene Geräte unterschieden werden sollen. Der letzte Parameter gibt den Namen des Treibers an, der mit der Gerätenummer assoziiert wird. 
+Die Initialisierung beginnt mit der Anforderung von Gerätenummern für ein Character basiertes Gerät, die dazu genutzt werden den zugehörigen Treiber zu identifizieren sowie die einzelnen Geräte auseinander zu halten. Sie lösen das Konzept von Major-Nummer (Treiberidentifikation) und Minor-Nummer (Geräte auseinander halten) ab und sind in der Lage mehr physikalische bzw. logische Geräte zu unterscheiden. Gerätenummern und Major-/Minor-Nummern können in einander überführt werden. Zur Anforderung der Gerätenummern wird die Funktion \mintinline{c}{alloc_chrdev_region()} (Listing \ref{lst:waveshare_init}, Zeile 15) verwendet. Dabei gibt der ist der erste Parameter eine Referenz auf eine Struktur vom Typ \texttt{dev\_t}, eine Gerätenummer, dort wird die erste angeforderte Nummer abgelegt. Mit dem zweiten wird angegeben bei welchem Wert die Minor-Nummern starten, mit dem dritten, wie viele verschiedene Geräte unterschieden werden sollen. Der letzte Parameter gibt den Namen des Treibers an, der mit der Gerätenummer assoziiert wird. Im Fehlerfall springt das Programm zur Sprungmarke \mintinline{c}{free_device_number}. Die Fehlerbehandlung wird im Folgenden näher erläutert.
 %TODO weiter nach alloc_chrdev_region -> gotos nicht vergessen
+
+Mit \mintinline{c}{cdev_alloc()} wird Speicher für ein Objekt des Typs \mintinline{c}{struct cdev *} alloziert, durch das der hier benötigte zeichenorientierte Gerätetreiber repräsentiert wird. Wird hier nicht der geforderte Pointer auf das instantiierte Objekt zurückgegeben, wird die Fehlerbehandlung bei der Sprungmarke \mintinline{c}{free_device_number} begonnen. 
+
+Dem nun angelegten Treiberobjekt, in C durch ein \texttt{struct} repräsentiert, wird im Element \texttt{owner} der Besitzer des Treiber mitgeteilt. Im Element \texttt{ops} wird ein Verweis auf die \mintinline{c}{struct fileoperations} angegeben. In dieser \texttt{struct} (\ref{lst:waveshare_init}, Zeile 1) sind Pointer auf Funktionen gespeichert, die Interaktion des Treibers mit dem Betriebssystem zur Verfügung stellen. Darunter fallen beispielsweise Funktionen zum Öffnen einer Treiberinstanz, Daten aus dem Treiber auslesen, Daten an den Treiber senden, sowie für das Schließen (Freigeben).  
+
+Anschließend wird mit \mintinline{c}{cdev_add(waveshare_obj, waveshare_dev_number, 1)} das instantiierte Treiberobjekt (\texttt{waveshare\_obj}) beim Kernel registriert. Mit \texttt{waveshare\_dev\_number} wird die erste Gerätenummer angegeben, mit der Zahl, wie viele Gerätenummern mit dem Treiber verwaltet werden sollen. 
+
+Bevor nun auf den hardwarespezifischeren Teil der \texttt{init}-Methode eingegangen wird, sollen zuerst die weiteren grundlegenden Treiberbestandteile betrachtet werden. 
 
 
 \begin{listing} [H]
 \caption{\texttt{waveshare\_init}}
 \label{lst:waveshare_init}
 \begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static struct file_operations fops = {
+	.owner = THIS_MODULE,
+	.open = waveshare_driver_open,
+	.release = waveshare_driver_close,
+	.read =  waveshare_driver_read,
+	.write = waveshare_driver_write,
+ 	.poll = waveshare_driver_poll, 
+};
+
+
 static int __init waveshare_init (void) {
 
 [...]
@@ -65,3 +83,75 @@ static int __init waveshare_init (void) {
 }
 \end{minted}
 \end{listing}
+
+\subsection{Fehlerbehandlung bei Initialisierungen}
+Wie schon erwähnt wird die Fehlerbehandlung bei Treiberinitialisierungen im Kernel über \texttt{goto} Sprungmarken realisiert. Während \texttt{goto}s in der Applikationsprogrammierung nicht gerne gesehen sind, sind sie im Kernel für das Aufräumen in der korrekten Reihenfolge im Fehlerfall das Mittel der Wahl, da sie hier sehr effizient und gut lesbar eingesetzt werden können. 
+
+Die einzelnen Ressourcen des Treibers werden aufeinander aufbauend alloziert und beim Kernel registriert. Geht bei einem Bestandteil etwas schief, müssen alle Ressourcen in umgekehrter Reihenfolge der Initialisierung wieder freigegeben werden, um Speicherlecks zu vermeiden. Geht bei der letzten Initialisierung etwas schief, springt der Programmlauf zur ersten Sprungmarke und läuft seriell durch die später folgenden der früher Durchgeführten. 
+
+Für die komplette \texttt{init}-Methode sieht eine solche Fehlerbehandlung wie folgt aus:
+
+ 
+\begin{listing} [H]
+\caption{\texttt{waveshare\_init} Fehlerbehandlung}
+\label{lst:wavFehlerbehandlung}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static int __init waveshare_init (void) {
+
+[...]
+
+free_cdev:
+	gpio_set_value(resetPin, !val);
+	gpio_set_value(wakeupPin, !val);
+	gpio_free(resetPin);
+	gpio_free(wakeupPin);
+	PRINT ("adding cdev failed");
+        kobject_put (&waveshare_obj->kobj);
+
+free_platform:
+	PRINT ("register_platform failed");
+	platform_driver_unregister(&waveshare_serial_driver);	
+
+free_uart:
+	PRINT ("register_uart failed");
+	uart_unregister_driver(&waveshare_uart_driver);
+        
+free_device_number:
+	PRINT ("alloc_chrdev_region or cdev_alloc failed");
+	unregister_chrdev_region (waveshare_dev_number, 1);
+	return -EIO;	
+	
+}
+\end{minted}
+\end{listing}
+
+
+\subsection{Alles hat ein Ende - Die \texttt{exit}-Funktion}
+Die \texttt{exit}-Funktion \mintinline{c}{waveshare_exit()} wird beim Entladen des Treibers vom Kernels aufgerufen und unterscheidet sich nur unwesentlich von den Aufräumarbeiten im Fehlerfall. Ebenso wie bei der Fehlerbehandlung werden die benutzten Ressourcen in der richtigen Reihenfolge vom Kernel abgemeldet und wieder freigegeben. 
+In der \texttt{exit}-Funktion werden wenige andere beziehungsweise zusätzliche Funktionen benutzt, um beispielsweise wie mit \mintinline{c}{cdev_del} nicht nur das Treiberobjekt beim Kernel abzumelden, sondern auch den zugehörigen Speicher wieder freizugeben. %kernelbuch s501
+
+
+\begin{listing} [H]
+\caption{\texttt{waveshare\_exit}}
+\label{lst:waveshare_exit}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static void __exit waveshare_exit (void) {
+
+	gpio_set_value(resetPin, false);
+	gpio_set_value(wakeupPin, false);
+	gpio_free(resetPin);
+	gpio_free(wakeupPin);
+
+	uart_unregister_driver(&waveshare_uart_driver);
+	platform_driver_unregister(&waveshare_serial_driver);
+	device_destroy (waveshare_class, waveshare_dev_number);
+	class_destroy (waveshare_class);
+	cdev_del (waveshare_obj);
+	unregister_chrdev_region (waveshare_dev_number, 1);
+	
+	PRINT ("module exited");
+}
+\end{minted}
+\end{listing}
+
+\section{Die Treibereinsprungspunkte}
