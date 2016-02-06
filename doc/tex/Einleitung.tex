@@ -1,7 +1,7 @@
 % !TEX root = Projektarbeit.tex
 
 \chapter{Einleitung}
-Im gerade aufstrebenden Gebiet der eingebetteten Systeme spielt \textsc{Linux} nicht nur als schlankes, gut portierbares Betriebssystem eine tragende Rolle. Auch die Möglichkeit neue Hardware, beispielsweise Sensorik einfach in bestehende Systeme integrieren zu können macht Linux zu einer interessanten Plattform. 
+Im inzwischen all gegenwärtigen Gebiet der eingebetteten Systeme spielt \textsc{Linux} nicht nur als schlankes, gut portierbares Betriebssystem eine tragende Rolle. Auch die Möglichkeit neue Hardware, beispielsweise Sensorik einfach in bestehende Systeme integrieren zu können macht Linux zu einer interessanten Plattform. 
 Während in es in vielen Fällen ausreicht solche Hardware über sehr gut dokumentierte und einfach zu verwendende Schnittstellen im \texttt{Userspace} anzusprechen, gibt es doch Anwendungsfälle die Hardwaretreiber im \texttt{Kernelspace} erfordern. 
 
 Zu letzterem zählen beispielsweise zeitkritische Treiber, die darauf angewiesen sind priorisiert und zu festen Zeitpunkten abgearbeitet zu werden, oder auch Hardwaretreiber im \textsc{Android}-Umfeld, die schon aufgrund des Designs des Systems genauer gesagt dessen Rechteverwaltung nicht im Userspace laufen dürfen. \newline
@@ -30,7 +30,6 @@ Zur Durchführung der Projektarbeit wird das \textsc{Beaglebone Black}, ein eing
 \section{Waveshare e-Paper-Display}
 Bei dem e-Paper-Display handelt es sich um ein Modell des Herstellers \textsc{Waveshare} mit einer Auflösung von 800 x 600 Pixeln und einer Größe von 4,3 inch, dass sehr einfach über die bekannte \texttt{UART}-Schnittstelle angesprochen werden kann. 
 E-Paper-Displays sind vor allem dadurch interessant, dass einige Modelle wie auch das Gewählte, in der Lage sind die Anzeige auch ohne Spannungszufuhr aufrecht zu erhalten.
-%TODO Was ist e-Paper, warum gewählt
 
 %Bilder: waveshare.com
 \begin{figure}
@@ -52,17 +51,24 @@ Zuerst wurde für diese Arbeit zu Beginn ein \textsc{Arch}-Linux System mit eine
 Der Treiber wird für die Kernelversionen 4.x der \textsc{ARM}-Plattform geschrieben und ist, solange es keine größeren Änderungen der verwendeten APIs gibt, für jeden entsprechenden Kernel kompilierbar.
 
 \section{Aufbau der Hardware}
-Das e-Paper Display besitzt ein \texttt{UART}-Interface %TODO Uart erklären
-, welches die Kommunikation zwischen \textsc{Beaglebone} und Display über zwei Pins ermöglicht. Dazu wird die \texttt{DIN}-Leitung des Displays an den \texttt{TXD}-Pin des \texttt{UART-1}-Interface des \textsc{Beaglebones} angeschlossen. Ebenso wird mit der \texttt{DOUT}-Leitung und dem \texttt{RXD}-Pin des gleichen Interfaces verfahren. Die Leitungen \texttt{RST}, der Reset und \texttt{WAKEUP} des Displays werden an den \texttt{GPIO}\footnote{General Purpose Input/Output (Allzweck Ein-/Ausgabe), ein Pin dessen Verhalten frei programmiert werden kann}-Schnittstellen des \textsc{Beaglebone} angelegt und sorgen dafür, dass der Displayinhalt gelöscht, bzw. das Display aus einem Ruhezustand geholt werden kann. Zuletzt müssen noch Versorgungsspannung (\texttt{VCC}, 5V) und Erdung (\texttt{GND}) an die entsprechenden Pins des \textsc{Beaglebone} angeschlossen werden.  
+Das e-Paper Display besitzt ein \texttt{UART}-Interface, welches die serielle Kommunikation zwischen \textsc{Beaglebone} und Display über zwei Pins ermöglicht. Dazu wird die \texttt{DIN}-Leitung des Displays an den \texttt{TXD}-Pin des \texttt{UART-1}-Interface des \textsc{Beaglebones} angeschlossen. Ebenso wird mit der \texttt{DOUT}-Leitung und dem \texttt{RXD}-Pin des gleichen Interfaces verfahren. Die Leitungen \texttt{RST}, der Reset und \texttt{WAKEUP} des Displays werden an den \texttt{GPIO}\footnote{General Purpose Input/Output (Allzweck Ein-/Ausgabe), ein Pin dessen Verhalten frei programmiert werden kann}-Schnittstellen des \textsc{Beaglebone} angelegt und sorgen dafür, dass der Displayinhalt gelöscht, bzw. das Display aus einem Ruhezustand geholt werden kann. Zuletzt müssen noch Versorgungsspannung (\texttt{VCC}, 5V) und Erdung (\texttt{GND}) an die entsprechenden Pins des \textsc{Beaglebone} angeschlossen werden.  
 
 Das \textsc{Beaglebone} selbst wird über ein USB-Kabel an den Hostrechner angeschlossen und kann darüber über das \texttt{ssh}-Protokoll erreicht werden. Um die zusätzliche Hardware versorgen zu können, muss das Board zusätzlich über ein 5V-Netzteil mit Strom versorgt werden. 
 
 Um schon ab dem Bootvorgang Kernellogs zeitgleich lesen zu können wird die serielle Debugging-Schnittstelle des \textsc{Beaglebone} mithilfe eines USB-Serial-Wandlers und dem Programm \texttt{Minicom} ausgelesen. 
 
-%TODO Bild Hardwareaufbau/Anschlüsse usw, 
+%Bild: eigenes Bild
+\begin{figure}[H]
+  \centering
+  \fbox{
+   \includegraphics[angle=270, scale=0.081]{IMG_3048}
+  }
+  \caption{Aufbau der Hardware}
+  \label{pic:hw_aufbau}
+\end{figure}
 
 %my screenshot
-\begin{figure}[ht]
+\begin{figure}[H]
   \centering
   \fbox{
    \includegraphics[scale=0.44]{minicom2}
@@ -70,6 +76,32 @@ Um schon ab dem Bootvorgang Kernellogs zeitgleich lesen zu können wird die seri
   \caption{Minicom Ausgabe während des Boot-Vorgangs}
   \label{pic:minicom}
 \end{figure}
+
+\section{Das UART-Kommunikationsprotokoll des Displays}
+%TODO Quelle Waveshare doku, unten verlinkt
+Das \texttt{UART}\footnote{UART - Universal Asynchronous Receiver Transmitter}-Protokoll spezifiziert eine Hardware-Schnittstelle zur seriellen, asynchronen und bidirektionalen Datenübertragung. Für die \texttt{UART}-Spezifikation existieren verschiedene Hardware-Interfaces, die beispielsweise Handshakes zwischen den Kommunikationspartnern ermöglichen. Das Waveshare-Display verwendet hingegen ein einfacheres \texttt{UART}-Interface, dass nur Leitungen für \texttt{Rx} (Receive, Empfangen) und \texttt{Tx} (Transmit, Übertragen) anbietet und auf \texttt{TTL}\footnote{TTL - Transistor-Transistor-Logik}-Pegel (5V) arbeitet, \texttt{TTL-UART} genannt. Die Baudrate\footnote{Baud - Einheit für Datenübertragungsrate in der Nachrichtentechnik, gibt an wie viele Symbole (hier Bits) pro Sekunde übertragen werden} mit der das Display Daten überträgt beziehungsweise empfängt ist anpassbar, beträgt aber standardmäßig 115200 Baud. 
+\newline
+
+Befehle an das Display werden in einem spezifizierten Befehlsrahmen übertragen und interpretiert. Um einen plattformübergreifenden Datenaustausch sicher zu stellen, werden die Daten in der sogenannten Network Byte Order, also dem Big Endian Format übertragen. Dabei werden zuerst die höherwertigen Bytes gesendet (Most Significant Byte, MSB), dann die Niederwertigen (Least Significant Byte, LSB).
+Der Befehlsrahmen umfasst einen Befehlsrahmenkopf (frame header), die Länge des Rahmens, den Typ des Befehls, Befehlsparameter oder Nutzdaten, ein festgelegtes Befehlsrahmenende und ein Parity-Byte.
+
+\begin{table}[h]
+\begin{tabular}{|m{2.7cm}||m{1.6cm}|m{1.9cm}|m{1.6cm}|m{1.9cm}|m{2.7cm}|m{1.4cm}|}
+\hline
+\textbf{Befehl} & 0xA5 & 0xXX XX & 0xXX & 0xXX & 0xCC 33C3 3C & 0xXX\\
+\hline
+\textbf{Beschreibung} & Befehls-rahmen-kopf \newline(1 Byte) & Befehls-rahmen-länge \newline(2 Bytes) & Befehls-typ \newline (1 Byte) & Befehls-parameter oder Nutzdaten \newline(0 - 1024 Bytes) & Befehlsrahmen-ende \newline(4 Bytes) & Parity-Byte \newline(1 Byte)\\
+\hline
+\end{tabular}
+\\
+\caption{Befehlsrahmen Format für das Waveshare Display} 
+\label{tab:Befehlsrahmen}
+\end{table}
+
+Beispielsweise kann mit dem Befehlsrahmen \texttt{A5 00 09 0A CC 33 C3 3C A6}, übertragen über das \texttt{UART} Interface, und dem enthaltenen Befehl \texttt{0x0A} die Anweisung zum Neuzeichnen des Display Inhaltes übermittelt werden.
+
+In der Dokumentation des Displays\footnote{\url{http://www.waveshare.com/w/upload/7/71/4.3inch-e-Paper-UserManual.pdf}} sind alle verfügbaren Befehle aufgelistet und detailliert erklärt, weshalb darauf hier nicht weiter auf diese eingegangen werden soll.  
+ 
 
 \section{Vorbereitungen zum Coding} %Titel ändern!
 Kernelmodule müssen genau zu der Kernelversion, also den Schnittstellen des Kernels passen, auf dem sie ausgeführt werden sollen. Daher müssen die Quelltexte des Kernels vorliegen um dafür ein Kernelmodul zu erstellen. Sind Zielsystem des Treibers und dass auf dem das Modul kompiliert werden soll identisch, werden die Quelltexte traditionell unter \mintinline{bash}{/usr/src} abgelegt und mit dem \texttt{GCC}-Kompiler kompiliert.
@@ -139,7 +171,7 @@ clean:
 
 %$ 
 
-Das kompilierte Modul kann an jedem Ort liegen und mit \texttt{Root}-Rechten über den Befehl \mintinline{bash}{insmod waveshare.ko} (Pfadangabe ist erforderlich, falls das Modul nicht im aktuellen Verzeichnis liegt) zum Kernel geladen werden. Sollen auch eventuelle Abhängigkeiten des Moduls beim Laden beachtet werden oder das Modul Hotplugging unterstützen, muss das Modul im Zielsystem unter \mintinline{bash}{lib/modules/4.1.12-ti-r29/kernel/drivers/treibergattung} abgelegt und mit dem Befehl \mintinline{bash}{depmod -a} Abhängigkeiten aufgelöst sowie Map-Dateien für die Hotplugging-Infrastruktur erzeugt werden. %TODO depmod http://linux.die.net/man/8/depmod
+Das kompilierte Modul kann an jedem Ort liegen und mit \texttt{Root}-Rechten über den Befehl \mintinline{bash}{insmod waveshare.ko} (Pfadangabe ist erforderlich, falls das Modul nicht im aktuellen Verzeichnis liegt) zum Kernel geladen werden. Sollen auch eventuelle Abhängigkeiten des Moduls beim Laden beachtet werden oder das Modul Hotplugging unterstützen, muss das Modul im Zielsystem unter \mintinline{bash}{lib/modules/4.1.12-ti-r29/kernel/drivers/treibergattung} abgelegt und mit dem Befehl \mintinline{bash}{depmod -a} Abhängigkeiten aufgelöst sowie Map-Dateien für die Hotplugging-Infrastruktur erzeugt werden. %TODO SOURCE: depmod http://linux.die.net/man/8/depmod
 Danach kann das Modul mit \texttt{Root}-Rechten und dem Befehl \mintinline{bash}{modprobe waveshare} geladen werden. Ist das Modul geladen, erscheint es in der Ausgabe von \mintinline{bash}{lsmod}. %TODO Ausgabe lsmod einfügen
 
 %weiter in neuem Kapitel.. bin noch nicht glücklich mit dem ganzen in dieser aufteilung... evt auseinander ziehen, von einleitung weg

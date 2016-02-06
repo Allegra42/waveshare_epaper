@@ -43,32 +43,37 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {3.1}Aufbau der Hardware}{4}{section.3.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {\relax 3.1}{\ignorespaces Minicom Ausgabe w\IeC {\"a}hrend des Boot-Vorgangs}}{5}{figure.3.1}}
-\newlabel{pic:minicom}{{\relax 3.1}{5}{Minicom Ausgabe während des Boot-Vorgangs}{figure.3.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Vorbereitungen zum Coding}{5}{section.3.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Kernelquellen}{5}{subsection.3.2.1}}
-\@writefile{lol}{\contentsline {listing}{\numberline {1}{\ignorespaces Laden und Kompilieren der Kernelquellen}}{6}{listing.1}}
-\newlabel{lst:getKernelsourcen}{{1}{6}{Kernelquellen}{listing.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Buildsystem}{6}{subsection.3.2.2}}
-\@writefile{lol}{\contentsline {listing}{\numberline {2}{\ignorespaces Makefile}}{7}{listing.2}}
-\newlabel{lst:Makefile}{{2}{7}{Buildsystem}{listing.2}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Das Kernelmodul}{8}{chapter.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax 3.1}{\ignorespaces Aufbau der Hardware}}{5}{figure.3.1}}
+\newlabel{pic:hw_aufbau}{{\relax 3.1}{5}{Aufbau der Hardware}{figure.3.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax 3.2}{\ignorespaces Minicom Ausgabe w\IeC {\"a}hrend des Boot-Vorgangs}}{5}{figure.3.2}}
+\newlabel{pic:minicom}{{\relax 3.2}{5}{Minicom Ausgabe während des Boot-Vorgangs}{figure.3.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Das UART-Kommunikationsprotokoll des Displays}{6}{section.3.2}}
+\@writefile{lot}{\contentsline {table}{\numberline {\relax 3.1}{\ignorespaces Befehlsrahmen Format f\IeC {\"u}r das Waveshare Display}}{6}{table.3.1}}
+\newlabel{tab:Befehlsrahmen}{{\relax 3.1}{6}{Befehlsrahmen Format für das Waveshare Display}{table.3.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Vorbereitungen zum Coding}{7}{section.3.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Kernelquellen}{7}{subsection.3.3.1}}
+\@writefile{lol}{\contentsline {listing}{\numberline {1}{\ignorespaces Laden und Kompilieren der Kernelquellen}}{7}{listing.1}}
+\newlabel{lst:getKernelsourcen}{{1}{7}{Kernelquellen}{listing.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Buildsystem}{7}{subsection.3.3.2}}
+\@writefile{lol}{\contentsline {listing}{\numberline {2}{\ignorespaces Makefile}}{8}{listing.2}}
+\newlabel{lst:Makefile}{{2}{8}{Buildsystem}{listing.2}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Das Kernelmodul}{10}{chapter.4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.1}Kernelspace - eine Vorwarnung}{8}{subsection.4.0.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.2}Debugging}{8}{subsection.4.0.2}}
-\@writefile{lol}{\contentsline {listing}{\numberline {3}{\ignorespaces Debug-Macro}}{9}{listing.3}}
-\newlabel{lst:debugmacro}{{3}{9}{Debugging}{listing.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Das Grund-Modul - \mintinline {c}{__init} und \mintinline {c}{__exit}}{9}{section.4.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Init des Waveshare e-Paper-Treibers}{9}{subsection.4.1.1}}
-\@writefile{lol}{\contentsline {listing}{\numberline {4}{\ignorespaces \texttt  {waveshare\_init}}}{11}{listing.4}}
-\newlabel{lst:waveshare_init}{{4}{11}{Init des Waveshare e-Paper-Treibers}{listing.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Fehlerbehandlung bei Initialisierungen}{11}{subsection.4.1.2}}
-\@writefile{lol}{\contentsline {listing}{\numberline {5}{\ignorespaces \texttt  {waveshare\_init} Fehlerbehandlung}}{12}{listing.5}}
-\newlabel{lst:wavFehlerbehandlung}{{5}{12}{Fehlerbehandlung bei Initialisierungen}{listing.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Alles hat ein Ende - Die \texttt  {exit}-Funktion}{12}{subsection.4.1.3}}
-\@writefile{lol}{\contentsline {listing}{\numberline {6}{\ignorespaces \texttt  {waveshare\_exit}}}{13}{listing.6}}
-\newlabel{lst:waveshare_exit}{{6}{13}{Alles hat ein Ende - Die \texttt {exit}-Funktion}{listing.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Die Treibereinsprungspunkte}{13}{section.4.2}}
-\@writefile{toc}{\contentsline {chapter}{Bibliografie}{14}{section.4.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.1}Kernelspace - eine Vorwarnung}{10}{subsection.4.0.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.2}Debugging}{10}{subsection.4.0.2}}
+\@writefile{lol}{\contentsline {listing}{\numberline {3}{\ignorespaces Debug-Macro}}{11}{listing.3}}
+\newlabel{lst:debugmacro}{{3}{11}{Debugging}{listing.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Das Grund-Modul - \mintinline {c}{__init} und \mintinline {c}{__exit}}{11}{section.4.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Init des Waveshare e-Paper-Treibers}{11}{subsection.4.1.1}}
+\@writefile{lol}{\contentsline {listing}{\numberline {4}{\ignorespaces \texttt  {waveshare\_init}}}{13}{listing.4}}
+\newlabel{lst:waveshare_init}{{4}{13}{Init des Waveshare e-Paper-Treibers}{listing.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Fehlerbehandlung bei Initialisierungen}{13}{subsection.4.1.2}}
+\@writefile{lol}{\contentsline {listing}{\numberline {5}{\ignorespaces \texttt  {waveshare\_init} Fehlerbehandlung}}{14}{listing.5}}
+\newlabel{lst:wavFehlerbehandlung}{{5}{14}{Fehlerbehandlung bei Initialisierungen}{listing.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Alles hat ein Ende - Die \texttt  {exit}-Funktion}{14}{subsection.4.1.3}}
+\@writefile{lol}{\contentsline {listing}{\numberline {6}{\ignorespaces \texttt  {waveshare\_exit}}}{15}{listing.6}}
+\newlabel{lst:waveshare_exit}{{6}{15}{Alles hat ein Ende - Die \texttt {exit}-Funktion}{listing.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Die Treibereinsprungspunkte}{15}{section.4.2}}
+\@writefile{toc}{\contentsline {chapter}{Bibliografie}{16}{section.4.2}}
