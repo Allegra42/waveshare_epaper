@@ -23,7 +23,7 @@ Im Rahmen dieser Arbeit wird daher auf die im Kernel alt hergebrachte Art der Fe
 \end{minted}
 \end{listing}
 
-\section{Das Grund-Modul - \mintinline{c}{__init} und \mintinline{c}{__exit}}
+\section{Das Grund-Modul - {\_\_}init und {\_\_}exit}
 Ein minimales Modul braucht nicht viel mehr als eine \mintinline{c}{__init}, eine \mintinline{c}{__exit} Funktion und ein Macro, dass dessen Lizenz angibt. Nur Module, die einer Form der GPL\footnote{GNU General Public License; verlangt, dass jedes Programm das in irgendeiner Art und Weise von einem unter GPL lizenzierten Programm abgeleitet wird selbst unter diese Lizenz gestellt und offengelegt werden muss} unterliegen, können den vollständigen Umfang der Funktionen des Linux-Kernels benutzen. %TODO Kernelbuch S. 65
 Die \mintinline{c}{__init} Funktion wird aufgerufen, sobald das Modul mit \mintinline{bash}{insmod} oder \mintinline{bash}{modprobe} zum Kernel hinzugeladen und so gestartet wird. Sie initialisiert den Treiber und ist abzugrenzen von der \mintinline{c}{probe} Funktion, die normalerweise dazu genutzt wird nach der grundlegenden Treiberinitialisierung hardwarespezifische Bestandteile des Treibers anzulegen. 
 Die \mintinline{c}{__exit} Funktion wird aufgerufen, wenn der Treiber entladen werden soll. Alle Initialisierungen und Reservierungen, vor allem reservierter Speicher müssen freigegeben werden. 
@@ -31,12 +31,12 @@ Die \mintinline{c}{__exit} Funktion wird aufgerufen, wenn der Treiber entladen w
 \subsection{Init des Waveshare e-Paper-Treibers}
 Der Name der Init-Funktion ist frei wählbar. Über das Macro \mintinline {c}{module_init(waveshare_init);} wird  definiert, dass hier die parameterlose Funktion mit dem Namen \texttt{waveshare\_init} und dem Rückgabetyp \texttt{int} verwendet werden soll. 
 
-Die Initialisierung beginnt mit der Anforderung von Gerätenummern für ein Character basiertes Gerät, die dazu genutzt werden den zugehörigen Treiber zu identifizieren sowie die einzelnen Geräte auseinander zu halten. Sie lösen das Konzept von Major-Nummer (Treiberidentifikation) und Minor-Nummer (Geräte auseinander halten) ab und sind in der Lage mehr physikalische bzw. logische Geräte zu unterscheiden. Gerätenummern und Major-/Minor-Nummern können in einander überführt werden. Zur Anforderung der Gerätenummern wird die Funktion \mintinline{c}{alloc_chrdev_region()} (Listing \ref{lst:waveshare_init}, Zeile 15) verwendet. Dabei gibt der ist der erste Parameter eine Referenz auf eine Struktur vom Typ \texttt{dev\_t}, eine Gerätenummer, dort wird die erste angeforderte Nummer abgelegt. Mit dem zweiten wird angegeben bei welchem Wert die Minor-Nummern starten, mit dem dritten, wie viele verschiedene Geräte unterschieden werden sollen. Der letzte Parameter gibt den Namen des Treibers an, der mit der Gerätenummer assoziiert wird. Im Fehlerfall springt das Programm zur Sprungmarke \mintinline{c}{free_device_number}. Die Fehlerbehandlung wird im Folgenden näher erläutert.
+Die Initialisierung beginnt mit der Anforderung von Gerätenummern für ein Character basiertes Gerät, die dazu genutzt werden den zugehörigen Treiber zu identifizieren sowie die einzelnen Geräte auseinander zu halten. Sie lösen das Konzept von Major-Nummer (Treiberidentifikation) und Minor-Nummer (Geräte auseinander halten) ab und sind in der Lage mehr physikalische bzw. logische Geräte zu unterscheiden. Gerätenummern und Major-/Minor-Nummern können in einander überführt werden. Zur Anforderung der Gerätenummern wird die Funktion \mintinline{c}{alloc_chrdev_region()} (Listing \ref{lst:waveshare_init}, Zeile 15) verwendet. Dabei gibt der ist der erste Parameter eine Referenz auf eine Struktur vom Typ \texttt{dev\_t}, eine Gerätenummer, dort wird die erste angeforderte Nummer abgelegt. Mit dem zweiten wird angegeben bei welchem Wert die Minor-Nummern starten, mit dem dritten, wie viele verschiedene Geräte unterschieden werden sollen. Der letzte Parameter gibt den Namen des Treibers an, der mit der Gerätenummer assoziiert wird. Dabei wird der Treiber für das Gerät beim Kernel angemeldet. Im Fehlerfall springt das Programm zur Sprungmarke \mintinline{c}{free_device_number}. Die Fehlerbehandlung wird im Folgenden näher erläutert.
 %TODO weiter nach alloc_chrdev_region -> gotos nicht vergessen
 
 Mit \mintinline{c}{cdev_alloc()} wird Speicher für ein Objekt des Typs \mintinline{c}{struct cdev *} alloziert, durch das der hier benötigte zeichenorientierte Gerätetreiber repräsentiert wird. Wird hier nicht der geforderte Pointer auf das instantiierte Objekt zurückgegeben, wird die Fehlerbehandlung bei der Sprungmarke \mintinline{c}{free_device_number} begonnen. 
 
-Dem nun angelegten Treiberobjekt, in C durch ein \texttt{struct} repräsentiert, wird im Element \texttt{owner} der Besitzer des Treiber mitgeteilt. Im Element \texttt{ops} wird ein Verweis auf die \mintinline{c}{struct fileoperations} angegeben. In dieser \texttt{struct} (\ref{lst:waveshare_init}, Zeile 1) sind Pointer auf Funktionen gespeichert, die Interaktion des Treibers mit dem Betriebssystem zur Verfügung stellen. Darunter fallen beispielsweise Funktionen zum Öffnen einer Treiberinstanz, Daten aus dem Treiber auslesen, Daten an den Treiber senden, sowie für das Schließen (Freigeben).  
+Dem nun angelegten Treiberobjekt, in C durch ein \texttt{struct} repräsentiert, wird im Element \texttt{owner} der Besitzer des Treiber mitgeteilt. Im Element \texttt{ops} wird ein Verweis auf die \mintinline{c}{struct fileoperations} angegeben. In dieser \texttt{struct} (Listing \ref{lst:waveshare_init}, Zeile 1) sind Pointer auf Funktionen gespeichert, die Interaktion des Treibers mit dem Betriebssystem zur Verfügung stellen. Darunter fallen beispielsweise Funktionen zum Öffnen einer Treiberinstanz, Daten aus dem Treiber auslesen, Daten an den Treiber senden, sowie für das Schließen (Freigeben).  
 
 Anschließend wird mit \mintinline{c}{cdev_add(waveshare_obj, waveshare_dev_number, 1)} das instantiierte Treiberobjekt (\texttt{waveshare\_obj}) beim Kernel registriert. Mit \texttt{waveshare\_dev\_number} wird die erste Gerätenummer angegeben, mit der Zahl, wie viele Gerätenummern mit dem Treiber verwaltet werden sollen. 
 
@@ -126,7 +126,7 @@ free_device_number:
 \end{listing}
 
 
-\subsection{Alles hat ein Ende - Die \texttt{exit}-Funktion}
+\subsection{Alles hat ein Ende - Die exit-Funktion}
 Die \texttt{exit}-Funktion \mintinline{c}{waveshare_exit()} wird beim Entladen des Treibers vom Kernels aufgerufen und unterscheidet sich nur unwesentlich von den Aufräumarbeiten im Fehlerfall. Ebenso wie bei der Fehlerbehandlung werden die benutzten Ressourcen in der richtigen Reihenfolge vom Kernel abgemeldet und wieder freigegeben. 
 In der \texttt{exit}-Funktion werden wenige andere beziehungsweise zusätzliche Funktionen benutzt, um beispielsweise wie mit \mintinline{c}{cdev_del} nicht nur das Treiberobjekt beim Kernel abzumelden, sondern auch den zugehörigen Speicher wieder freizugeben. %kernelbuch s501
 
@@ -154,4 +154,74 @@ static void __exit waveshare_exit (void) {
 \end{minted}
 \end{listing}
 
-\section{Die Treibereinsprungspunkte}
+\section{Die applikationsgegetriggerten Treiberfunktionen}
+%auf fops oben verweisen %TODO buch s95 ff
+Um von einer Anwendung aus durch Systemcalls mit einem Hardwaregerät zu kommunizieren, muss das Betriebssystem eine Verknüpfung zwischen dem symbolischen Gerätenamen und der Gerätenummer hergestellt haben. Dies geschieht normalerweise über den \texttt{udev}\footnote{udev ist ein Hintergrunddienst, der die Gerätedateien beim Booten bzw. Laden und Entladen eines Gerätetreibers, ausgelöst durch Hotplugging eines Geräts dynamisch verwaltet und für deren Rechteverwaltung zuständig ist}-Mechanismus beim Laden des Treibers in der schon vorgestellten Funktion \mintinline{c}{alloc_chrdev_region()}. Zur Kommunikation selbst werden die Aufrufe der Applikation vom Kernel an die korrespondierenden Treiberfunktionen, die sogenannten applikationsgetriggerten Treiberfunktionen weitergeleitet. Diese sind in der ebenfalls schon erwähnten Struktur \mintinline{c}{struct file_operations} definiert, die (vergleichbar mit einem Interface in Java) alle möglichen Funktionen die von außen an einen Treiber gerichtet sein können sowie Verweise auf die tatsächlichen Implementierungen enthält. 
+
+Allerdings machen nicht alle dieser Systemaufrufe für jeden Treibertyp Sinn und so muss auch nicht jeder implementiert werden. Die gebräuchlichsten und auch für diesen Treiber verwendeten Treiberfunktionen sind \mintinline{c}{open()}, um eine Zugriffskontrolle auf die Treiberinstanz zu realisieren, dazu korrespondierend \mintinline{c}{close()}, um eine Treiberinstanz vorallem nach exklusiver Benutzung wieder frei zu geben, sowie die Funktionen für \mintinline{c}{read()} und \mintinline{c}{write}, die eine Möglichkeit für Datenaustausch zwischen Userspace und Kernelspace darstellen. 
+
+Im Folgenden sollen alle verwendeten applikationsgetriggerten Treiberfunktionen vorgestellt werden.
+
+
+\subsection{waveshare\_driver\_open()}
+Der Systemaufruf der \texttt{open()}-Funktion kann über den übergebenen Dateinamen ermitteln ob eine Datei oder wie im hier betrachteten Fall, ein Gerät über einen bestimmten Treiber geöffnet werden soll. Es ist möglich Hardwaregeräte mehreren Treibern zuzuordnen. Das Dateisystem ordnet über diesen symbolischen Gerätenamen das richtige Gerät anhand dessen Gerätenummer zu. %TODO verweis buch s 97 unten
+Ein Prozess der so auf den Treiber zugreifen möchte, legt eine Struktur \mintinline{c}{struct file} an, die Parameter für den Zugriff auf den Treiber angibt, also ob lesender oder schreibender Zugriff erfolgen soll, ob es sich dabei um einen blockierend Zugriff handelt und ruft die im Folgenden näher erläuterte \texttt{open}-Funktion des Treibers auf, die hier \mintinline{c}{waveshare_driver_open()} genannt wird. \newline
+
+
+Die \mintinline{c}{waveshare_driver_open()} Funktion ist dafür verantwortlich zu überprüfen ob eine zugreifende Instanz den Treiber öffnen darf. 
+
+Der Kernel prüft schon zuvor, ob der Aufruf Zugriffsrechte auf die Datei verletzt,da gerade speziellere Hardware in Linux nur oft mit Root-Rechten benutzt werden darf. Ist die Prüfung des Kernels erfolgreich, wird die \texttt{open}-Funktion aufgerufen, die nun ihrerseits prüft, ob der Zugriff mit den in der Struktur \texttt{file} angegebenen Anforderungen erfolgen darf. Als Richtlinie für den Waveshare-Display-Treiber wurde festgelegt, dass nur ein aufrufender Prozess der Schreibrechte möchte auf einmal zugreifen darf. Aufrufende Prozesse, die nur lesend Zugreifen wollen, dürfen in beliebiger Anzahl zugelassen werden. 
+
+Im Quelltext wird die vom aufrufenden Prozess übergebene Struktur \mintinline{c}{struct file} als \texttt{driverinstance} bezeichnet. Mit \mintinline{c}{driverinstance->f_flags&O_ACCMODE} (Listing \ref{lst:waveshare_driver_open}, Zeile 5/6) wird abgefragt, ob der Treiber in einem schreibenden Modus geöffnet werden soll. Ist dies der Fall wird ein Zugriffszähler, im Ausgangszustand mit dem Wert -1 versehen, in einem atomaren Vorgang, um eins erhöht und geprüft (Listing \ref{lst:waveshare_driver_open}, Zeile 8). Ist das Ergebnis 0, darf die Instanz nun endlich zugreifen, die \texttt{open}-Methode ist zu Ende. Andernfalls wird der Zähler wieder zurückgesetzt und der Instanz mitgeteilt, dass das Gerät momentan beschäftigt ist (Listing \ref{lst:waveshare_driver_open}, Zeile 12/14). Durch den atomaren Zugriff auf den Zugriffszähler wird ausgeschlossen, dass es durch Race Conditions zu inkonsistenten Zuständen kommt. Instanzen, die keinen schreibenden Zugriff benötigen, bekommen jeder Zeit Zugriff gewährt.
+
+
+\begin{listing} [H]
+\caption{\texttt{waveshare\_driver\_open}}
+\label{lst:waveshare_driver_open}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static atomic_t access_counter = ATOMIC_INIT(-1);
+
+static int waveshare_driver_open (struct inode *devicefile, struct file *driverinstance) {
+
+	if ( ((driverinstance->f_flags&O_ACCMODE) == O_RDWR) ||
+	     ((driverinstance->f_flags&O_ACCMODE) == O_WRONLY) ) {
+
+		if (atomic_inc_and_test(&access_counter)) {
+			return 0;
+		}
+
+		atomic_dec(&access_counter);
+		PRINT ("sorry - just one writing instance");
+		return -EBUSY;
+	}
+
+	return 0;
+}
+\end{minted}
+\end{listing}
+
+
+\subsection{waveshare\_driver\_close()}
+Mit dem Systemaufruf \texttt{close()} gibt eine Anwendung über die korrespondierende Treiberfunktion mögliche bestehende Zugriffssperren auf einen Treiber, also eine Ressource, wieder frei. In der Struktur \texttt{file\_operations} wird die Referenz auf die implementierte \mintinline{c}{waveshare_driver_close()}-Funktion unter dem Element \texttt{release} gespeichert. 
+
+Besitzt die zugreifende Instanz keine Schreibsperren, ist für den hier vorgestellten Treiber nichts weiter zu tun. Andernfalls, wenn das Zugriffsflag einer Instanz Schreibzugriff signalisiert, gibt diese die Ressource frei indem der Zugriffszähler in einem atomaren Vorgang verringert wird. 
+
+
+\begin{listing} [H]
+\caption{\texttt{waveshare\_driver\_close}}
+\label{lst:waveshare_driver_close}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static int waveshare_driver_close (struct inode *devicefile, struct file *driverinstance) {
+	
+	if ( ((driverinstance->f_flags&O_ACCMODE) == O_RDWR) ||
+	     ((driverinstance->f_flags&O_ACCMODE) == O_WRONLY) ) {
+		atomic_dec(&access_counter);
+	}
+
+	return 0;
+}
+\end{minted}
+\end{listing}
+
+
+\subsection{waveshare\_driver\_read - Kommunikation zwischen Userspace und Kernelspace}
