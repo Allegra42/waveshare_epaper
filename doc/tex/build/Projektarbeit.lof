@@ -9,3 +9,5 @@
 \contentsline {figure}{\numberline {\relax 3.1}{\ignorespaces Aufbau der Hardware}}{5}{figure.3.1}
 \contentsline {figure}{\numberline {\relax 3.2}{\ignorespaces Minicom Ausgabe w\IeC {\"a}hrend des Boot-Vorgangs}}{5}{figure.3.2}
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {\relax 4.1}{\ignorespaces Lesen vom Treiber aus dem Userspace}}{23}{figure.4.1}
+\contentsline {figure}{\numberline {\relax 4.2}{\ignorespaces Schreiben des Treibers aus dem Userspace}}{23}{figure.4.2}

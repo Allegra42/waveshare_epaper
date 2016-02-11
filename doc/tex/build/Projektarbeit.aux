@@ -65,15 +65,33 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.0.2}Debugging}{10}{subsection.4.0.2}}
 \@writefile{lol}{\contentsline {listing}{\numberline {3}{\ignorespaces Debug-Macro}}{11}{listing.3}}
 \newlabel{lst:debugmacro}{{3}{11}{Debugging}{listing.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Das Grund-Modul - \mintinline {c}{__init} und \mintinline {c}{__exit}}{11}{section.4.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Das Grund-Modul - {\_\_}init und {\_\_}exit}{11}{section.4.1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Init des Waveshare e-Paper-Treibers}{11}{subsection.4.1.1}}
 \@writefile{lol}{\contentsline {listing}{\numberline {4}{\ignorespaces \texttt  {waveshare\_init}}}{13}{listing.4}}
 \newlabel{lst:waveshare_init}{{4}{13}{Init des Waveshare e-Paper-Treibers}{listing.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Fehlerbehandlung bei Initialisierungen}{13}{subsection.4.1.2}}
 \@writefile{lol}{\contentsline {listing}{\numberline {5}{\ignorespaces \texttt  {waveshare\_init} Fehlerbehandlung}}{14}{listing.5}}
 \newlabel{lst:wavFehlerbehandlung}{{5}{14}{Fehlerbehandlung bei Initialisierungen}{listing.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Alles hat ein Ende - Die \texttt  {exit}-Funktion}{14}{subsection.4.1.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Alles hat ein Ende - Die exit-Funktion}{14}{subsection.4.1.3}}
 \@writefile{lol}{\contentsline {listing}{\numberline {6}{\ignorespaces \texttt  {waveshare\_exit}}}{15}{listing.6}}
-\newlabel{lst:waveshare_exit}{{6}{15}{Alles hat ein Ende - Die \texttt {exit}-Funktion}{listing.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Die Treibereinsprungspunkte}{15}{section.4.2}}
-\@writefile{toc}{\contentsline {chapter}{Bibliografie}{16}{section.4.2}}
+\newlabel{lst:waveshare_exit}{{6}{15}{Alles hat ein Ende - Die exit-Funktion}{listing.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Die applikationsgegetriggerten Treiberfunktionen}{15}{section.4.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}waveshare\_driver\_open()}{16}{subsection.4.2.1}}
+\@writefile{lol}{\contentsline {listing}{\numberline {7}{\ignorespaces \texttt  {waveshare\_driver\_open}}}{17}{listing.7}}
+\newlabel{lst:waveshare_driver_open}{{7}{17}{waveshare\_driver\_open()}{listing.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}waveshare\_driver\_close()}{17}{subsection.4.2.2}}
+\@writefile{lol}{\contentsline {listing}{\numberline {8}{\ignorespaces \texttt  {waveshare\_driver\_close}}}{17}{listing.8}}
+\newlabel{lst:waveshare_driver_close}{{8}{17}{waveshare\_driver\_close()}{listing.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}waveshare\_driver\_read - Kommunikation zwischen Userspace und Kernelspace}{18}{subsection.4.2.3}}
+\@writefile{lol}{\contentsline {listing}{\numberline {9}{\ignorespaces \texttt  {waveshare\_driver\_read}}}{20}{listing.9}}
+\newlabel{lst:waveshare_driver_read}{{9}{20}{waveshare\_driver\_read - Kommunikation zwischen Userspace und Kernelspace}{listing.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.4}waveshare\_driver\_write - Kommunikation zwischen Userspace und Kernelspace}{20}{subsection.4.2.4}}
+\@writefile{lol}{\contentsline {listing}{\numberline {10}{\ignorespaces \texttt  {waveshare\_driver\_write}}}{22}{listing.10}}
+\newlabel{lst:waveshare_driver_write}{{10}{22}{waveshare\_driver\_write - Kommunikation zwischen Userspace und Kernelspace}{listing.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.5}Testen der read und write Funktionen}{22}{subsection.4.2.5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax 4.1}{\ignorespaces Lesen vom Treiber aus dem Userspace}}{23}{figure.4.1}}
+\newlabel{pic:cat_read}{{\relax 4.1}{23}{Lesen vom Treiber aus dem Userspace}{figure.4.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {\relax 4.2}{\ignorespaces Schreiben des Treibers aus dem Userspace}}{23}{figure.4.2}}
+\newlabel{pic:echo_write}{{\relax 4.2}{23}{Schreiben des Treibers aus dem Userspace}{figure.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.6}driverpoll}{24}{subsection.4.2.6}}
+\@writefile{toc}{\contentsline {chapter}{Bibliografie}{25}{subsection.4.2.6}}

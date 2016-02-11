@@ -165,7 +165,7 @@ Im Folgenden sollen alle verwendeten applikationsgetriggerten Treiberfunktionen 
 
 \subsection{waveshare\_driver\_open()}
 Der Systemaufruf der \texttt{open()}-Funktion kann über den übergebenen Dateinamen ermitteln ob eine Datei oder wie im hier betrachteten Fall, ein Gerät über einen bestimmten Treiber geöffnet werden soll. Es ist möglich Hardwaregeräte mehreren Treibern zuzuordnen. Das Dateisystem ordnet über diesen symbolischen Gerätenamen das richtige Gerät anhand dessen Gerätenummer zu. %TODO verweis buch s 97 unten
-Ein Prozess der so auf den Treiber zugreifen möchte, legt eine Struktur \mintinline{c}{struct file} an, die Parameter für den Zugriff auf den Treiber angibt, also ob lesender oder schreibender Zugriff erfolgen soll, ob es sich dabei um einen blockierend Zugriff handelt und ruft die im Folgenden näher erläuterte \texttt{open}-Funktion des Treibers auf, die hier \mintinline{c}{waveshare_driver_open()} genannt wird. \newline
+Ein Prozess der so auf den Treiber zugreifen möchte, legt eine Struktur \mintinline{c}{struct file} an, die Parameter für den Zugriff auf den Treiber angibt, also ob lesender oder schreibender Zugriff erfolgen soll, ob es sich dabei um einen blockierend Zugriff handelt, welches physische Gerät geöffnet werden soll. Diese ruft die im Folgenden näher erläuterte \texttt{open}-Funktion des Treibers auf, die hier \mintinline{c}{waveshare_driver_open()} genannt wird. \newline
 
 
 Die \mintinline{c}{waveshare_driver_open()} Funktion ist dafür verantwortlich zu überprüfen ob eine zugreifende Instanz den Treiber öffnen darf. 
@@ -224,4 +224,160 @@ static int waveshare_driver_close (struct inode *devicefile, struct file *driver
 \end{listing}
 
 
-\subsection{waveshare\_driver\_read - Kommunikation zwischen Userspace und Kernelspace}
+\subsection{waveshare\_driver\_read - Kommunikation zwischen Userspace und Kernelspace} %TODO buch s 101
+Im Folgenden soll der Datenaustausch über den Systemcall \texttt{read} vorgestellt werden. Die Applikation fordert also über diesen Daten beim Treiber an, die in einen Puffer im Speicherbereich der Anwendung kopiert werden sollen. Dies übernimmt auf der Seite des Treibers die Funktion \mintinline{c}{waveshare_driver_read()}. Dabei ist zu beachten, dass das Memory-Management die Speicherbereiche von Kernel und Userspace streng voneinander trennt. Zwar übergibt die Anwendung dem Treiber die Adresse des Puffers, doch der darf den Puffer nicht direkt verwenden. Dies übernimmt für eine lesende Anfrage an den Treiber die Kernelfunktion \mintinline{c}{copy_to_user()}. 
+
+Leider kann diese Funktion, sowie weitere Funktionen zur Kommunikation zwischen Userspace und Kernelspace, nur an einem Beispiel statt an einer konkreten Kommunikation erläutert werden. Schwierigkeiten mit dem Aufbau der Verbindung zum Display über die \texttt{UART}-Treiber des Kernels verhindern dies. Der geplante Verbindungsaufbau und die erwähnten Schwierigkeiten werden in dieser Arbeit noch näher erläutert. 
+
+Trotzdem soll durch die beispielhafte Implementierung ein Verständnis für die Vorgänge auf Seiten des Treibers bei der Abarbeitung dieses Systemcalls geschaffen werden und erläutert, was für eine konkrete Implementierung für den Anwendungsfall des Display verändert werden müsste. Die beispiehafte Implementierung ist bis auf die eigentlich vorgesehene Anwendung voll funktionstüchtig.\newline
+
+
+Das Gegenstück des Systemaufrufes \texttt{read} auf Treiberseite ist die Funktion \\
+\mintinline{c}{waveshare_driver_read(struct file *driverinstance, char __user *buffer,} \\
+\mintinline{c}{size_t max_bytes_to_read, loff_t *offset)}. Über die schon bei \texttt{open} erwähnte \mintinline{c}{struct file *driverinstance} wird hier geprüft ob der Lesezugriff im blockierenden oder nichtblockierenden Modus erfolgen soll. Der zweite Parameter, \mintinline{c}{char __user *buffer} enthält einen Zeiger auf einen Speicherbereich im Userspace (\texttt{{\_}{\_user}}), der die zu lesenden Informationen aufnehmen soll. Mit dem dritten Parameter gibt die aufrufende Funktion an, wie viele Byte maximal in den Puffer kopiert werden sollen. Der letzte ist ein Zeiger auf ein Offset, der ein wahlfreien Zugriff innerhalb des Gerätes ermöglicht. 
+
+Die beiden Variablen \texttt{to\_copy} und \texttt{not\_copied} (Listing \ref{lst:waveshare_driver_read}, Zeile 11/12) geben an, wie viele Bytes noch in den Puffer im Userspace geschrieben werden müssen und wie viele nicht kopiert wurden. Im funktionsfähigen Treiber würde der hier für Beispielausgaben eingesetzte Puffer im Kernelspace, \texttt{kern\_buffer} (Listing \ref{lst:waveshare_driver_read}, Zeile 16), durch einen globalen Displaypuffer ersetzt werden, der zu jeder Zeit den aktuellen Inhalt des Displays speichert, da dieses beispielsweise durch noch nicht durchgeführte Aktualisierungen der Anzeige dem Puffer hinterher hinken kann. 
+
+Mit der ersten if-Abfrage (Listing \ref{lst:waveshare_driver_read}, Zeile 24), wird der Fall abgedeckt, dass im nichtblockierenden Modus gelesen wird, aber keine Daten zum Lesen vorhanden sind. In diesem Fall endet die Funktion mit dem Code \texttt{-EAGAIN}. 
+
+Ob gelesen werden kann, wird über das Macro \texttt{READ\_POSSIBLE} (Listing \ref{lst:waveshare_driver_read}, Zeile 5) abgefragt. Es überprüft eine atomare Variable, die im funktionalen Treiber je nach dem aktuellen Füllgrad des Displaypuffers, der identisch zur Anzeige des Displays gehalten werden sollte, gesetzt würde. Im Beispiel verändert sich der Pufferinhalt nicht und die Variable bleibt konstant. 
+
+Mit der zweiten if-Abfrage (Listing \ref{lst:waveshare_driver_read}, Zeile 28), wird gesteuert was passiert falls ein schlafender Prozess in dieser Funktion durch ein Signal unterbrochen wird, nämlich der Abbruch mit dem Code \texttt{-ERESTARTSYS}.
+
+Nun findet das tatsächliche kopieren der zum Lesen zu Verfügung stehenden Daten in den Userspace statt. Zuerst wird ermittelt wie viele Byte kopiert werden sollen (Listing \ref{lst:waveshare_driver_read}, Zeile 32). Begrenzende Faktoren sind hier wie viel Byte zum Lesen zur Verfügung stehen und wie viele maximal vom aufrufenden Prozess angefordert wurden, der kleinere dieser beiden Werte wird dafür gesetzt. Danach werden die Daten mit der Kernelfunktion \texttt{copy\_to\_user()} unter Angabe von Zielpuffer, Ausgangspuffer und der Menge der zu kopierenden Daten, in den Userspace verschoben. Als Rückgabewert wird angegeben wie viele Byte nicht kopiert werden konnten. Darauf wird der Rückgabewert der Funktion \mintinline{c}{waveshare_driver_read()} berechnet, der die Differenz zwischen zu kopierenden und kopierten Daten beschreibt.
+
+
+\begin{listing} [H]
+\caption{\texttt{waveshare\_driver\_read}}
+\label{lst:waveshare_driver_read}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+// Gibt an, wie viele Byte gelesen werden können, sollte im funktionalen 
+// Treiber dynamisch anhand der Daten in einem Displaypuffer angepasst werden.
+static atomic_t bytes_available = ATOMIC_INIT(5);
+
+#define READ_POSSIBLE (atomic_read(&bytes_available) != 0)
+
+
+ssize_t waveshare_driver_read (struct file *driverinstance, char __user *buffer, 
+size_t max_bytes_to_read, loff_t *offset) {
+
+	size_t to_copy = 0; 
+	size_t not_copied = 0; 
+
+	// Hier sollte der Inhalt eines Displaypuffers ausgelesen werden
+
+	char kern_buffer[128];
+	kern_buffer[0] = 'H';
+	kern_buffer[1] = 'A';
+	kern_buffer[2] = 'L';
+	kern_buffer[3] = 'L';
+	kern_buffer[4] = 'O';
+	kern_buffer[5] = '\n';
+
+	if ((!READ_POSSIBLE) && (driverinstance->f_flags&O_NONBLOCK)) {
+		return -EAGAIN;
+	} 
+	
+	if (wait_event_interruptible (wq_read, READ_POSSIBLE)) {
+		return -ERESTARTSYS;
+	}
+
+	to_copy = min ((size_t) atomic_read (&bytes_available), max_bytes_to_read+1);
+	not_copied = copy_to_user (buffer, kern_buffer, to_copy);
+        
+        // Werden die Daten im funktionsfähigen Treiber dynamisch angepasst,
+        // muss so berechnet werden, wie viel noch zu lesen ist.
+	//atomic_sub ((to_copy - not_copied), &bytes_available);
+	//*offset += to_copy - not_copied;
+	
+	return (to_copy - not_copied);	
+}
+\end{minted}
+\end{listing}
+
+
+\subsection{waveshare\_driver\_write - Kommunikation zwischen Userspace und Kernelspace} %TODO  Buch S 111
+Die Funktion \mintinline{c}{waveshare_driver_write()}, ausgelöst durch den Systemaufruf \texttt{write}, funktioniert in den meisten Aspekten analog zur \mintinline{c}{waveshare_driver_read()} Funktion. Bei den Übergabeparametern handelt es sich um die selben mit der gleichen Bedeutung, daher wird davon abgesehen diese noch einmal zu erläutern. 
+
+In der Funktion wird mit der ersten if-Abfrage der Fall abgefangen, dass der Treiber im nichtblockierenden Modus geöffnet wurde und Hardware oder Treiber nicht bereit sind Daten zu schreiben. Dies wird analog zum Lesen über das Macro \texttt{WRITE\_POSSIBLE} (Listing \ref{lst:waveshare_driver_write}, Zeile 5) ermittelt, das prüft wie viele Byte geschrieben werden dürfen. Ist dies der Fall, endet die Funktion mit dem Rückgabewert \texttt{-EAGAIN}.
+
+Die zweite if-Abfrage behandelt den Fall, dass ein Prozess während des Schlafens durch ein Signal unterbrochen wird und beendet die Funktion in diesem Fall mit \texttt{-ERESTARTSYS}.
+
+Darauf folgt der Schreibvorgang der Daten vom Userspace in den Kernelspace. Wie auch zuvor beim Lesen wird wieder der minimale Wert an Bytes die kopiert werden dürfen ermittelt (Listing \ref{lst:waveshare_driver_write}, Zeile 23) und nun mit der Funktion \mintinline{c}{copy_from_user()} in den Kernelspace geschrieben. Die Bytes, die nicht kopiert werden konnten werden wieder von den zu kopierenden abgezogen und bilden so den Rückgabewert der \\ \mintinline{c}{waveshare_driver_write()} Funktion. Bei den übertragenen Daten handelt es sich um Strings. Eventuell muss vor der Weiterverarbeitung dieser noch eine Konvertierung erfolgen.
+
+
+\begin{listing} [H]
+\caption{\texttt{waveshare\_driver\_write}}
+\label{lst:waveshare_driver_write}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+// Gibt an, wie viele Byte geschrieben werden können, sollte im funktionalen 
+// Treiber dynamisch anhand der Daten in einem Displaypuffer angepasst werden.
+static atomic_t bytes_to_write = ATOMIC_INIT(10);
+
+#define WRITE_POSSIBLE (atomic_read(&bytes_to_write) != 0)
+
+
+ssize_t waveshare_driver_write (struct file *driverinstance, const char __user *buffer, 
+size_t max_bytes_to_write, loff_t *offset) {
+	size_t to_copy;
+	size_t not_copied;
+	
+	char kern_buffer [56];
+	
+	if ((!WRITE_POSSIBLE) && (driverinstance->f_flags&O_NONBLOCK)) {
+		return - EAGAIN;
+	}
+	
+	if (wait_event_interruptible (wq_write, WRITE_POSSIBLE)) {
+		return -ERESTARTSYS;
+	}
+
+	to_copy = min ((size_t) atomic_read(&bytes_to_write), max_bytes_to_write);	
+	not_copied = copy_from_user (kern_buffer, buffer, to_copy);
+
+	// Hier sollte eigentlich der Displaypuffer mit den Eingaben aus dem Userspace
+	// verändert werden (und evtl. ein Refresh des Displays stattfinden)
+
+        // Werden die Daten im funktionsfähigen Treiber dynamisch angepasst,
+        // muss so berechnet werden, wie viel noch schreiben ist.
+	//atomic_sub ((to_copy - not_copied), &bytes_to_write);
+	//*offset += (to_copy - not_copied);
+
+	return (to_copy - not_copied);
+}
+\end{minted}
+\end{listing}
+
+%TODO nicht vergessen.. beschreiben wie liest/schreibt man aus dem userspace vom treiber -> cat und dessen besonderheit!
+\subsection{Testen der read und write Funktionen}
+Ob die Systemaufrufe und vor allem die Implementierungen im Treiber erwartungsgemäß funktionieren, kann unter Linux sehr leicht getestet werden. Das kompilierte Modul wird an die richtige Stelle kopiert und geladen. \\
+
+Mit dem Befehl \texttt{cat} kann die Funktion \mintinline{c}{waveshare_driver_read()} getestet werden. Allerdings liest \texttt{cat} bis EOF, also 0 Byte zurückgegeben wird, was bei der Funktion normalerweise nicht vorkommt. Dadurch ließt \texttt{cat} immer wieder den Inhalt des Treibers, bis der Benutzer manuell via STR+C abbricht. \\
+
+\mintinline{bash}{cat /dev/waveshare} \\
+
+\begin{figure}[H]
+  \centering
+  \fbox{
+   \includegraphics[scale=0.49]{ausgabe_cat_dev_waveshare}
+  }
+  \caption{Lesen vom Treiber aus dem Userspace}
+  \label{pic:cat_read}
+\end{figure}
+
+Der Befehl \texttt{echo} ermöglicht es die Funktion \mintinline{c}{waveshare_driver_write()} zu triggern. \\
+
+\mintinline{bash}{echo hallo > /dev/waveshare} \\
+
+\begin{figure}[H]
+  \centering
+  \fbox{
+   \includegraphics[scale=0.49]{ausgabe_dmesg_echo_dev_waveshare}
+  }
+  \caption{Schreiben des Treibers aus dem Userspace}
+  \label{pic:echo_write}
+\end{figure}
+
+\subsection{driverpoll} %Titel ändern--- auf richtigen Namen
+
+%TODO habe noch bild dass hotplugging zeigt! für hardware erkennung usw...
