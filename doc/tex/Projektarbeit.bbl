@@ -1,0 +1,192 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.5 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist{nty}{nty}
+    \entry{waveshareMan}{report}{}
+      \list{organization}{1}{%
+        {waveshare}%
+      }
+      \field{sortinit}{4}
+      \field{sortinithash}{40dc985c6c644a6e943d835d2b663799}
+      \field{labeltitlesource}{title}
+      \field{month}{04}
+      \field{title}{{4.3inch e-Paper User Manual}}
+      \field{type}{techreport}
+      \field{year}{2015}
+    \endentry
+    \entry{archarm}{misc}{}
+      \field{sortinit}{A}
+      \field{sortinithash}{b685c7856330eaee22789815b49de9bb}
+      \field{labeltitlesource}{title}
+      \field{title}{{Archlinux ARM Beaglebone Black}}
+    \endentry
+    \entry{kernelnewbies}{misc}{}
+      \name{editor}{1}{}{%
+        {{hash=9745b502d2e25f22874af7b3b56247ea}{Barke}{B\bibinitperiod}{Shraddha}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{9745b502d2e25f22874af7b3b56247ea}
+      \strng{fullhash}{9745b502d2e25f22874af7b3b56247ea}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelnamesource}{editor}
+      \field{labeltitlesource}{title}
+      \field{month}{10}
+      \field{title}{{Kernel Build}}
+      \field{year}{2015}
+    \endentry
+    \entry{bbbkernel}{misc}{}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labeltitlesource}{title}
+      \field{title}{{Building Beaglebone Black Kernel}}
+    \endentry
+    \entry{Corbet2005}{book}{}
+      \name{author}{3}{}{%
+        {{hash=729670cd9d39b9b575390147a29d51d7}{Corbet}{C\bibinitperiod}{Jonathan}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=548a2260c8f6dbadc0d85dfad02ba349}{Rubini}{R\bibinitperiod}{Alessandro}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=8edf24ea3e75c726f2c163493ab3e3c3}{Kroah-Hartman}{K\bibinithyphendelim H\bibinitperiod}{Greg}{G\bibinitperiod}{}{}{}{}}%
+      }
+      \list{location}{1}{%
+        {Sebastopol}%
+      }
+      \list{publisher}{1}{%
+        {"O'Reilly Media, Inc."}%
+      }
+      \strng{namehash}{9fbbcf4a72b42b4d94a411ddd67e1136}
+      \strng{fullhash}{9fbbcf4a72b42b4d94a411ddd67e1136}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{9780596555382}
+      \field{title}{{Linux Device Drivers - }}
+      \field{year}{2005}
+    \endentry
+    \entry{freeelectronsSerialController}{proceedings}{}
+      \list{organization}{1}{%
+        {Free Electrons}%
+      }
+      \field{sortinit}{K}
+      \field{sortinithash}{a7d5b3aec5a0890aae7baf85a209abfc}
+      \field{labeltitlesource}{title}
+      \field{title}{{Kernel -Serial controller device driver programming}}
+    \endentry
+    \entry{kroahSysfs}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=8edf24ea3e75c726f2c163493ab3e3c3}{Kroah-Hartman}{K\bibinithyphendelim H\bibinitperiod}{Greg}{G\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{8edf24ea3e75c726f2c163493ab3e3c3}
+      \strng{fullhash}{8edf24ea3e75c726f2c163493ab3e3c3}
+      \field{sortinit}{K}
+      \field{sortinithash}{a7d5b3aec5a0890aae7baf85a209abfc}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{06}
+      \field{title}{{How to Create a sysfs File Correctly}}
+      \field{year}{2013}
+    \endentry
+    \entry{elinuxDevTree}{misc}{}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labeltitlesource}{title}
+      \field{title}{{Linux Drivers Device Tree Guide}}
+    \endentry
+    \entry{kerneldocLLSerialAPI}{misc}{}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labeltitlesource}{title}
+      \field{title}{{Low Level Serial API}}
+    \endentry
+    \entry{systemd}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=516930fc67c745087ad7c02c1aaea0a3}{Patrakov}{P\bibinitperiod}{Alexander}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{516930fc67c745087ad7c02c1aaea0a3}
+      \strng{fullhash}{516930fc67c745087ad7c02c1aaea0a3}
+      \field{sortinit}{P}
+      \field{sortinithash}{c0a4896d0e424f9ca4d7f14f2b3428e7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{01}
+      \field{title}{{Writing Systemd Files}}
+      \field{year}{2011}
+    \endentry
+    \entry{freeelectronsSerialDriver}{proceedings}{}
+      \name{author}{1}{}{%
+        {{hash=fa0cc21ec140b6f0c1171ec22c0a9294}{Petazzoni}{P\bibinitperiod}{Thomas}{T\bibinitperiod}{}{}{}{}}%
+      }
+      \list{organization}{1}{%
+        {Free Electrons}%
+      }
+      \list{publisher}{1}{%
+        {F}%
+      }
+      \strng{namehash}{fa0cc21ec140b6f0c1171ec22c0a9294}
+      \strng{fullhash}{fa0cc21ec140b6f0c1171ec22c0a9294}
+      \field{sortinit}{P}
+      \field{sortinithash}{c0a4896d0e424f9ca4d7f14f2b3428e7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{12}
+      \field{title}{{Serial Drivers}}
+      \field{year}{2010}
+    \endentry
+    \entry{Quade2015}{book}{}
+      \name{author}{2}{}{%
+        {{hash=687fb21a1704dd014812c5384a753bac}{Quade}{Q\bibinitperiod}{Jürgen}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=1ebb64d1fb0ec1072deb572301d370f4}{Kunst}{K\bibinitperiod}{Eva-Katharina}{E\bibinithyphendelim K\bibinitperiod}{}{}{}{}}%
+      }
+      \list{location}{1}{%
+        {Heidelberg}%
+      }
+      \list{publisher}{1}{%
+        {Dpunkt.Verlag GmbH}%
+      }
+      \strng{namehash}{eb8ead865b7526ea8120c61798f630fc}
+      \strng{fullhash}{eb8ead865b7526ea8120c61798f630fc}
+      \field{sortinit}{Q}
+      \field{sortinithash}{15867262911a166ca2270ec58a0e3fe9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{4. akt. und erw. Aufl.}
+      \field{isbn}{9783864902888}
+      \field{title}{{Linux-Treiber entwickeln - Eine systematische Einführung in die Gerätetreiber- und Kernelprogrammierung - jetzt auch für Raspberry Pi}}
+      \field{year}{2015}
+    \endentry
+    \entry{serialoverusb}{misc}{}
+      \field{sortinit}{S}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labeltitlesource}{title}
+      \field{title}{{Serial over USB on Beaglebone Black}}
+    \endentry
+    \entry{serialcore.h}{misc}{}
+      \list{organization}{1}{%
+        {Deep Blue Solutions Ltd.}%
+      }
+      \field{sortinit}{s}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labeltitlesource}{title}
+      \field{title}{{serial\_core.h}}
+      \field{year}{2000}
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+

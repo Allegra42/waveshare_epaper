@@ -378,6 +378,134 @@ Der Befehl \texttt{echo} ermöglicht es die Funktion \mintinline{c}{waveshare_dr
   \label{pic:echo_write}
 \end{figure}
 
-\subsection{driverpoll} %Titel ändern--- auf richtigen Namen
+\subsection{waveshare\_driver\_poll}  %TODO buch s117/118
+Mit dem Systemaufruf \texttt{poll}, hat eine Applikation die Möglichkeit mehrere Quellen, wie zum Beispiel Treiber oder Dateien auf Veränderungen zu überwachen. Die Implementierung auf Seiten des Treibers hat die Aufgabe der Anwendung mitzuteilen, ob mit dem nächsten Aufruf von \texttt{read} Daten gelesen beziehungsweise mit dem nächsten Aufruf von \texttt{write} Daten geschrieben werden können. Es ist möglich, dass die aufrufende Anwendung nach dem Aufruf von \texttt{poll} schlafen gelegt wird, z.B. wenn keine Daten zum Lesen oder Schreiben vorhanden sind. Um dem Betriebssystem mitzuteilen, dass diese Daten für den Treiber nun wieder vorhanden sind, müssen diesem alle Warteschlangen bekannt gegeben werden, die eine solche wartende Applikation enthalten könnten.
 
-%TODO habe noch bild dass hotplugging zeigt! für hardware erkennung usw...
+In Listing \ref{lst:waveshare_driver_poll}, Zeile 6 und 7 wird gezeigt wie dem Betriebssystem über die Funktion \texttt{poll\_wait()} die Warteschlangen mitgeteilt werden, über die Prozesse aufgeweckt werden, die auf Daten zum Lesen beziehungsweise zum Schreiben warten. 
+
+Die erste if-Abfrage (Zeile 9) prüft das schon bekannte Macro \texttt{READ\_POSSIBLE} das angibt, ob Daten zum Lesen vorhanden sind. Ist dies der Fall, werden Statusbits, in einer Bitmaske verodert, gesetzt. Dabei bedeutet das Flag \texttt{POLLIN}, dass Daten von der Treiberinstanz die nicht blockiert gelesen werden können. Das Flag \texttt{POLLRDNORM} gibt an, dass Daten zum Lesen verfügbar sind.
+
+Die zweite if-Abfrage (Zeile 12) prüft über das Macro \texttt{WRITE\_POSSIBLE} ob Daten geschrieben werden dürfen. In diesem Fall werden die Flags in der Bitmaske auf \texttt{POLLOUT} und \texttt{POLLWRNORM} gesetzt, womit angegeben wird, dass Daten geschrieben werden dürfen, ohne dass der Treiber blockiert und dass überhaupt Daten geschrieben werden dürfen. 
+
+Die Bitmaske, die nun besagte Informationen enthält, wird an die aufrufende Anwendung zurückgegeben. 
+
+
+\begin{listing} [H]
+\caption{\texttt{waveshare\_driver\_poll}}
+\label{lst:waveshare_driver_poll}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+unsigned int waveshare_driver_poll (struct file *driverinstance, 
+  struct poll_table_struct *event_list) {
+	
+	unsigned int mask = 0;
+	
+	poll_wait (driverinstance, &wq_read, event_list);
+	poll_wait (driverinstance, &wq_write, event_list);
+
+	if (READ_POSSIBLE) {
+		mask |= POLLIN | POLLRDNORM;
+	}
+	if (WRITE_POSSIBLE) {
+		mask |= POLLOUT | POLLWRNORM;
+	}
+
+	return mask;
+}
+\end{minted}
+\end{listing}
+
+
+\section{Das Sys-Filesystem} %überschrift anpassen %TODO buch s285
+Das Sys-Filesystem sysfs, auch Driver-Filesystem genannt, ist ein virtuelles Filesystem, dass im sogenannten Gerätemodell abbildet, wie Prozessoren und Controller mit Peripheriegeräten zusammenhängen. Darin ist nicht nur Hardware verzeichnet, sondern auch zugehörige Software wie zum Beispiel Treiber. Das sysfs löst langfristig das alte Modell des procfs (process filesystem), ein Dateisystem um System- und Prozessinformationen bereitzustellen und zu manipulieren, ab. Für diese Arbeit sollen nur Erweiterungen für das sysfs geschrieben werden. 
+
+Da das sysfs dynamisch aus der erkannten Hardware sowie Treibern generiert wird, ist es als Entwickler nur nötig selbst tätig zu werden falls ein nicht standardisiertes Bussystem genutzt oder ein neues integriert wird, falls das Energiemanagement der Geräte durch den Treiber gesteuert werden soll, und wenn über Attribute des sysfs Treiber oder Geräte verändert oder ausgelesen werden sollen. Ebenfalls können neue Geräteklassen definiert werden. 
+
+Für den Waveshare-Treiber soll sowohl eine eigene Geräteklasse \glqq waveshare\grqq~definiert werden, sowie Informationsabfrage oder Kontrollzugriff über Attribute des sysfs auf die Hardware. Über solche Kontrollzugriffe, die aus dem Userspace erfolgen, können beispielsweise für Sensoren verschiedene Mess- bzw. Auswertungsintervalle initiiert und kontrolliert werden, ohne die \mintinline{c}{waveshare_driver_read() bzw. waveshare_driver_write()} Funktionen zu ändern oder zu parametrisieren. Für das Display wäre es denkbar über das sysfs verschiedene Funktionen um das Display zu beschreiben anzubieten, die sich beispielsweise im Zeichensatz (das Display unterstützt auch chinesische Schriftzeichen) oder in der Schriftgröße unterscheiden. Natürlich könnten auch schlicht Informationen über Display und Treiber in Attributen hinterlegt werden. 
+
+Besonders interessant ist hierbei, dass das sysfs selbst im Userspace angesiedelt ist, die Informationen aber vom Kernelmodul erhalten kann, also beispielsweise Sensorergebnisse direkt von einer Messfunktion im Treiber abfrägt. Dadurch entfallen einige Punkte die beim Datenaustausch zwischen User- und Kernelspace in den applikationsgetriggerten Funktionen \texttt{read} und \texttt{write} beachtet werden mussten.
+
+Auf Grund der Probleme bei der Kommunikation mit der Hardware finden sich auch für die Zugriffsfunktionen auf die sysfs-Attribute nur beispielhafte Implementierungen um Anwendung und Möglichkeiten dieser zusätzlichen Schnittstelle zwischen Treiber bzw. Hardware und Userspace.  
+
+%TODO buch s 300...
+Zuerst soll eine Funktion für lesenden Zugriff auf ein sysfs-Attribut erstellt werden (Listing \ref{lst:waveshare_sysfs_read}). Dabei wird die Information über die \texttt{sprintf}-Funktion in den entsprechenden Puffer des Lesenden kopiert. Zurückgegeben wird die Anzahl der kopierten Bytes. In dieser Funktion könnte aber auch beispielsweise \texttt{strcpy} oder ähnliches verwendet werden, während in der applikationsgetriggerten Lesefunktion nur der Datenaustausch mittels \texttt{copy\_to\_user()} möglich ist. 
+Hier können z.B. Ergebnisse des Treibers auf sehr einfache Weise im Userspace verfügbar gemacht werden.
+
+
+\begin{listing} [H]
+\caption{\texttt{waveshare\_sysfs\_read}}
+\label{lst:waveshare_sysfs_read}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static ssize_t waveshare_sysfs_read (struct device *dev, struct device_attribute *attr, 
+  char *buf) {
+
+	char example [] = {"TEST"};
+
+	return sprintf (buf, "%s \n", example); 
+}
+\end{minted}
+\end{listing}
+
+
+Nun soll noch eine Funktion für schreibenden Zugriff (Listing \ref{lst:waveshare_driver_write})auf ein solches Attribut erstellt werden. Es ist nicht zwingend notwendig für ein Attribut immer sowohl lesenden als auch schreibenden Zugriff zu realisieren. Attribute, die nur Informationen über Hardware und/oder Treiber zur Verfügung stellen, werden nur mit einer lesenden Zugriffsfunktion verknüpft.
+Auch diese Funktion ist nicht sehr spannend, da der Datenaustausch ausschließlich im Userspace stattfindet. Allerdings können so erhaltene Daten im Treiber ausgewertet und weiterverarbeitet werden.
+
+
+\begin{listing} [H]
+\caption{\texttt{waveshare\_sysfs\_write}}
+\label{lst:waveshare_sysfs_write}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static ssize_t waveshare_sysfs_write (struct device *dev, struct device_attribute *attr, 
+  const char *buf, size_t size) {
+	int val = 0;
+	PRINT ("write a number");
+	
+	val = simple_strtoul (buf, NULL, 10);
+	printk (KERN_INFO "You wrote %d \n", val);	
+	
+	return size;
+}
+\end{minted}
+\end{listing}
+
+Nachdem die Zugriffsfunktionen für das Attribut definiert wurden, werden sie über das Macro \texttt{DEVICE\_ATTR} (Listing \ref{lst:device_attr}) mit einem Attributnamen verknüpft und entsprechende Zugriffsrechte gesetzt. Der erste Parameter des Macros gibt den Namen des Attributs an, für welches die Zugriffsfunktionen definiert wurden, der Zweite beschreibt die Zugriffsrechte (entweder als Zahl oder als Konstantennamen). Die letzten beiden Parameter geben die Adressen der Funktionen für lesenden bzw. schreibenden Zugriff an. Wird nur einer der beiden Angeboten, bleibt der jeweilig andere Parameter \texttt{NULL}. Dies muss sich auch in den Zugriffsrechten widerspiegeln, ist keine Schreibfunktion definiert, darf auch kein schreibender Zugriff zugelassen werden. 
+
+
+\begin{listing} [H]
+\caption{\texttt{DEVICE\_ATTR}}
+\label{lst:device_attr}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static DEVICE_ATTR (wav_sysfs, 0644, waveshare_sysfs_read, waveshare_sysfs_write);
+\end{minted}
+\end{listing}
+
+
+Zuletzt erfolgt noch das Erstellen der eigenen sysfs-Geräteklasse \glqq waveshare\grqq~sowie die Beauftragung des Gerätemodells die Attributdatei anzulegen. Dies geschieht in der \mintinline{c}{waveshare_init} Funktion (Listing  \ref{lst:sysfs_class_create}) über \texttt{class\_create} und \texttt{device\_create\_file}.
+
+\begin{listing} [H]
+\caption{sysfs Geräteklasse und Attribut erstellen}
+\label{lst:sysfs_class_create}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static int __init waveshare_init (void) {
+[...]
+
+	waveshare_class = class_create (THIS_MODULE, WAVESHARE);
+	
+	if (IS_ERR (waveshare_class)) {
+		PRINT ("sysfs class creation failed, no udev support");
+		goto free_cdev;
+	}
+	
+    waveshare_dev = device_create (waveshare_class, 
+  	   NULL, waveshare_dev_number, NULL, "%s", WAVESHARE);
+  	
+	if(device_create_file(waveshare_dev, &dev_attr_wav_sysfs)) {
+		PRINT ("failed to register attribute file under /dev/waveshare");
+	}
+	
+[...]
+}
+\end{minted}
+\end{listing}
+
+%TODO bild zugriff auf sysfs
+

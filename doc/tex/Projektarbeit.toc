@@ -1,9 +1,57 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
 \select@language {ngerman}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {1}Einleitung}{1}{chapter.1}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {2}Hardware}{2}{chapter.2}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2.1}Beaglebone Black}{2}{section.2.1}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2.2}Waveshare e-Paper-Display}{2}{section.2.2}
-\contentsline {chapter}{\numberline {3}Aufbau und Vorbereitungen}{3}{chapter.3}
-\contentsline {section}{\numberline {3.1}Aufbau der Hardware}{3}{section.3.1}
-\contentsline {section}{\numberline {3.2}Vorbereitungen zum Coding}{3}{section.3.2}
-\contentsline {chapter}{Bibliografie}{5}{listing.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {3}Aufbau und Grundlagen}{4}{chapter.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.1}Aufbau der Hardware}{4}{section.3.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.2}Das UART-Kommunikationsprotokoll des Displays}{6}{section.3.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.3}Vorbereitungen zum Coding}{7}{section.3.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.3.1}Kernelquellen}{7}{subsection.3.3.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.3.2}Buildsystem}{7}{subsection.3.3.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {4}Das Kernelmodul}{9}{chapter.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.0.1}Kernelspace - eine Vorwarnung}{9}{subsection.4.0.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.0.2}Debugging}{9}{subsection.4.0.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.1}Das Grund-Modul - {\_\_}init und {\_\_}exit}{10}{section.4.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.1.1}Init des Waveshare e-Paper-Treibers}{10}{subsection.4.1.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.1.2}Fehlerbehandlung bei Initialisierungen}{11}{subsection.4.1.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.1.3}Alles hat ein Ende - Die exit-Funktion}{11}{subsection.4.1.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.2}Die applikationsgegetriggerten Treiberfunktionen}{12}{section.4.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.1}waveshare\_driver\_open()}{12}{subsection.4.2.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.2}waveshare\_driver\_close()}{13}{subsection.4.2.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.3}waveshare\_driver\_read - Kommunikation zwischen Userspace und Kernelspace}{14}{subsection.4.2.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.4}waveshare\_driver\_write - Kommunikation zwischen Userspace und Kernelspace}{15}{subsection.4.2.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.5}Testen der read und write Funktionen}{16}{subsection.4.2.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.6}waveshare\_driver\_poll}{17}{subsection.4.2.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.3}Das Sys-Filesystem}{18}{section.4.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.4}UART/Serial in Kernel}{19}{section.4.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Bibliografie}{20}{section.4.4}

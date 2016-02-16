@@ -1,0 +1,10 @@
+@book{Quade2015,
+	address = {Heidelberg},
+	author = {Quade, J\"{u}rgen AND Kunst, Eva-Katharina},
+	edition = {4. akt. und erw. Aufl.},
+	isbn = {978-3-864-90288-8},
+	publisher = {Dpunkt.Verlag GmbH},
+	title = {{Linux-Treiber entwickeln - Eine systematische Einf\"{u}hrung in die Ger\"{a}tetreiber- und Kernelprogrammierung - jetzt auch f\"{u}r Raspberry Pi}},
+	year = {2015}
+}
+

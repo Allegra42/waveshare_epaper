@@ -7,11 +7,12 @@
 \usepackage[cache=false, outputdir=build]{minted}
 \usepackage{subfigure}
 \usepackage{array}
+\usepackage[backend=biber, citestyle=alphabetic-verb, hyperref]{biblatex}
+
+\bibliography{BibliographyProjektarbeit.bib}
 
 \pagestyle {headings}
-\bibliographystyle{alphadin}
 \renewcommand{\listoflistingscaption}{Verzeichnis der Quelltexte}
-
 
 
 \title{Entwicklung eines Linux Gerätetreibers am Beispiel eines e-Paper Displays}
@@ -31,10 +32,14 @@
 %mainpart
 \input{Einleitung}
 \input{Treiber}
+\input{Treiber2}
 \newpage \appendix
 %appendix
+
+\nocite{*}
 \addcontentsline{toc} {chapter} {Bibliografie}
-%\bibliography{}
+\printbibliography
+%TODO Bib anpassen -> Websiten anzeigen Stil... Texte überprüfen
 
 \listoflistings %auf deutsch umbenennen
 \listoffigures %auf deutsch umbenennen

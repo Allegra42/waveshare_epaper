@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.14)  11 FEB 2016 20:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.14)  17 FEB 2016 00:08
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -643,40 +643,254 @@ Package: array 2014/10/28 v2.4c Tabular extension package (FMi)
 \extratabsurround=\skip58
 \backup@length=\skip59
 )
+(/usr/share/texmf-dist/tex/latex/biblatex/biblatex.sty
+Package: biblatex 2015/10/21 v3.1 programmable bibliographies (PK/JW/AB)
+
+(/usr/share/texmf-dist/tex/latex/biblatex/biblatex2.sty
+Package: biblatex2 2015/10/21 v3.1 programmable bibliographies (biber) (PK/JW/A
+B)
+
+(/usr/share/texmf-dist/tex/latex/logreq/logreq.sty
+Package: logreq 2010/08/04 v1.0 xml request logger
+\lrq@indent=\count125
+
+(/usr/share/texmf-dist/tex/latex/logreq/logreq.def
+File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
+))
+\c@tabx@nest=\count126
+\c@listtotal=\count127
+\c@listcount=\count128
+\c@liststart=\count129
+\c@liststop=\count130
+\c@citecount=\count131
+\c@citetotal=\count132
+\c@multicitecount=\count133
+\c@multicitetotal=\count134
+\c@instcount=\count135
+\c@maxnames=\count136
+\c@minnames=\count137
+\c@maxitems=\count138
+\c@minitems=\count139
+\c@citecounter=\count140
+\c@savedcitecounter=\count141
+\c@uniquelist=\count142
+\c@uniquename=\count143
+\c@refsection=\count144
+\c@refsegment=\count145
+\c@maxextratitle=\count146
+\c@maxextratitleyear=\count147
+\c@maxextrayear=\count148
+\c@maxextraalpha=\count149
+\c@abbrvpenalty=\count150
+\c@highnamepenalty=\count151
+\c@lownamepenalty=\count152
+\c@maxparens=\count153
+\c@parenlevel=\count154
+\blx@tempcnta=\count155
+\blx@tempcntb=\count156
+\blx@tempcntc=\count157
+\blx@maxsection=\count158
+\blx@maxsegment@0=\count159
+\blx@notetype=\count160
+\blx@parenlevel@text=\count161
+\blx@parenlevel@foot=\count162
+\blx@sectionciteorder@0=\count163
+\labelnumberwidth=\skip60
+\labelalphawidth=\skip61
+\biblabelsep=\skip62
+\bibitemsep=\skip63
+\bibnamesep=\skip64
+\bibinitsep=\skip65
+\bibparsep=\skip66
+\bibhang=\skip67
+\blx@bcfin=\read3
+\blx@bcfout=\write6
+\c@mincomprange=\count164
+\c@maxcomprange=\count165
+\c@mincompwidth=\count166
+Package biblatex Info: Trying to load biblatex default data model...
+Package biblatex Info: ... file 'blx-dm.def' found.
+
+(/usr/share/texmf-dist/tex/latex/biblatex/blx-dm.def)
+Package biblatex Info: Trying to load biblatex citestyle data model...
+Package biblatex Info: ... file 'alphabetic-verb.dbx' not found.
+Package biblatex Info: Trying to load biblatex custom data model...
+Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
+\c@afterword=\count167
+\c@savedafterword=\count168
+\c@annotator=\count169
+\c@savedannotator=\count170
+\c@author=\count171
+\c@savedauthor=\count172
+\c@bookauthor=\count173
+\c@savedbookauthor=\count174
+\c@commentator=\count175
+\c@savedcommentator=\count176
+\c@editor=\count177
+\c@savededitor=\count178
+\c@editora=\count179
+\c@savededitora=\count180
+\c@editorb=\count181
+\c@savededitorb=\count182
+\c@editorc=\count183
+\c@savededitorc=\count184
+\c@foreword=\count185
+\c@savedforeword=\count186
+\c@holder=\count187
+\c@savedholder=\count188
+\c@introduction=\count189
+\c@savedintroduction=\count190
+\c@namea=\count191
+\c@savednamea=\count192
+\c@nameb=\count193
+\c@savednameb=\count194
+\c@namec=\count195
+\c@savednamec=\count196
+\c@translator=\count197
+\c@savedtranslator=\count198
+\c@shortauthor=\count199
+\c@savedshortauthor=\count266
+\c@shorteditor=\count267
+\c@savedshorteditor=\count268
+\c@labelname=\count269
+\c@savedlabelname=\count270
+\c@institution=\count271
+\c@savedinstitution=\count272
+\c@lista=\count273
+\c@savedlista=\count274
+\c@listb=\count275
+\c@savedlistb=\count276
+\c@listc=\count277
+\c@savedlistc=\count278
+\c@listd=\count279
+\c@savedlistd=\count280
+\c@liste=\count281
+\c@savedliste=\count282
+\c@listf=\count283
+\c@savedlistf=\count284
+\c@location=\count285
+\c@savedlocation=\count286
+\c@organization=\count287
+\c@savedorganization=\count288
+\c@origlocation=\count289
+\c@savedoriglocation=\count290
+\c@origpublisher=\count291
+\c@savedorigpublisher=\count292
+\c@publisher=\count293
+\c@savedpublisher=\count294
+\c@language=\count295
+\c@savedlanguage=\count296
+\c@pageref=\count297
+\c@savedpageref=\count298
+\shorthandwidth=\skip68
+\shortjournalwidth=\skip69
+\shortserieswidth=\skip70
+\shorttitlewidth=\skip71
+\shortauthorwidth=\skip72
+\shorteditorwidth=\skip73
+Package biblatex Info: Trying to load compatibility code...
+Package biblatex Info: ... file 'blx-compat.def' found.
+
+(/usr/share/texmf-dist/tex/latex/biblatex/blx-compat.def
+File: blx-compat.def 2015/10/21 v3.1 biblatex compatibility (PK/JW/AB)
+)
+Package biblatex Info: Trying to load generic definitions...
+Package biblatex Info: ... file 'biblatex.def' found.
+
+(/usr/share/texmf-dist/tex/latex/biblatex/biblatex.def
+File: biblatex.def 
+\c@textcitecount=\count299
+\c@textcitetotal=\count300
+\c@textcitemaxnames=\count301
+\c@biburlnumpenalty=\count302
+\c@biburlucpenalty=\count303
+\c@biburllcpenalty=\count304
+\c@smartand=\count305
+)
+Package biblatex Info: Trying to load bibliography style 'numeric'...
+Package biblatex Info: ... file 'numeric.bbx' found.
+
+(/usr/share/texmf-dist/tex/latex/biblatex/bbx/numeric.bbx
+File: numeric.bbx 2015/10/21 v3.1 biblatex bibliography style (PK/JW/AB)
+Package biblatex Info: Trying to load bibliography style 'standard'...
+Package biblatex Info: ... file 'standard.bbx' found.
+
+(/usr/share/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
+File: standard.bbx 2015/10/21 v3.1 biblatex bibliography style (PK/JW/AB)
+\c@bbx:relatedcount=\count306
+\c@bbx:relatedtotal=\count307
+))
+Package biblatex Info: Trying to load citation style 'alphabetic-verb'...
+Package biblatex Info: ... file 'alphabetic-verb.cbx' found.
+
+(/usr/share/texmf-dist/tex/latex/biblatex/cbx/alphabetic-verb.cbx
+File: alphabetic-verb.cbx 2015/10/21 v3.1 biblatex citation style (PK/JW/AB)
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\parencite'.
+Package biblatex Info: Redefining '\footcite'.
+Package biblatex Info: Redefining '\footcitetext'.
+Package biblatex Info: Redefining '\smartcite'.
+Package biblatex Info: Redefining '\textcite'.
+Package biblatex Info: Redefining '\parencites'.
+Package biblatex Info: Redefining '\smartcites'.
+Package biblatex Info: Redefining '\textcites'.
+)
+Package biblatex Info: Trying to load configuration file...
+Package biblatex Info: ... file 'biblatex.cfg' found.
+
+(/usr/share/texmf-dist/tex/latex/biblatex/biblatex.cfg
+File: biblatex.cfg 
+)))
 runsystem(which "pygmentize" && touch "Projektarbeit.aex")...executed.
 
 runsystem(rm "Projektarbeit.aex")...executed.
 
- (build/Projektarbeit.aux)
+Package biblatex Info: Trying to load language 'ngerman'...
+Package biblatex Info: ... file 'ngerman.lbx' found.
+
+(/usr/share/texmf-dist/tex/latex/biblatex/lbx/ngerman.lbx
+File: ngerman.lbx 2015/10/21 v3.1 biblatex localization (PK/JW/AB)
+Package biblatex Info: Trying to load language 'german'...
+Package biblatex Info: ... file 'german.lbx' found.
+
+(/usr/share/texmf-dist/tex/latex/biblatex/lbx/german.lbx
+File: german.lbx 2015/10/21 v3.1 biblatex localization (PK/JW/AB)
+))
+
+Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
+(biblatex)                Loading 'csquotes' recommended.
+
+\@quotelevel=\count308
+\@quotereset=\count309
+(build/Projektarbeit.aux)
 \openout1 = `Projektarbeit.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-
-(/usr/share/texmf-dist/tex/context/base/supp-pdf.mkii
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+ (/usr/share/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count125
+\scratchcounter=\count310
 \scratchdimen=\dimen126
 \scratchbox=\box34
-\nofMPsegments=\count126
-\nofMParguments=\count127
+\nofMPsegments=\count311
+\nofMParguments=\count312
 \everyMPshowfont=\toks22
-\MPscratchCnt=\count128
+\MPscratchCnt=\count313
 \MPscratchDim=\dimen127
-\MPnumerator=\count129
-\makeMPintoPDFobject=\count130
+\MPnumerator=\count314
+\makeMPintoPDFobject=\count315
 \everyMPtoPDFconversion=\toks23
 ) (/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
@@ -694,7 +908,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box35
-Package hyperref Info: Link coloring OFF on input line 22.
+Package hyperref Info: Link coloring OFF on input line 23.
 
 (/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -702,15 +916,15 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/share/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count131
+\c@section@level=\count316
 )
-LaTeX Info: Redefining \ref on input line 22.
-LaTeX Info: Redefining \pageref on input line 22.
-LaTeX Info: Redefining \nameref on input line 22.
+LaTeX Info: Redefining \ref on input line 23.
+LaTeX Info: Redefining \pageref on input line 23.
+LaTeX Info: Redefining \nameref on input line 23.
 
 (build/Projektarbeit.out) (build/Projektarbeit.out)
-\@outlinefile=\write6
-\openout6 = `Projektarbeit.out'.
+\@outlinefile=\write7
+\openout7 = `Projektarbeit.out'.
 
 
 (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
@@ -735,18 +949,28 @@ rbeit.out.pyg")...executed.
 
 
 (./build/Projektarbeit.out.pyg)
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+\openout6 = `Projektarbeit.bcf'.
+
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file 'Projektarbeit.bbl' found.
+ (./Projektarbeit.bbl)
+Package biblatex Info: Reference section=0 on input line 23.
+Package biblatex Info: Reference segment=0 on input line 23.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <17.28> on input line 27.
+(Font)              <17.28> on input line 28.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 27.
+(Font)              <12> on input line 28.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 27.
+(babel)             in language  on input line 28.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 27.
+(babel)             in language  on input line 28.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 27.
+(babel)             in language  on input line 28.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 27.
+(babel)             in language  on input line 28.
  [1
 
 
@@ -754,21 +978,21 @@ Package babel Info: Redefining ngerman shorthand "~
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (build/Projektarbeit.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 4.
+(Font)              <8> on input line 9.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 4.
+(Font)              <6> on input line 9.
 )
-\tf@toc=\write7
-\openout7 = `Projektarbeit.toc'.
+\tf@toc=\write8
+\openout8 = `Projektarbeit.toc'.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 28.
+(babel)             in language  on input line 29.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 28.
+(babel)             in language  on input line 29.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 28.
+(babel)             in language  on input line 29.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 28.
+(babel)             in language  on input line 29.
  [2
 
 
@@ -820,7 +1044,7 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 16.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 16.
-<beagleboneblack_beaglebone_org.jpg, id=149, 391.4625pt x 579.16376pt>
+<beagleboneblack_beaglebone_org.jpg, id=159, 391.4625pt x 579.16376pt>
 File: beagleboneblack_beaglebone_org.jpg Graphic file (type jpg)
 
 <use beagleboneblack_beaglebone_org.jpg>
@@ -832,7 +1056,7 @@ Package babel Info: Redefining ngerman shorthand "|
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 30.
 
-<43inch-e-paper-3_waveshare_com.jpg, id=150, 803.0pt x 803.0pt>
+<43inch-e-paper-3_waveshare_com.jpg, id=160, 803.0pt x 803.0pt>
 File: 43inch-e-paper-3_waveshare_com.jpg Graphic file (type jpg)
 
 <use 43inch-e-paper-3_waveshare_com.jpg>
@@ -840,7 +1064,7 @@ Package pdftex.def Info: 43inch-e-paper-3_waveshare_com.jpg used on input line
 40.
 (pdftex.def)             Requested size: 200.74951pt x 200.74951pt.
 
-<43inch-e-paper-4back_waveshare_com.jpg, id=151, 803.0pt x 803.0pt>
+<43inch-e-paper-4back_waveshare_com.jpg, id=161, 803.0pt x 803.0pt>
 File: 43inch-e-paper-4back_waveshare_com.jpg Graphic file (type jpg)
 
 <use 43inch-e-paper-4back_waveshare_com.jpg>
@@ -895,7 +1119,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 54.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 54.
-<IMG_3048.JPG, id=168, 3468.96pt x 5203.44pt>
+<IMG_3048.JPG, id=178, 3468.96pt x 5203.44pt>
 File: IMG_3048.JPG Graphic file (type jpg)
  <use IMG_3048.JPG>
 Package pdftex.def Info: IMG_3048.JPG used on input line 65.
@@ -912,7 +1136,7 @@ Package babel Info: Redefining ngerman shorthand "~
 
 
 ]
-<minicom2.jpg, id=176, 1028.34187pt x 578.16pt>
+<minicom2.jpg, id=186, 1028.34187pt x 578.16pt>
 File: minicom2.jpg Graphic file (type jpg)
  <use minicom2.jpg>
 Package pdftex.def Info: minicom2.jpg used on input line 75.
@@ -1685,7 +1909,7 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 358.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 358.
-[22] <ausgabe_cat_dev_waveshare.jpeg, id=298, 637.63219pt x 453.19313pt>
+[22] <ausgabe_cat_dev_waveshare.jpeg, id=308, 637.63219pt x 453.19313pt>
 File: ausgabe_cat_dev_waveshare.jpeg Graphic file (type jpg)
 
 <use ausgabe_cat_dev_waveshare.jpeg>
@@ -1712,7 +1936,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--371
 
  []
 
-<ausgabe_dmesg_echo_dev_waveshare.jpeg, id=299, 640.64343pt x 451.6875pt>
+<ausgabe_dmesg_echo_dev_waveshare.jpeg, id=309, 640.64343pt x 451.6875pt>
 File: ausgabe_dmesg_echo_dev_waveshare.jpeg Graphic file (type jpg)
 
 <use ausgabe_dmesg_echo_dev_waveshare.jpeg>
@@ -1723,42 +1947,125 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 381.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 381.
-)
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 34.
+(babel)             in language  on input line 383.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 34.
+(babel)             in language  on input line 383.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 34.
+(babel)             in language  on input line 383.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 34.
+(babel)             in language  on input line 383.
  [23pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
 1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.34 \newpage
-              \appendixpdfTeX warning (ext4): destination with the same identif
-ier (name{figure.4.2}) has been already used, duplicate ignored
+l.383 
+      pdfTeX warning (ext4): destination with the same identifier (name{figure.
+4.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.34 \newpage
-              \appendix <./ausgabe_cat_dev_waveshare.jpeg> <./ausgabe_dmesg_ech
-o_dev_waveshare.jpeg>]
+l.383 
+       <./ausgabe_cat_dev_waveshare.jpeg> <./ausgabe_dmesg_echo_dev_waveshare.j
+peg>]
+\openout3 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
+/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
+
+ (./build/Projektarbeit.out.pyg)
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 34.
+(babel)             in language  on input line 418.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 34.
+(babel)             in language  on input line 418.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 34.
+(babel)             in language  on input line 420.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 34.
+(babel)             in language  on input line 420.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 420.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 420.
  [24]
+\openout5 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
+/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
+
+ (./build/Projektarbeit.out.pyg)
+Overfull \hbox (7.41371pt too wide) in paragraph at lines 423--424
+\OT1/cmr/m/n/12 trol-liert wer-den, oh-ne die []
+ []
+
+\openout3 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
+/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
+
+(./build/Projektarbeit.out.pyg)
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 447.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 447.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 447.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 447.
+ [25]
+\openout3 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
+/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
+
+ (./build/Projektarbeit.out.pyg)
+\openout3 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
+/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
+
+
+(./build/Projektarbeit.out.pyg)
+\openout5 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
+/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
+
+ (./build/Projektarbeit.out.pyg)
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 483.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 483.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 483.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 483.
+ [26]
+\openout3 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
+/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
+
+
+(./build/Projektarbeit.out.pyg)) (./Treiber2.tex
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 3.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 3.
+)
 Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 36.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 36.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 36.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 36.
+ [27]
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 40.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 40.
 
 
 Class scrbook Warning: \float@listhead detected!
@@ -1771,61 +2078,75 @@ Class scrbook Warning: \float@listhead detected!
 (scrbook)              Loading of package `scrhack' may help to
 (scrbook)              avoid this warning, if you are using a
 (scrbook)              a package that still implements the
-(scrbook)              deprecated \float@listhead interface  on input line 39.
-
-(build/Projektarbeit.lol)
-\tf@lol=\write8
-\openout8 = `Projektarbeit.lol'.
+(scrbook)              deprecated \float@listhead interface  on input line 44.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 40.
+(babel)             in language  on input line 44.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 40.
+(babel)             in language  on input line 44.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 40.
+(babel)             in language  on input line 44.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 40.
- [25
+(babel)             in language  on input line 44.
+[28
+
+
+] (build/Projektarbeit.lol)
+\tf@lol=\write9
+\openout9 = `Projektarbeit.lol'.
+
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 45.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 45.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 45.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 45.
+ [29
 
 
 ] (build/Projektarbeit.lof)
-\tf@lof=\write9
-\openout9 = `Projektarbeit.lof'.
+\tf@lof=\write10
+\openout10 = `Projektarbeit.lof'.
 
 runsystem(rm "build//Projektarbeit.pyg")...executed.
 
 runsystem(rm "build//Projektarbeit.out.pyg")...executed.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 41.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 46.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 41.
+(babel)             in language  on input line 46.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 41.
+(babel)             in language  on input line 46.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 41.
+(babel)             in language  on input line 46.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 41.
- [26
+(babel)             in language  on input line 46.
+ [30
 
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 41.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 46.
 
 (build/Projektarbeit.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 41.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 41.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 46.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 46.
 Package rerunfilecheck Info: File `Projektarbeit.out' has not changed.
-(rerunfilecheck)             Checksum: B3E758095C7866C99583C22C0E3DFEF6;464.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 41.
+(rerunfilecheck)             Checksum: 71649377C2C3416F9AEE2EC1F5804849;2087.
+Package logreq Info: Writing requests to 'Projektarbeit.run.xml'.
+\openout1 = `Projektarbeit.run.xml'.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 46.
  ) 
 Here is how much of TeX's memory you used:
- 10892 strings out of 493054
- 175193 string characters out of 6140585
- 371265 words of memory out of 5000000
- 14047 multiletter control sequences out of 15000+600000
- 10238 words of font info for 37 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 43i,12n,66p,1372b,500s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 16025 strings out of 493054
+ 269354 string characters out of 6140585
+ 831159 words of memory out of 5000000
+ 19081 multiletter control sequences out of 15000+600000
+ 10585 words of font info for 38 fonts, out of 8000000 for 9000
+ 1145 hyphenation exceptions out of 8191
+ 43i,12n,66p,1372b,1510s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmitt10.pfb></usr/share/texmf-dist/fonts/type1/pub
@@ -1835,12 +2156,13 @@ r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/c
 m/cmsl12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb
-></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on build/Projektarbeit.pdf (28 pages, 8665516 bytes).
+></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-dist/font
+s/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on build/Projektarbeit.pdf (32 pages, 8697725 bytes).
 PDF statistics:
- 400 PDF objects out of 1000 (max. 8388607)
- 346 compressed objects within 4 object streams
- 83 named destinations out of 1000 (max. 500000)
- 236 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 468 PDF objects out of 1000 (max. 8388607)
+ 408 compressed objects within 5 object streams
+ 109 named destinations out of 1000 (max. 500000)
+ 252 words of extra memory for PDF output out of 10000 (max. 10000000)
 

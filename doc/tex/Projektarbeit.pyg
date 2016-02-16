@@ -1,0 +1,19 @@
+static int __init waveshare_init (void) {
+[...]
+
+	waveshare_class = class_create (THIS_MODULE, WAVESHARE);
+
+	if (IS_ERR (waveshare_class)) {
+		PRINT ("sysfs class creation failed, no udev support");
+		goto free_cdev;
+	}
+
+    waveshare_dev = device_create (waveshare_class,
+  	   NULL, waveshare_dev_number, NULL, "%s", WAVESHARE);
+
+	if(device_create_file(waveshare_dev, &dev_attr_wav_sysfs)) {
+		PRINT ("failed to register attribute file under /dev/waveshare");
+	}
+
+[...]
+}
