@@ -1,9 +1,18 @@
 % !TEX root = Projektarbeit.tex
 
-\section{UART/Serial in Kernel} %TODO titel ändern
+\chapter{Das Kernelmodul - Der hardwarespezifischer Treiber} %TODO ?
+Nachdem nun die Grundfunktionen eines Linux Kernelmoduls vorgestellt wurden, sollen im Folgenden die spezifischen Funktionen für die Kommunikation mit dem Waveshare e-Paper Display über die \texttt{UART}-Schnittstelle erläutert werden.
+
+Der hardwarespezifische Treiber für das e-Paper-Display ist kein von Grunde auf neu geschriebener Treiber, sondern wird als sogenannter \glqq Stacked~Driver\grqq~gestapelt auf schon vorhandenen Low-Level-Treibern des Linux-Kernels aufgebaut. 
+Um die \texttt{UART}-Kommunikation im Kernel zu ermöglichen, nutzt Treiber auf dem \texttt{serial-core} Low-Level-Treiber für serielle Kommunikation. 
+
+\section{Automatisiertes Laden des Treibers (Hotplugging?)} %TODO titel ändern
+
 
 %TODO HARDWARE Treiber und Geräte anmelden, Hotplugging 
 %TODO habe noch bild dass hotplugging zeigt! für hardware erkennung usw...
+
+\section{UART/Serial im Kernel} %TODO titel ändern
 
 %TODO geräteinitialisierung usw..
 

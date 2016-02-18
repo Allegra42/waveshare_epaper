@@ -25,3 +25,7 @@
 \contentsline {figure}{\numberline {\relax 4.1}{\ignorespaces Lesen vom Treiber aus dem Userspace}}{23}{figure.4.1}
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {\relax 4.2}{\ignorespaces Schreiben des Treibers aus dem Userspace}}{23}{figure.4.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {\relax 4.3}{\ignorespaces Zugriff auf das sysfs Attribut}}{28}{figure.4.3}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }

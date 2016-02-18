@@ -1,10 +1,10 @@
 % !TEX root = Projektarbeit.tex
 
-\chapter{Das Kernelmodul} 
+\chapter{Das Kernelmodul - Geräteunabhängige Grundfunktionen} 
 Am Beispiel des Treibers für das Waveshare e-Paper-Display sollen nun der Aufbau und die prinzipielle Funktionsweise eines Linux-Treibers sowie auftretende Probleme bei der Umsetzung erläutert werden. 
 
-Der Treiber für das e-Paper-Display wird kein von Grunde auf neu geschriebener Treiber werden, sondern soll als sogenannter \glqq Stacked~Driver\grqq~gestapelt auf schon vorhandenen Low-Level-Treibern des Linux-Kernels aufgebaut werden. 
-Um das \texttt{UART}-Interface im Kernel anzusprechen wird auf dem \texttt{serial-core} Low-Level-Treiber für serielle Kommunikation aufgesetzt. 
+Im ersten Teil sollen die grundlegenden Funktionen und üblichen Schnittstellen eines Kernelmoduls anhand des Waveshare Treibers genauer betrachtet werden, während sich der zweite Teil auf die hardwarespezifische Implementierung für das Display konzentriert.
+
 
 \subsection{Kernelspace - eine Vorwarnung}
 Zu beachten ist, dass die C-Standartbibliothek im Kernel nicht zur Verfügung steht. Viele oft benötigte Funktionen werden allerdings als leicht gewichtigere Funktionen angeboten. Ebenso gibt es keinen Speicherschutz wie zwischen Anwendungen im Userspace. Fehler in einem Modul können sich auf den gesamten Kernel auswirken und diesen zum Absturz führen. 
@@ -32,7 +32,6 @@ Die \mintinline{c}{__exit} Funktion wird aufgerufen, wenn der Treiber entladen w
 Der Name der Init-Funktion ist frei wählbar. Über das Macro \mintinline {c}{module_init(waveshare_init);} wird  definiert, dass hier die parameterlose Funktion mit dem Namen \texttt{waveshare\_init} und dem Rückgabetyp \texttt{int} verwendet werden soll. 
 
 Die Initialisierung beginnt mit der Anforderung von Gerätenummern für ein Character basiertes Gerät, die dazu genutzt werden den zugehörigen Treiber zu identifizieren sowie die einzelnen Geräte auseinander zu halten. Sie lösen das Konzept von Major-Nummer (Treiberidentifikation) und Minor-Nummer (Geräte auseinander halten) ab und sind in der Lage mehr physikalische bzw. logische Geräte zu unterscheiden. Gerätenummern und Major-/Minor-Nummern können in einander überführt werden. Zur Anforderung der Gerätenummern wird die Funktion \mintinline{c}{alloc_chrdev_region()} (Listing \ref{lst:waveshare_init}, Zeile 15) verwendet. Dabei gibt der ist der erste Parameter eine Referenz auf eine Struktur vom Typ \texttt{dev\_t}, eine Gerätenummer, dort wird die erste angeforderte Nummer abgelegt. Mit dem zweiten wird angegeben bei welchem Wert die Minor-Nummern starten, mit dem dritten, wie viele verschiedene Geräte unterschieden werden sollen. Der letzte Parameter gibt den Namen des Treibers an, der mit der Gerätenummer assoziiert wird. Dabei wird der Treiber für das Gerät beim Kernel angemeldet. Im Fehlerfall springt das Programm zur Sprungmarke \mintinline{c}{free_device_number}. Die Fehlerbehandlung wird im Folgenden näher erläutert.
-%TODO weiter nach alloc_chrdev_region -> gotos nicht vergessen
 
 Mit \mintinline{c}{cdev_alloc()} wird Speicher für ein Objekt des Typs \mintinline{c}{struct cdev *} alloziert, durch das der hier benötigte zeichenorientierte Gerätetreiber repräsentiert wird. Wird hier nicht der geforderte Pointer auf das instantiierte Objekt zurückgegeben, wird die Fehlerbehandlung bei der Sprungmarke \mintinline{c}{free_device_number} begonnen. 
 
@@ -348,7 +347,7 @@ size_t max_bytes_to_write, loff_t *offset) {
 \end{minted}
 \end{listing}
 
-%TODO nicht vergessen.. beschreiben wie liest/schreibt man aus dem userspace vom treiber -> cat und dessen besonderheit!
+
 \subsection{Testen der read und write Funktionen}
 Ob die Systemaufrufe und vor allem die Implementierungen im Treiber erwartungsgemäß funktionieren, kann unter Linux sehr leicht getestet werden. Das kompilierte Modul wird an die richtige Stelle kopiert und geladen. \\
 
@@ -507,5 +506,15 @@ static int __init waveshare_init (void) {
 \end{minted}
 \end{listing}
 
-%TODO bild zugriff auf sysfs
+Der Zugriff über die Linux-Kommandozeile auf das sysfs ist in der nachfolgenden Abbildung \ref{pic:sysfs_zugriff} dargestellt.
+
+\begin{figure}[H]
+  \centering
+  \fbox{
+   \includegraphics[scale=0.60]{sysfs_zugriff}
+  }
+  \caption{Zugriff auf das sysfs Attribut}
+  \label{pic:sysfs_zugriff}
+\end{figure}
+
 

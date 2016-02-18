@@ -36,3 +36,5 @@
 \contentsline {listing}{\numberline {14}{\ignorespaces \texttt {DEVICE\_ATTR}}}{26}{listing.14}
 \defcounter {refsection}{0}\relax 
 \contentsline {listing}{\numberline {15}{\ignorespaces sysfs Ger\IeC {\"a}teklasse und Attribut erstellen}}{27}{listing.15}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }

@@ -174,7 +174,7 @@ clean:
 Das kompilierte Modul kann an jedem Ort liegen und mit \texttt{Root}-Rechten über den Befehl \mintinline{bash}{insmod waveshare.ko} (Pfadangabe ist erforderlich, falls das Modul nicht im aktuellen Verzeichnis liegt) zum Kernel geladen werden. Sollen auch eventuelle Abhängigkeiten des Moduls beim Laden beachtet werden oder das Modul Hotplugging unterstützen, muss das Modul im Zielsystem unter \mintinline{bash}{lib/modules/4.1.12-ti-r29/kernel/drivers/treibergattung} abgelegt und mit dem Befehl \mintinline{bash}{depmod -a} Abhängigkeiten aufgelöst sowie Map-Dateien für die Hotplugging-Infrastruktur erzeugt werden. %TODO SOURCE: depmod http://linux.die.net/man/8/depmod
 Danach kann das Modul mit \texttt{Root}-Rechten und dem Befehl \mintinline{bash}{modprobe waveshare} geladen werden. Ist das Modul geladen, erscheint es in der Ausgabe von \mintinline{bash}{lsmod}. %TODO Ausgabe lsmod einfügen
 
-%weiter in neuem Kapitel.. bin noch nicht glücklich mit dem ganzen in dieser aufteilung... evt auseinander ziehen, von einleitung weg
+
 
 
 

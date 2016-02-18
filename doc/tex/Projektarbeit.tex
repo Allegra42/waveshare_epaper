@@ -7,9 +7,9 @@
 \usepackage[cache=false, outputdir=build]{minted}
 \usepackage{subfigure}
 \usepackage{array}
-\usepackage[backend=biber, citestyle=alphabetic-verb, hyperref]{biblatex}
+\usepackage[backend=biber]{biblatex}
 
-\bibliography{BibliographyProjektarbeit.bib}
+\addbibresource{BibliographyProjektarbeit.bib}
 
 \pagestyle {headings}
 \renewcommand{\listoflistingscaption}{Verzeichnis der Quelltexte}
@@ -33,13 +33,12 @@
 \input{Einleitung}
 \input{Treiber}
 \input{Treiber2}
+
 \newpage \appendix
 %appendix
-
 \nocite{*}
 \addcontentsline{toc} {chapter} {Bibliografie}
 \printbibliography
-%TODO Bib anpassen -> Websiten anzeigen Stil... Texte überprüfen
 
 \listoflistings %auf deutsch umbenennen
 \listoffigures %auf deutsch umbenennen

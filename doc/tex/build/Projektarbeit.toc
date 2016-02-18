@@ -22,7 +22,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.3.2}Buildsystem}{7}{subsection.3.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Das Kernelmodul}{10}{chapter.4}
+\contentsline {chapter}{\numberline {4}Das Kernelmodul - Ger\IeC {\"a}teunabh\IeC {\"a}ngige Grundfunktionen}{10}{chapter.4}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.0.1}Kernelspace - eine Vorwarnung}{10}{subsection.4.0.1}
 \defcounter {refsection}{0}\relax 
@@ -52,6 +52,10 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.3}Das Sys-Filesystem}{25}{section.4.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.4}UART/Serial in Kernel}{27}{section.4.4}
+\contentsline {chapter}{\numberline {5}Das Kernelmodul - Der hardwarespezifischer Treiber}{29}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Bibliografie}{28}{section.4.4}
+\contentsline {section}{\numberline {5.1}Automatisiertes Laden des Treibers (Hotplugging?)}{29}{section.5.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.2}UART/Serial im Kernel}{29}{section.5.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Bibliografie}{30}{section.5.2}
