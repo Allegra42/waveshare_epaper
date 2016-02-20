@@ -52,10 +52,18 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.3}Das Sys-Filesystem}{25}{section.4.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Das Kernelmodul - Der hardwarespezifischer Treiber}{29}{chapter.5}
+\contentsline {chapter}{\numberline {5}Das Kernelmodul - Der hardwarespezifische Treiber}{29}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}Automatisiertes Laden des Treibers (Hotplugging?)}{29}{section.5.1}
+\contentsline {section}{\numberline {5.1}Zuordnung zwischen Display und Treiber}{29}{section.5.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.2}UART/Serial im Kernel}{29}{section.5.2}
+\contentsline {subsection}{\numberline {5.1.1}Hotplugging}{30}{subsection.5.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Bibliografie}{30}{section.5.2}
+\contentsline {section}{\numberline {5.2}Die serielle Kommunikation \IeC {\"u}ber das \texttt {UART}-Interface im Kernel}{31}{section.5.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.2.1}Registrierung beim Serial Core Treiber}{32}{subsection.5.2.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.2.2}Probleme}{33}{subsection.5.2.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.2.3}Probe / release}{34}{subsection.5.2.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Bibliografie}{35}{subsection.5.2.3}

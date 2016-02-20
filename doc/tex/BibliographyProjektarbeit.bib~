@@ -110,7 +110,32 @@
 }
 
 @misc{kernel-api,
-	howpublished = {"url{https://www.kernel.org/doc/htmldocs/kernel-api/}"},
+	howpublished = {"\url{https://www.kernel.org/doc/htmldocs/kernel-api/}"},
 	title = {{The Linux Kernel API}}
+}
+
+@misc{lwnDevTree,
+	author = {Corbet, Jonathon},
+	howpublished = {"\url{https://lwn.net/Articles/448502/}"},
+	journal = {Linux Weekly News},
+	month = jun,
+	title = {{Platform devices and device trees}},
+	year = {2011}
+}
+
+@misc{hotplug,
+	author = {Kroah-Hartman, Greg},
+	howpublished = {"\url{https://www.kernel.org/doc/ols/2001/hotplug.pdf"}},
+	title = {{Hotpluggable devices and the Linux kernel}},
+	year = {2001}
+}
+
+@misc{platformLWN,
+	author = {Corbet, Jonathon},
+	howpublished = {"\url{https://lwn.net/Articles/448499/}"},
+	journal = {Linux Weekly News},
+	month = jun,
+	title = {{The platform device API}},
+	year = {2011}
 }
 

@@ -470,7 +470,7 @@ Nachdem die Zugriffsfunktionen für das Attribut definiert wurden, werden sie ü
 
 
 \begin{listing} [H]
-\caption{\texttt{DEVICE\_ATTR}}
+\caption{Das \texttt{DEVICE\_ATTR} Macro}
 \label{lst:device_attr}
 \begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
 static DEVICE_ATTR (wav_sysfs, 0644, waveshare_sysfs_read, waveshare_sysfs_write);
@@ -511,7 +511,7 @@ Der Zugriff über die Linux-Kommandozeile auf das sysfs ist in der nachfolgenden
 \begin{figure}[H]
   \centering
   \fbox{
-   \includegraphics[scale=0.60]{sysfs_zugriff}
+   \includegraphics[scale=0.65]{sysfs_zugriff}
   }
   \caption{Zugriff auf das sysfs Attribut}
   \label{pic:sysfs_zugriff}

@@ -1,19 +1,140 @@
 % !TEX root = Projektarbeit.tex
 
-\chapter{Das Kernelmodul - Der hardwarespezifischer Treiber} %TODO ?
+\chapter{Das Kernelmodul - Der hardwarespezifische Treiber} %TODO ?
 Nachdem nun die Grundfunktionen eines Linux Kernelmoduls vorgestellt wurden, sollen im Folgenden die spezifischen Funktionen für die Kommunikation mit dem Waveshare e-Paper Display über die \texttt{UART}-Schnittstelle erläutert werden.
 
 Der hardwarespezifische Treiber für das e-Paper-Display ist kein von Grunde auf neu geschriebener Treiber, sondern wird als sogenannter \glqq Stacked~Driver\grqq~gestapelt auf schon vorhandenen Low-Level-Treibern des Linux-Kernels aufgebaut. 
 Um die \texttt{UART}-Kommunikation im Kernel zu ermöglichen, nutzt Treiber auf dem \texttt{serial-core} Low-Level-Treiber für serielle Kommunikation. 
 
-\section{Automatisiertes Laden des Treibers (Hotplugging?)} %TODO titel ändern
+\section{Zuordnung zwischen Display und Treiber} %TODO \citep{elinuxDevTree} \citep{lwnDevTree} 
+Eine der größeren Änderungen im Linux Kernel war die Einführung des Device Trees für Computer, die auf ARM Prozessoren basieren. Damit werden fest in den Kernel einkompilierte Board Beschreibungsdateien langsam ersetzt. Nun werden Informationen über verfügbare Schnittstellen, wie beispielsweise UART- oder I2C-Interfaces, dynamisch zum Kernel dazu geladen, der so auch auf der ARM-Plattform generischer verwendbar sein soll. 
+
+Dies führt dazu, dass auch im Kernelmodul eine flexiblere Art der Zuordnung zwischen Hardware und Treiber genutzt werden muss und über sogenannte \glqq Compatible-Strings\grqq~(Listing \ref{lst:compatible-strings}, Zeile 4 bzw. 16/17) realisiert wird. Die Compatible-Strings sind in Device Tree Description Files (Ausschnitt siehe Listing \ref{lst:compatible-strings}) für beispielsweise einen Bus oder einen Port definiert. 
+
+Im Treiber wird eine Zuordnung zu dem hier benötigten \texttt{UART}-Interface statt. Es wird definiert, dass der Waveshare Treiber geladen werden soll, wenn ein Gerät an einer Schnittstelle des Prozessors, die die Compatible-Strings \texttt{ti,am3352-uart} oder \texttt{ti,omap3-uart} trägt und die \texttt{UART}-Interfaces des Beaglebone Blacks bezeichnet, erkannt wird. Die Definition auf welche Compatible-Strings geachtet werden soll, geschieht in der \mintinline{c}{struct of_device_id waveshare_uart_of_ids[]} (Listing \ref{lst:compatible-strings}, Zeile 15).
+
+In der Struktur \texttt{platform\_driver}, die die Adressen der hardwarespezifischen Treiberfunktionen enthält, wird die \mintinline{c}{struct of_device_id waveshare_uart_of_ids[]} für den Waveshare-Treiber verwaltet (Listing \ref{lst:compatible-strings}, Zeile 29).
 
 
-%TODO HARDWARE Treiber und Geräte anmelden, Hotplugging 
-%TODO habe noch bild dass hotplugging zeigt! für hardware erkennung usw...
+\begin{listing} [H]
+\caption{Verknüpfung von Hardware und Treiber über Compatible-Strings}
+\label{lst:compatible-strings}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+// In den Kernelquellen
+// linux/arch/arm/boot/dts/am33xx.dtsi
+uart0: serial@44e09000 {
+			compatible = "ti,am3352-uart", "ti,omap3-uart";
+			ti,hwmods = "uart1";
+			clock-frequency = <48000000>;
+			reg = <0x44e09000 0x2000>;
+			interrupts = <72>;
+			status = "disabled";
+			dmas = <&edma 26>, <&edma 27>;
+			dma-names = "tx", "rx";
+		};
 
-\section{UART/Serial im Kernel} %TODO titel ändern
+// Im Waveshare Treiber waveshare.c
+static const struct of_device_id waveshare_uart_of_ids[] = {
+	{ .compatible = "ti,omap3-uart" ,},
+	{ .compatible = "ti,am3352-uartti" ,},
+	{ },
+};
+MODULE_DEVICE_TABLE(of, waveshare_uart_of_ids);
 
-%TODO geräteinitialisierung usw..
+static struct platform_driver waveshare_serial_driver = {
+	.probe = waveshare_uart_probe,
+	.remove = waveshare_uart_remove,
+	.id_table = waveshare_uart_of_ids,
+	.driver = {
+		.name = "waveshare_uart",
+		.owner = THIS_MODULE,
+		.of_match_table = waveshare_uart_of_ids,
+	},
+};
+\end{minted}
+\end{listing}
 
-%TODO was wäre wenn es geklappt hätte...
+
+\subsection{Hotplugging} %TODO \citep{hotplug}
+Eine besondere Bedeutung bei der Zuordnung zwischen Hardware und Treiber hat das Macro \mintinline{c}{MODULE_DEVICE_TABLE()} (Listing \ref{lst:compatible-strings}, Zeile 20). Es hilft bei der Realisierung des Hotplugging Mechanismus im Kernel, also für ein neu erkanntes Gerät automatisch den passenden Treiber zu laden. Das Macro wird dafür zu Variablen aufgelöst, die Informationen über die angegebene Struktur mit den Compatible-Strings enthalten. Wird das kompilierte Modul zum Kernel geladen und mit \texttt{depmod} dessen Abhängigkeiten aufgelöst, sucht \texttt{depmod} auch nach den von dem Macro erzeugten Variablen und generiert aus diesen für jeden Bustyp Map-Files, z.B. \texttt{modules.usbmap} für Geräte am USB-Bus. Wird ein neues Gerät erkannt, werden die Map-Dateien auf die erzeugten Variablen durchsucht und falls vorhanden, der zugehörige Treiber geladen. \\
+
+Das folgende Bild \ref{pic:hotplugging} zeigt die Logs des Kernels nachdem das Kernelmodul in das richtige Verzeichnis kopiert, der Befehl \texttt{depmod -a} ausgeführt wurde und das \texttt{UART1}-Interface des Beaglebone Black mit \texttt{echo BB-UART1 > /sys/devices/platform/bone\_capemgr/slots} aktiviert wurde. Es zeigt ab [246.157316] die Aktivierung von \texttt{UART1} und anschließend ab [246.236404] die Log- und Debugmeldungen der Initialisierung des Waveshare-Treibers, ohne dass dieser explizit von Hand geladen worden wäre.
+
+
+\begin{figure}[H]
+  \centering
+  \fbox{
+   \includegraphics[scale=0.65]{dmesg_treiber_geladen}
+  }
+  \caption{Kernellog Hotplugging}
+  \label{pic:hotplugging}
+\end{figure}
+
+
+\section{Die serielle Kommunikation über das \texttt{UART}-Interface im Kernel} %TODO titel ändern \citep{platformLWN} 
+Im folgenden wird die Hardwareinitialisierung im Kernel über das \texttt{UART}-Interface vorgestellt. Über dieses Hardware-Interface soll eine serielle Kommunikation realisiert werden. Dazu wird der Serial Core Treiber des Kernels genutzt, auf dem der Waveshare-Treiber als \glqq Stacked Driver\grqq~aufgebaut wird. Serielle Geräte, wie auch das Waveshare-Display, fallen in Linux unter die Kategorie der \texttt{tty}-Geräte. Benannt nach der ältesten seriellen Schnittstelle blieb dieser Name bis heute erhalten. \\ %TODO hier evtl /proc/tty/waveshare ... o.ä. erwähnen 
+
+\subsection{Registrierung beim Serial Core Treiber} %TODO Titel ändern
+Die Initialisierung des \texttt{UART}-Treibers beginnt schon in der Modul-Initialisierung. 
+Hier wird mit der Funktion \mintinline{c}{uart_register_driver()} (Listing \ref{lst:hwabhInit}, Zeile 21) der Waveshare Treiber beim Serial Core Treiber des Kernels registriert. Dazu wird der Funktion die Struktur \newline
+\mintinline{c}{struct uart_driver waveshare_uart_driver} (Zeile 1) übergeben. Darin sind Besitzer, Namen sowie die maximale Anzahl an unterstützten \texttt{UART} Ports und eine eventuell angebotene Konsole angegeben. 
+Darauf wird mit der Funktion \mintinline{c}{platform_driver_register()} wird der Treiber beim Kernel noch als Plattform Treiber angemeldet. In der hier übergebenen Struktur \mintinline{c}{struct platform_driver waveshare_serial_driver} (Listing \ref{lst:hwabhInit}, Zeile 9) sind die Funktionen hinterlegt, die für die weitergehende Initialisierung der seriellen Kommunikation zur Hardware genutzt werden. Unabhängig vom verwendeten Hardwaretyp werden diese als \texttt{probe} und \texttt{release} bezeichnet. Der Nutzen der Struktur \texttt{waveshare\_uart\_of\_ids} wurde schon zuvor im Kapitel über Hotplugging erläutert.
+
+
+\begin{listing} [H]
+\caption{Hardwareabhängige Initialisierung in \texttt{waveshare\_init}}
+\label{lst:hwabhInit}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static struct uart_driver waveshare_uart_driver = {
+	.owner = THIS_MODULE,
+	.driver_name = "waveshare",
+	.dev_name = DEVICENAME,
+	.nr =  1,
+	.cons = NULL,
+};
+
+static struct platform_driver waveshare_serial_driver = {
+	.probe = waveshare_uart_probe,
+	.remove = waveshare_uart_remove,
+	.id_table = waveshare_uart_of_ids,
+	.driver = {
+		.name = "waveshare_uart",
+		.owner = THIS_MODULE,
+		.of_match_table = waveshare_uart_of_ids,
+	},
+};
+
+
+static int __init waveshare_init (void) {
+[...]
+
+        if (uart_register_driver(&waveshare_uart_driver)) {
+		goto free_uart;
+	}
+
+	if (platform_driver_register(&waveshare_serial_driver)) {
+		goto free_platform;
+	}
+
+[...]   
+}
+\end{minted}
+\end{listing} 
+
+\subsection{Probleme}
+Nach dieser Modulinitialisierung sollte normalerweise automatisch die in der Struktur \mintinline{c}{struct platform_driver waveshare_serial_driver} angegebene \texttt{probe()}-Funktion aufgerufen werden. Leider passiert dies nicht und die weitere hardwarespezifische Initialisierung in dieser Funktion bleibt unberührt. Woran genau dies scheitert ist sehr schwer herauszufinden, da Debugging im Kernel wie schon erwähnt, nur in einem begrenzten Rahmen möglich ist.
+
+Sowohl \mintinline{c}{uart_register_driver()} als auch \mintinline{c}{platform_driver_register()} laufen nicht in die Fehlerbehandlung. Es kann also davon ausgegangen werden, dass beide Funktionen korrekt ausgeführt wurden und der Treiber im Kernel bzw. beim Serial Core Treiber registriert wurde. Dafür spricht auch, dass bei einem expliziten Aufruf der \texttt{probe()}-Funktion eine Fehlermeldung erscheint, die besagt, dass der Plattform Treiber schon registriert wurde. Die \texttt{probe()}-Funktion wird dabei nicht betreten. \\ %TODO nochmal genau nachsehen, was könnte hier noch alles aufgeführt werden 
+
+Nach längerer, erfolgloser Fehlersuche wurde in Absprache mit dem betreuenden Professor an dieser Stelle abgebrochen. Dennoch existieren die prototypischen Funktionen \texttt{probe()} und \texttt{release()} zur hardwarespezifischen Initialisierung bzw. Abmeldung, sowie Funktionen, die darstellen wie ohne die vorhandenen Schwierigkeiten die tatsächliche Kommunikation zum Waveshare Display, anhand der zur Verfügung stehenden API sowie Referenzimplementierungen aus dem Linux Kernel, realisiert werden sollte. Durch besagte Schwierigkeiten konnten diese nicht auf ihre Korrektheit überprüft werden, dennoch sollen diese Funktionen im weiteren Verlauf dieser Arbeit vorgestellt werden, um zu zeigen was der Treiber im geplanten Funktionsumfang leisten sollte.
+
+\subsection{Probe / release} %TODO titel ändern
+
+%TODO weiter mit den nicht mehr ausgeführten funktionen
+
+% X %TODO geraeteinitialisierung usw..
+%TODO habe ich /dev/tty/waveshare
+% bzw /proc/tty/waveshare
+% oder so etwas /sys/devices/platform/omap_uart  nach platform_driver_register
+
+%TODO was wäre wenn es geklappt hätte... fehlt evt doch nur ein struct?

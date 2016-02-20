@@ -83,6 +83,44 @@
       \field{title}{{Linux Device Drivers - }}
       \field{year}{2005}
     \endentry
+    \entry{lwnDevTree}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=0d4e9848a8949c2e7bc90e4a19eab52e}{Corbet}{C\bibinitperiod}{Jonathon}{J\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Linux Weekly News}%
+      }
+      \strng{namehash}{0d4e9848a8949c2e7bc90e4a19eab52e}
+      \strng{fullhash}{0d4e9848a8949c2e7bc90e4a19eab52e}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{"\url{https://lwn.net/Articles/448502/}"}
+      \field{journaltitle}{Linux Weekly News}
+      \field{month}{06}
+      \field{title}{{Platform devices and device trees}}
+      \field{year}{2011}
+    \endentry
+    \entry{platformLWN}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=0d4e9848a8949c2e7bc90e4a19eab52e}{Corbet}{C\bibinitperiod}{Jonathon}{J\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Linux Weekly News}%
+      }
+      \strng{namehash}{0d4e9848a8949c2e7bc90e4a19eab52e}
+      \strng{fullhash}{0d4e9848a8949c2e7bc90e4a19eab52e}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{"\url{https://lwn.net/Articles/448499/}"}
+      \field{journaltitle}{Linux Weekly News}
+      \field{month}{06}
+      \field{title}{{The platform device API}}
+      \field{year}{2011}
+    \endentry
     \entry{freeelectronsSerialController}{misc}{}
       \list{organization}{1}{%
         {Free Electrons}%
@@ -92,6 +130,20 @@
       \field{labeltitlesource}{title}
       \field{howpublished}{"\url{http://free-electrons.com/doc/serial-drivers-lab.pdf}"}
       \field{title}{{Kernel -Serial controller device driver programming}}
+    \endentry
+    \entry{hotplug}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=8edf24ea3e75c726f2c163493ab3e3c3}{Kroah-Hartman}{K\bibinithyphendelim H\bibinitperiod}{Greg}{G\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{8edf24ea3e75c726f2c163493ab3e3c3}
+      \strng{fullhash}{8edf24ea3e75c726f2c163493ab3e3c3}
+      \field{sortinit}{K}
+      \field{sortinithash}{a7d5b3aec5a0890aae7baf85a209abfc}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{"\url{https://www.kernel.org/doc/ols/2001/hotplug.pdf"}}
+      \field{title}{{Hotpluggable devices and the Linux kernel}}
+      \field{year}{2001}
     \endentry
     \entry{kroahSysfs}{misc}{}
       \name{author}{1}{}{%
