@@ -213,7 +213,7 @@ free_cdev:
         kobject_put (&waveshare_obj->kobj);
 
 free_platform:
-	PRINT ("register_platform failed");
+	PRINT ("register_#platform failed");
 	platform_driver_unregister(&waveshare_serial_driver);	
 
 free_uart:
@@ -453,6 +453,7 @@ static int waveshare_uart_startup (struct uart_port *port) {
 	waveshare_uart_write (wave_port, 0x00, 0x33);
 	waveshare_uart_write (wave_port, 0x00, 0xC3);
 	waveshare_uart_write (wave_port, 0x00, 0x3C);
+        waveshare_uart_write (wave_port, 0x00, 0x82);
 		
 	return 0;
 }

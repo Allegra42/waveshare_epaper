@@ -2238,6 +2238,7 @@
     <bcf:datasource type="file" datatype="bibtex">BibliographyProjektarbeit.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
+    <bcf:citekey order="1">waveshareMan</bcf:citekey>
     <bcf:citekey order="0">*</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="nty" type="entry" sortscheme="nty">

@@ -64,6 +64,10 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.2.2}Probleme}{33}{subsection.5.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2.3}Probe / release}{34}{subsection.5.2.3}
+\contentsline {subsection}{\numberline {5.2.3}Die probe()-Funktion}{34}{subsection.5.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Bibliografie}{35}{subsection.5.2.3}
+\contentsline {subsection}{\numberline {5.2.4}Prototypische Steuerung des e-Paper Displays}{36}{subsection.5.2.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {6}Fazit}{37}{chapter.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Bibliografie}{38}{chapter.6}

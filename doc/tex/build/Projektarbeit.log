@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.14)  20 FEB 2016 23:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.14)  22 FEB 2016 00:37
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -981,22 +981,21 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 9.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 9.
-)
-\tf@toc=\write8
-\openout8 = `Projektarbeit.toc'.
-
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 29.
+(babel)             in language  on input line 69.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 29.
+(babel)             in language  on input line 69.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 29.
+(babel)             in language  on input line 69.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 29.
+(babel)             in language  on input line 69.
  [2
 
 
-]
+])
+\tf@toc=\write8
+\openout8 = `Projektarbeit.toc'.
+
 Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 29.
 Package babel Info: Redefining ngerman shorthand "~
@@ -1054,7 +1053,7 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 16.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 16.
-<beagleboneblack_beaglebone_org.png, id=185, 391.4625pt x 579.16376pt>
+<beagleboneblack_beaglebone_org.png, id=205, 391.4625pt x 579.16376pt>
 File: beagleboneblack_beaglebone_org.png Graphic file (type png)
 
 <use beagleboneblack_beaglebone_org.png>
@@ -1066,7 +1065,7 @@ Package babel Info: Redefining ngerman shorthand "|
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 30.
 
-<43inch-e-paper-3_waveshare_com.png, id=186, 803.0pt x 803.0pt>
+<43inch-e-paper-3_waveshare_com.png, id=206, 803.0pt x 803.0pt>
 File: 43inch-e-paper-3_waveshare_com.png Graphic file (type png)
 
 <use 43inch-e-paper-3_waveshare_com.png>
@@ -1074,7 +1073,7 @@ Package pdftex.def Info: 43inch-e-paper-3_waveshare_com.png used on input line
 40.
 (pdftex.def)             Requested size: 200.74951pt x 200.74951pt.
 
-<43inch-e-paper-4back_waveshare_com.png, id=187, 803.0pt x 803.0pt>
+<43inch-e-paper-4back_waveshare_com.png, id=207, 803.0pt x 803.0pt>
 File: 43inch-e-paper-4back_waveshare_com.png Graphic file (type png)
 
 <use 43inch-e-paper-4back_waveshare_com.png>
@@ -1129,7 +1128,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 54.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 54.
-<IMG_3048.JPG, id=202, 3468.96pt x 5203.44pt>
+<IMG_3048.JPG, id=222, 3468.96pt x 5203.44pt>
 File: IMG_3048.JPG Graphic file (type jpg)
  <use IMG_3048.JPG>
 Package pdftex.def Info: IMG_3048.JPG used on input line 65.
@@ -1146,7 +1145,7 @@ Package babel Info: Redefining ngerman shorthand "~
 
 
 ]
-<minicom2.png, id=211, 1028.34187pt x 578.16pt>
+<minicom2.png, id=231, 1028.34187pt x 578.16pt>
 File: minicom2.png Graphic file (type png)
  <use minicom2.png>
 Package pdftex.def Info: minicom2.png used on input line 75.
@@ -1919,7 +1918,7 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 357.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 357.
-[22] <ausgabe_cat_dev_waveshare.png, id=333, 637.63219pt x 453.19313pt>
+[22] <ausgabe_cat_dev_waveshare.png, id=353, 637.63219pt x 453.19313pt>
 File: ausgabe_cat_dev_waveshare.png Graphic file (type png)
 
 <use ausgabe_cat_dev_waveshare.png>
@@ -1945,7 +1944,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--370
 
  []
 
-<ausgabe_dmesg_echo_dev_waveshare.png, id=334, 640.64343pt x 451.6875pt>
+<ausgabe_dmesg_echo_dev_waveshare.png, id=354, 640.64343pt x 451.6875pt>
 File: ausgabe_dmesg_echo_dev_waveshare.png Graphic file (type png)
 
 <use ausgabe_dmesg_echo_dev_waveshare.png>
@@ -2057,7 +2056,7 @@ runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
 
 
 (./build/Projektarbeit.out.pyg)
-<sysfs_zugriff.png, id=363, 638.385pt x 429.10312pt>
+<sysfs_zugriff.png, id=383, 638.385pt x 429.10312pt>
 File: sysfs_zugriff.png Graphic file (type png)
  <use sysfs_zugriff.png>
 Package pdftex.def Info: sysfs_zugriff.png used on input line 515.
@@ -2156,7 +2155,7 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 62.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 62.
-[30] <dmesg_treiber_geladen.png, id=391, 638.385pt x 449.42906pt>
+[30] <dmesg_treiber_geladen.png, id=412, 638.385pt x 449.42906pt>
 File: dmesg_treiber_geladen.png Graphic file (type png)
 
 <use dmesg_treiber_geladen.png>
@@ -2189,6 +2188,68 @@ runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
 /Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
 
  (./build/Projektarbeit.out.pyg)
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 80.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 80.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 80.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 80.
+ [31pdfTeX warning (ext4): destination with the same identifier (name{figure.5.
+1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.80 
+      <./dmesg_treiber_geladen.png>]
+\openout5 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
+/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
+
+ (./build/Projektarbeit.out.pyg)
+\openout5 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
+/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
+
+
+(./build/Projektarbeit.out.pyg)
+Overfull \hbox (9.68268pt too wide) in paragraph at lines 81--84
+[] \OT1/cmr/m/n/12 (Lis-ting []17[], Zei-le 9) sind die Funk-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 81--84
+
+ []
+
+\openout3 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
+/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
+
+(./build/Projektarbeit.out.pyg)
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 125.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 125.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 125.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 125.
+ [32]
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 126.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 126.
+\openout5 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
+/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
+
+ (./build/Projektarbeit.out.pyg)
 \openout5 = `Projektarbeit.pyg'.
 
 runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
@@ -2202,32 +2263,47 @@ runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
 /Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
 
  (./build/Projektarbeit.out.pyg)
-Overfull \hbox (26.45894pt too wide) in paragraph at lines 78--82
-\OT1/cmr/m/n/12 an-ge-bo-te-ne Kon-so-le an-ge-ge-ben. Dar-auf wird mit der Fun
-k-ti-on []
+Overfull \hbox (5.65228pt too wide) in paragraph at lines 129--131
+[]\OT1/cmr/m/n/12 Sowohl [] als auch [] lau-fen nicht
  []
 
 
-Overfull \hbox (19.14476pt too wide) in paragraph at lines 78--82
-\OT1/cmr/m/n/12 wird der Trei-ber beim Ker-nel noch als Platt-form Trei-ber an-
-ge-mel-det. In der hier []ubergebenen
+Underfull \hbox (badness 10000) in paragraph at lines 129--131
+
  []
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 82.
+(babel)             in language  on input line 131.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 82.
+(babel)             in language  on input line 131.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 82.
+(babel)             in language  on input line 131.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 82.
-[31pdfTeX warning (ext4): destination with the same identifier (name{figure.5.1
-}) has been already used, duplicate ignored
+(babel)             in language  on input line 131.
+[33]
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 135.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 135.
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.82 
-      <./dmesg_treiber_geladen.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 136--137
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--144
+
+ []
+
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 147.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 147.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 147.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 147.
+[34]
 \openout3 = `Projektarbeit.pyg'.
 
 runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
@@ -2235,18 +2311,24 @@ runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
 
  (./build/Projektarbeit.out.pyg)
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 123.
+(babel)             in language  on input line 201.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 123.
+(babel)             in language  on input line 201.
+\openout5 = `Projektarbeit.pyg'.
+
+runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
+/Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
+
+ (./build/Projektarbeit.out.pyg)
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 123.
+(babel)             in language  on input line 204.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 123.
- [32]
+(babel)             in language  on input line 204.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 124.
+(babel)             in language  on input line 204.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 124.
+(babel)             in language  on input line 204.
+ [35]
 \openout5 = `Projektarbeit.pyg'.
 
 runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
@@ -2260,35 +2342,36 @@ runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
 /Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
 
  (./build/Projektarbeit.out.pyg)
-\openout5 = `Projektarbeit.pyg'.
+Overfull \hbox (7.059pt too wide) in paragraph at lines 207--208
+[]\OT1/cmr/m/n/12 Die Funk-ti-on [] selbst, stellt da-her nur noch die []Ubertr
+agung
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 207--208
+
+ []
+
+\openout3 = `Projektarbeit.pyg'.
 
 runsystem(pygmentize -l c -f latex -P commandprefix=PYG -F tokenmerge -o "build
 /Projektarbeit.out.pyg" "build/Projektarbeit.pyg" )...executed.
 
-
 (./build/Projektarbeit.out.pyg)
-Overfull \hbox (5.65228pt too wide) in paragraph at lines 127--128
-[]\OT1/cmr/m/n/12 Sowohl [] als auch [] lau-fen nicht
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 127--128
-
- []
-
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 128.
+(babel)             in language  on input line 247.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 128.
+(babel)             in language  on input line 247.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 128.
+(babel)             in language  on input line 247.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 128.
-[33]
+(babel)             in language  on input line 247.
+ [36]
+chapter 6.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 131.
+(babel)             in language  on input line 247.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 131.
+(babel)             in language  on input line 247.
 )
 Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 37.
@@ -2298,7 +2381,10 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 37.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 37.
- [34]
+ [37
+
+
+]
 Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 40.
 Package babel Info: Redefining ngerman shorthand "~
@@ -2325,7 +2411,7 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 41.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 41.
-[35
+[38
 
 
 ]
@@ -2350,7 +2436,7 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 43.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 43.
-[36] (build/Projektarbeit.lol)
+[39] (build/Projektarbeit.lol)
 \tf@lol=\write9
 \openout9 = `Projektarbeit.lol'.
 
@@ -2362,7 +2448,7 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 44.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 44.
- [37
+ [40
 
 
 ] (build/Projektarbeit.lof)
@@ -2382,7 +2468,7 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 45.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 45.
- [38
+ [41
 
 
 ]
@@ -2393,23 +2479,19 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 45.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 45.
 Package rerunfilecheck Info: File `Projektarbeit.out' has not changed.
 (rerunfilecheck)             Checksum: 71649377C2C3416F9AEE2EC1F5804849;2087.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package logreq Info: Writing requests to 'Projektarbeit.run.xml'.
 \openout1 = `Projektarbeit.run.xml'.
 
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 45.
  ) 
 Here is how much of TeX's memory you used:
- 16110 strings out of 493054
- 271017 string characters out of 6140585
- 832307 words of memory out of 5000000
- 19119 multiletter control sequences out of 15000+600000
+ 16133 strings out of 493054
+ 271462 string characters out of 6140585
+ 832455 words of memory out of 5000000
+ 19125 multiletter control sequences out of 15000+600000
  10754 words of font info for 39 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
- 43i,12n,66p,1372b,1510s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 43i,12n,66p,1372b,1764s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmitt10.pfb></usr/share/texmf-dist/fonts/type1/pub
@@ -2422,10 +2504,10 @@ m/cmsl12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb
 ></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-dist/font
 s/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on build/Projektarbeit.pdf (41 pages, 8898845 bytes).
+Output written on build/Projektarbeit.pdf (44 pages, 8907569 bytes).
 PDF statistics:
- 587 PDF objects out of 1000 (max. 8388607)
- 515 compressed objects within 6 object streams
- 132 named destinations out of 1000 (max. 500000)
- 294 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 628 PDF objects out of 1000 (max. 8388607)
+ 553 compressed objects within 6 object streams
+ 139 named destinations out of 1000 (max. 500000)
+ 326 words of extra memory for PDF output out of 10000 (max. 10000000)
 

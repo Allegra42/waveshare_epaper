@@ -42,3 +42,9 @@
 \contentsline {listing}{\numberline {16}{\ignorespaces Verkn\IeC {\"u}pfung von Hardware und Treiber \IeC {\"u}ber Compatible-Strings}}{30}{listing.16}
 \defcounter {refsection}{0}\relax 
 \contentsline {listing}{\numberline {17}{\ignorespaces Hardwareabh\IeC {\"a}ngige Initialisierung in \texttt {waveshare\_init}}}{33}{listing.17}
+\defcounter {refsection}{0}\relax 
+\contentsline {listing}{\numberline {18}{\ignorespaces Hardwareabh\IeC {\"a}ngige Initialisierung in \texttt {waveshare\_uart\_probe()}}}{35}{listing.18}
+\defcounter {refsection}{0}\relax 
+\contentsline {listing}{\numberline {19}{\ignorespaces Reset des Displays}}{36}{listing.19}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }

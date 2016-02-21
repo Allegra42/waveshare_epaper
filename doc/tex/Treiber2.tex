@@ -76,9 +76,13 @@ Im folgenden wird die Hardwareinitialisierung im Kernel über das \texttt{UART}-
 
 \subsection{Registrierung beim Serial Core Treiber} %TODO Titel ändern
 Die Initialisierung des \texttt{UART}-Treibers beginnt schon in der Modul-Initialisierung. 
-Hier wird mit der Funktion \mintinline{c}{uart_register_driver()} (Listing \ref{lst:hwabhInit}, Zeile 21) der Waveshare Treiber beim Serial Core Treiber des Kernels registriert. Dazu wird der Funktion die Struktur \newline
-\mintinline{c}{struct uart_driver waveshare_uart_driver} (Zeile 1) übergeben. Darin sind Besitzer, Namen sowie die maximale Anzahl an unterstützten \texttt{UART} Ports und eine eventuell angebotene Konsole angegeben. 
-Darauf wird mit der Funktion \mintinline{c}{platform_driver_register()} wird der Treiber beim Kernel noch als Plattform Treiber angemeldet. In der hier übergebenen Struktur \mintinline{c}{struct platform_driver waveshare_serial_driver} (Listing \ref{lst:hwabhInit}, Zeile 9) sind die Funktionen hinterlegt, die für die weitergehende Initialisierung der seriellen Kommunikation zur Hardware genutzt werden. Unabhängig vom verwendeten Hardwaretyp werden diese als \texttt{probe} und \texttt{release} bezeichnet. Der Nutzen der Struktur \texttt{waveshare\_uart\_of\_ids} wurde schon zuvor im Kapitel über Hotplugging erläutert.
+Hier wird mit der Funktion \mintinline{c}{uart_register_driver()} (Listing \ref{lst:hwabhInit}, Zeile 21) der Waveshare Treiber beim Serial Core Treiber des Kernels registriert. Dazu wird der Funktion die Struktur \mintinline{c}{struct uart_driver waveshare_uart_driver} (Zeile 1) übergeben. Darin sind Besitzer, Namen sowie die maximale Anzahl an unterstützten \texttt{UART} Ports und eine eventuell angebotene Konsole angegeben. 
+
+Darauf wird mit der Funktion \mintinline{c}{platform_driver_register()} wird der Treiber beim Kernel noch als Plattform Treiber angemeldet. In der hier übergebenen Struktur \\ 
+\mintinline{c}{struct platform_driver waveshare_serial_driver} (Listing \ref{lst:hwabhInit}, Zeile 9) sind die Funktionen hinterlegt, die für die weitergehende Initialisierung der seriellen Kommunikation zur Hardware genutzt werden. 
+Unabhängig vom verwendeten Hardwaretyp werden diese als \texttt{probe} und \texttt{release} bezeichnet. Der Nutzen der Struktur \texttt{waveshare\_uart\_of\_ids} wurde schon zuvor im Kapitel über Hotplugging erläutert. \\
+
+Nach einer erfolgreichen Initialisierungen sind neue Einträge im \texttt{proc}- und im \texttt{sys}-Dateisystem sichtbar. Dabei handelt es sich z.B. um \texttt{/proc/tty/driver/waveshare} sowie um \texttt{/sys/bus/platform/drivers/waveshare\_uart}, die durch die vorgestellten Funktionen angelegt werden. 
 
 
 \begin{listing} [H]
@@ -107,7 +111,6 @@ static struct platform_driver waveshare_serial_driver = {
 
 static int __init waveshare_init (void) {
 [...]
-
         if (uart_register_driver(&waveshare_uart_driver)) {
 		goto free_uart;
 	}
@@ -115,7 +118,6 @@ static int __init waveshare_init (void) {
 	if (platform_driver_register(&waveshare_serial_driver)) {
 		goto free_platform;
 	}
-
 [...]   
 }
 \end{minted}
@@ -124,17 +126,122 @@ static int __init waveshare_init (void) {
 \subsection{Probleme}
 Nach dieser Modulinitialisierung sollte normalerweise automatisch die in der Struktur \mintinline{c}{struct platform_driver waveshare_serial_driver} angegebene \texttt{probe()}-Funktion aufgerufen werden. Leider passiert dies nicht und die weitere hardwarespezifische Initialisierung in dieser Funktion bleibt unberührt. Woran genau dies scheitert ist sehr schwer herauszufinden, da Debugging im Kernel wie schon erwähnt, nur in einem begrenzten Rahmen möglich ist.
 
-Sowohl \mintinline{c}{uart_register_driver()} als auch \mintinline{c}{platform_driver_register()} laufen nicht in die Fehlerbehandlung. Es kann also davon ausgegangen werden, dass beide Funktionen korrekt ausgeführt wurden und der Treiber im Kernel bzw. beim Serial Core Treiber registriert wurde. Dafür spricht auch, dass bei einem expliziten Aufruf der \texttt{probe()}-Funktion eine Fehlermeldung erscheint, die besagt, dass der Plattform Treiber schon registriert wurde. Die \texttt{probe()}-Funktion wird dabei nicht betreten. \\ %TODO nochmal genau nachsehen, was könnte hier noch alles aufgeführt werden 
+Sowohl \mintinline{c}{uart_register_driver()} als auch \mintinline{c}{platform_driver_register()} laufen nicht in die Fehlerbehandlung. Es kann also davon ausgegangen werden, dass beide Funktionen korrekt ausgeführt wurden und der Treiber im Kernel bzw. beim Serial Core Treiber registriert wurde. Auch die Einträge im \texttt{proc}- und \texttt{sys}-Dateisystem, \\ 
+\texttt{/proc/tty/driver/waveshare} sowie \texttt{/sys/bus/platform/drivers/waveshare\_uart}, die bei einem korrekten Ablauf erwartet werden, sind vorhanden. Ebenfalls für eine korrekte Ausführung an dieser Stelle spricht, dass bei einem expliziten Aufruf der \texttt{probe()}-Funktion eine Fehlermeldung erscheint, die besagt, dass der Plattform Treiber schon registriert wurde. Die \texttt{probe()}-Funktion wird dabei nicht betreten. \\ %TODO nochmal genau nachsehen, was könnte hier noch alles aufgeführt werden 
 
 Nach längerer, erfolgloser Fehlersuche wurde in Absprache mit dem betreuenden Professor an dieser Stelle abgebrochen. Dennoch existieren die prototypischen Funktionen \texttt{probe()} und \texttt{release()} zur hardwarespezifischen Initialisierung bzw. Abmeldung, sowie Funktionen, die darstellen wie ohne die vorhandenen Schwierigkeiten die tatsächliche Kommunikation zum Waveshare Display, anhand der zur Verfügung stehenden API sowie Referenzimplementierungen aus dem Linux Kernel, realisiert werden sollte. Durch besagte Schwierigkeiten konnten diese nicht auf ihre Korrektheit überprüft werden, dennoch sollen diese Funktionen im weiteren Verlauf dieser Arbeit vorgestellt werden, um zu zeigen was der Treiber im geplanten Funktionsumfang leisten sollte.
 
-\subsection{Probe / release} %TODO titel ändern
+
+\subsection{Die probe()-Funktion} %TODO titel ändern
+Während in der \texttt{init}-Funktion vor allem das Kernel Modul selbst initialisiert wird, übernimmt die \texttt{probe}-Funktion die Initialisierung des Gerätes, dass am \texttt{UART}-Interface erkannt wurde. Diese Trennung ist nötig, um die Hotplugging Funktionalität zu realisieren. Die folgende Implementierung basiert auf den zur Verfügung stehenden APIs und Referenz-Implementierungen im Linux-Kernel. Die Funktionsfähigkeit konnte nicht überprüft werden. \\
+
+Die \texttt{probe}-Funktion (Listing \ref{lst:hwabhProbe}, Zeile 9) beginnt Speicher für die Struktur \\ 
+\texttt{waveshare\_uart\_port} zu mit \texttt{devm\_kzalloc()} zu allozieren. Besonders an dieser Methode ist, dass der von der Struktur belegte Speicher an die Existenz des Treibers geknüpft ist und danach automatisch freigegeben wird. 
+Der hier in dieser Struktur gespeicherte Port, an dem das Gerät angeschlossen ist, wird als Referenz in der Struktur \texttt{uart\_port} des Serial Core Treibers gespeichert. Anschließend werden Ressourcen für das Plattform-Gerät reserviert und unter \texttt{port->membase} wird über die Funktion \texttt{devm\_ioremap\_resource()} (Listing \ref{lst:hwabhProbe}, Zeile 24) der I/O-Speicher dieses Geräts zugreifbar gemacht. Über diesen Speicher sollen Daten zwischen Treiber und Hardware übertragen werden. 
+In \texttt{port->ops} (Zeile 32) wird eine Referenz auf Funktionen gespeichert, die das Verhalten des über das \texttt{UART}-Interface angeschlossenen Geräts definieren. Im weiteren wird vorgestellt, wie eine solche Funktion für die Initialisierung des e-Paper-Displays aussehen könnte.
+Im letzten interessanten Part der \texttt{probe}-Funktion wird mit der Funktion \texttt{uart\_add\_one\_port()} (Zeile 36) der vorher definierte \texttt{UART}-Port mit der \texttt{uart\_driver}-Struktur beim Serial Core Treiber registriert. 
+Abschließend werden \texttt{platform\_set\_drvdata()} die treiberspezifischen Daten für das Plattformgerät gesetzt. \\
+
+Das Gegenstück zur \texttt{probe()}-Funktion ist die \texttt{release()}-Funktion, hier \\ 
+\texttt{waveshare\_uart\_remove()}, in der die getätigten Registrierungen beim Serial Core Treiber bzw. beim Kernel aufgehoben werden müssen. Allozierter Speicher muss nicht explizit freigegeben werden, da dies durch die besondere Allokation automatisch geschieht. So bleibt nur noch mit der Funktion \texttt{uart\_remove\_one\_port()} die Registrierung beim Serial Core Treiber zu lösen. 
+
+\begin{listing} [H]
+\caption{Hardwareabhängige Initialisierung in \texttt{waveshare\_uart\_probe()}}
+\label{lst:hwabhProbe}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+struct waveshare_uart_port {
+	struct uart_port port;
+};
+
+static struct uart_ops waveshare_uart_ops = {
+	.startup = waveshare_uart_startup,
+};
+
+static int waveshare_uart_probe (struct platform_device *pdev) {
+	
+	struct waveshare_uart_port *wav_port;
+	struct uart_port *port;
+	struct resource *mem_res;
+	unsigned int baud;
+	
+	wav_port = devm_kzalloc (&pdev->dev, sizeof (struct waveshare_uart_port), GFP_KERNEL);
+	if (!wav_port) {
+		return -EINVAL;
+	}
+
+	port = &wav_port->port;
+	
+	mem_res = platform_get_resource (pdev, IORESOURCE_MEM, 0);
+	port->membase = devm_ioremap_resource(&pdev->dev, mem_res);
+	if (IS_ERR(port->membase)) {
+		return PTR_ERR(port->membase);
+	}
+
+	port->mapbase = mem_res->start;
+	port->dev = &pdev->dev;
+
+	port->ops = &waveshare_uart_ops;
+
+	baud = 115200;
+
+	if (uart_add_one_port(&waveshare_uart_driver, &wav_port->port)) {
+		goto free_uart_add_one_port;
+	}
+	
+	platform_set_drvdata(pdev, wav_port);
+	
+	return 0;
+
+free_uart_add_one_port:
+	return -1;	
+}
+\end{minted}
+\end{listing} 
+
+\subsection{Prototypische Steuerung des e-Paper Displays}
+Wie schon angerissen, soll erläutert werden wie die Funktion zum Start des Displays, auf die in der Struktur \mintinline{c}{struct uart_ops waveshare_uart_ops} unter \texttt{.startup} verwiesen wird, realisiert werden könnte. 
+Da das e-Paper Display in der Lage ist die Darstellung auch ohne Spannungszufuhr zu halten soll beim Start zuerst eine Leerung des Displayinhalts durchgeführt werden, um mit einem definierten Ausgangszustand, also einer leeren Anzeige, zu starten. Laut dem Manual des Herstellers (Literaturverzeichnis \cite{waveshareMan}), lautet der benötigte Befehlsrahmen \texttt{A5 00 09 2E CC 33 C3 3C 82}. 
+
+Um diesen übermitteln zu können wird eine Hilfsfunktion \mintinline{c}{waveshare_uart_write()} (Listing \ref{lst:displayReset}, Zeile 1) definiert, die ein einzelnes Byte über schon erwähntem I/O-Speicher überträgt. 
+
+Die Funktion \mintinline{c}{waveshare_uart_startup()} selbst, stellt daher nur noch die Übertragung des Befehlsrahmens über die Hilfsfunktion dar. \\
+
+Auf diese Weise könnten weitere Befehle sowie das Setzen von Text und Grafiken entsprechend der vorgesehenen Befehlsrahmen realisiert werden, um die Funktionalität des Treibers zu vervollständigen. Text zur Darstellung auf dem Display könnte über die \texttt{write()}-Funktion oder Attributdateien im \texttt{sysfs} in den Kernelspace eingelesen werden, dort verarbeitet und in den entsprechenden Befehlsrahmen eingebettet an das Display gesendet werden.
+
+\begin{listing} [H]
+\caption{Reset des Displays}
+\label{lst:displayReset}
+\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static inline void waveshare_uart_write (struct waveshare_uart_port *up, 
+  int offset, char value) {
+	return writeb (value, up->port.membase + offset);
+}
+
+static int waveshare_uart_startup (struct uart_port *port) {
+
+	struct waveshare_uart_port *wave_port = 
+	  container_of (port, struct waveshare_uart_port, port);
+	
+	waveshare_uart_write (wave_port, 0x00, 0xA5);
+	waveshare_uart_write (wave_port, 0x00, 0x00);
+	waveshare_uart_write (wave_port, 0x00, 0x09);
+	waveshare_uart_write (wave_port, 0x00, 0x2E);
+	waveshare_uart_write (wave_port, 0x00, 0xCC);
+	waveshare_uart_write (wave_port, 0x00, 0x33);
+	waveshare_uart_write (wave_port, 0x00, 0xC3);
+	waveshare_uart_write (wave_port, 0x00, 0x3C);
+        waveshare_uart_write (wave_port, 0x00, 0x82);
+		
+	return 0;
+}
+\end{minted}
+\end{listing}
 
 %TODO weiter mit den nicht mehr ausgeführten funktionen
 
 % X %TODO geraeteinitialisierung usw..
-%TODO habe ich /dev/tty/waveshare
-% bzw /proc/tty/waveshare
-% oder so etwas /sys/devices/platform/omap_uart  nach platform_driver_register
 
-%TODO was wäre wenn es geklappt hätte... fehlt evt doch nur ein struct?
+
+%TODO was wäre wenn es geklappt hätte... fehlt evt doch nur ein struct? unterschlag ich jetzt...
+
+\chapter{Fazit}
