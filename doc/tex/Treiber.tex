@@ -7,16 +7,16 @@ Im ersten Teil sollen die grundlegenden Funktionen und üblichen Schnittstellen 
 
 
 \subsection{Kernelspace - eine Vorwarnung}
-Zu beachten ist, dass die C-Standartbibliothek im Kernel nicht zur Verfügung steht. Viele oft benötigte Funktionen werden allerdings als leicht gewichtigere Funktionen angeboten. Ebenso gibt es keinen Speicherschutz wie zwischen Anwendungen im Userspace. Fehler in einem Modul können sich auf den gesamten Kernel auswirken und diesen zum Absturz führen. 
+Zu beachten ist, dass die C-Standardbibliothek im Kernel nicht zur Verfügung steht. Viele oft benötigte Funktionen werden allerdings als leicht gewichtigere Funktionen angeboten. Ebenso gibt es keinen Speicherschutz wie zwischen Anwendungen im Userspace. Fehler in einem Modul können sich auf den gesamten Kernel auswirken und diesen zum Absturz führen. 
 
 \subsection{Debugging}
 Debugging ist im Kernel nicht ohne weiteres möglich. Debugger, wie aus modernen IDEs für viele Programmiersprachen bekannt, gibt es so nicht. Dem am nächsten kommt der Kerneldebugger \texttt{kgdb}, der es möglich macht auf Hochsprachenniveau Kernelcode zu betrachten. Allerdings sind dazu zwei Rechner mit einem komplexen Aufbau nötig, es dauert sehr lange bis der noch experimentelle \texttt{kgdb} lange Symbollisten auflöst und noch nicht alle Hardwareplattformen werden unterstützt. %TODO Kernelbuch S 42
-Im Rahmen dieser Arbeit wird daher auf die im Kernel alt hergebrachte Art der Fehlersuche mit \texttt{printk} gesetzt, das mit \texttt{printf} in der C-Standartbibliothek vergleichbar ist. Über \texttt{printk} können mit einer Priorität versehene Kernellogs geschrieben werden, die sich beispielsweise mit \texttt{dmesg} auslesen lassen. An relevanten Stellen lassen sich so Ausgaben, zum Beispiel von Variablenwerten generieren. Um nicht bei jeder Debug-Ausgabe eine Priorität setzen und ein Kürzel für das eigene Modul einfügen zu müssen, wird im Treiber hierfür zuerst ein Makro definiert:
+Im Rahmen dieser Arbeit wird daher auf die im Kernel alt hergebrachte Art der Fehlersuche mit \texttt{printk} gesetzt, das mit \texttt{printf} in der C-Standardbibliothek vergleichbar ist. Über \texttt{printk} können mit einer Priorität versehene Kernellogs geschrieben werden, die sich beispielsweise mit \texttt{dmesg} auslesen lassen. An relevanten Stellen lassen sich so Ausgaben, zum Beispiel von Variablenwerten generieren. Um nicht bei jeder Debug-Ausgabe eine Priorität setzen und ein Kürzel für das eigene Modul einfügen zu müssen, wird im Treiber hierfür zuerst ein Makro (Listing \ref{lst:debugmacro}) definiert:
 
 \begin{listing} [H]
 \caption{Debug-Macro}
 \label{lst:debugmacro}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
 #ifdef DEBUG
 #define PRINT(msg) 	do { printk(KERN_INFO "waveshare - %s \n", msg); } while (0)
 #endif
@@ -29,7 +29,8 @@ Die \mintinline{c}{__init} Funktion wird aufgerufen, sobald das Modul mit \minti
 Die \mintinline{c}{__exit} Funktion wird aufgerufen, wenn der Treiber entladen werden soll. Alle Initialisierungen und Reservierungen, vor allem reservierter Speicher müssen freigegeben werden. 
 
 \subsection{Init des Waveshare e-Paper-Treibers}
-Der Name der Init-Funktion ist frei wählbar. Über das Macro \mintinline {c}{module_init(waveshare_init);} wird  definiert, dass hier die parameterlose Funktion mit dem Namen \texttt{waveshare\_init} und dem Rückgabetyp \texttt{int} verwendet werden soll. 
+Der Name der Init-Funktion ist frei wählbar. Über das Macro \\ 
+\mintinline {c}{module_init(waveshare_init);} wird  definiert, dass hier die parameterlose Funktion mit dem Namen \texttt{waveshare\_init} und dem Rückgabetyp \texttt{int} verwendet werden soll. 
 
 Die Initialisierung beginnt mit der Anforderung von Gerätenummern für ein Character basiertes Gerät, die dazu genutzt werden den zugehörigen Treiber zu identifizieren sowie die einzelnen Geräte auseinander zu halten. Sie lösen das Konzept von Major-Nummer (Treiberidentifikation) und Minor-Nummer (Geräte auseinander halten) ab und sind in der Lage mehr physikalische bzw. logische Geräte zu unterscheiden. Gerätenummern und Major-/Minor-Nummern können in einander überführt werden. Zur Anforderung der Gerätenummern wird die Funktion \mintinline{c}{alloc_chrdev_region()} (Listing \ref{lst:waveshare_init}, Zeile 15) verwendet. Dabei gibt der ist der erste Parameter eine Referenz auf eine Struktur vom Typ \texttt{dev\_t}, eine Gerätenummer, dort wird die erste angeforderte Nummer abgelegt. Mit dem zweiten wird angegeben bei welchem Wert die Minor-Nummern starten, mit dem dritten, wie viele verschiedene Geräte unterschieden werden sollen. Der letzte Parameter gibt den Namen des Treibers an, der mit der Gerätenummer assoziiert wird. Dabei wird der Treiber für das Gerät beim Kernel angemeldet. Im Fehlerfall springt das Programm zur Sprungmarke \mintinline{c}{free_device_number}. Die Fehlerbehandlung wird im Folgenden näher erläutert.
 
@@ -37,15 +38,16 @@ Mit \mintinline{c}{cdev_alloc()} wird Speicher für ein Objekt des Typs \mintinl
 
 Dem nun angelegten Treiberobjekt, in C durch ein \texttt{struct} repräsentiert, wird im Element \texttt{owner} der Besitzer des Treiber mitgeteilt. Im Element \texttt{ops} wird ein Verweis auf die \mintinline{c}{struct fileoperations} angegeben. In dieser \texttt{struct} (Listing \ref{lst:waveshare_init}, Zeile 1) sind Pointer auf Funktionen gespeichert, die Interaktion des Treibers mit dem Betriebssystem zur Verfügung stellen. Darunter fallen beispielsweise Funktionen zum Öffnen einer Treiberinstanz, Daten aus dem Treiber auslesen, Daten an den Treiber senden, sowie für das Schließen (Freigeben).  
 
-Anschließend wird mit \mintinline{c}{cdev_add(waveshare_obj, waveshare_dev_number, 1)} das instantiierte Treiberobjekt (\texttt{waveshare\_obj}) beim Kernel registriert. Mit \texttt{waveshare\_dev\_number} wird die erste Gerätenummer angegeben, mit der Zahl, wie viele Gerätenummern mit dem Treiber verwaltet werden sollen. 
+Anschließend wird mit \mintinline{c}{cdev_add(waveshare_obj, waveshare_dev_number, 1)} das instantiierte Treiberobjekt (\texttt{waveshare\_obj}) beim Kernel registriert. Mit \\
+\texttt{waveshare\_dev\_number} wird die erste Gerätenummer angegeben, mit der Zahl, wie viele Gerätenummern mit dem Treiber verwaltet werden sollen. 
 
 Bevor nun auf den hardwarespezifischeren Teil der \texttt{init}-Methode eingegangen wird, sollen zuerst die weiteren grundlegenden Treiberbestandteile betrachtet werden. 
 
 
 \begin{listing} [H]
-\caption{\texttt{waveshare\_init}}
+\caption{waveshare\_init}
 \label{lst:waveshare_init}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
 static struct file_operations fops = {
 	.owner = THIS_MODULE,
 	.open = waveshare_driver_open,
@@ -88,13 +90,13 @@ Wie schon erwähnt wird die Fehlerbehandlung bei Treiberinitialisierungen im Ker
 
 Die einzelnen Ressourcen des Treibers werden aufeinander aufbauend alloziert und beim Kernel registriert. Geht bei einem Bestandteil etwas schief, müssen alle Ressourcen in umgekehrter Reihenfolge der Initialisierung wieder freigegeben werden, um Speicherlecks zu vermeiden. Geht bei der letzten Initialisierung etwas schief, springt der Programmlauf zur ersten Sprungmarke und läuft seriell durch die später folgenden der früher Durchgeführten. 
 
-Für die komplette \texttt{init}-Methode sieht eine solche Fehlerbehandlung wie folgt aus:
+Für die komplette \texttt{init}-Methode wird eine solche Fehlerbehandlung in Listing \ref{lst:wavFehlerbehandlung} dargestellt.
 
  
 \begin{listing} [H]
-\caption{\texttt{waveshare\_init} Fehlerbehandlung}
+\caption{waveshare\_init Fehlerbehandlung}
 \label{lst:wavFehlerbehandlung}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
 static int __init waveshare_init (void) {
 
 [...]
@@ -126,14 +128,14 @@ free_device_number:
 
 
 \subsection{Alles hat ein Ende - Die exit-Funktion}
-Die \texttt{exit}-Funktion \mintinline{c}{waveshare_exit()} wird beim Entladen des Treibers vom Kernels aufgerufen und unterscheidet sich nur unwesentlich von den Aufräumarbeiten im Fehlerfall. Ebenso wie bei der Fehlerbehandlung werden die benutzten Ressourcen in der richtigen Reihenfolge vom Kernel abgemeldet und wieder freigegeben. 
+Die \texttt{exit}-Funktion \mintinline{c}{waveshare_exit()}, zu sehen in Listing \ref{lst:waveshare_exit}, wird beim Entladen des Treibers vom Kernels aufgerufen und unterscheidet sich nur unwesentlich von den Aufräumarbeiten im Fehlerfall. Ebenso wie bei der Fehlerbehandlung werden die benutzten Ressourcen in der richtigen Reihenfolge vom Kernel abgemeldet und wieder freigegeben. 
 In der \texttt{exit}-Funktion werden wenige andere beziehungsweise zusätzliche Funktionen benutzt, um beispielsweise wie mit \mintinline{c}{cdev_del} nicht nur das Treiberobjekt beim Kernel abzumelden, sondern auch den zugehörigen Speicher wieder freizugeben. %kernelbuch s501
 
 
 \begin{listing} [H]
-\caption{\texttt{waveshare\_exit}}
+\caption{waveshare\_exit}
 \label{lst:waveshare_exit}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
 static void __exit waveshare_exit (void) {
 
 	gpio_set_value(resetPin, false);
@@ -164,7 +166,7 @@ Im Folgenden sollen alle verwendeten applikationsgetriggerten Treiberfunktionen 
 
 \subsection{waveshare\_driver\_open()}
 Der Systemaufruf der \texttt{open()}-Funktion kann über den übergebenen Dateinamen ermitteln ob eine Datei oder wie im hier betrachteten Fall, ein Gerät über einen bestimmten Treiber geöffnet werden soll. Es ist möglich Hardwaregeräte mehreren Treibern zuzuordnen. Das Dateisystem ordnet über diesen symbolischen Gerätenamen das richtige Gerät anhand dessen Gerätenummer zu. %TODO verweis buch s 97 unten
-Ein Prozess der so auf den Treiber zugreifen möchte, legt eine Struktur \mintinline{c}{struct file} an, die Parameter für den Zugriff auf den Treiber angibt, also ob lesender oder schreibender Zugriff erfolgen soll, ob es sich dabei um einen blockierend Zugriff handelt, welches physische Gerät geöffnet werden soll. Diese ruft die im Folgenden näher erläuterte \texttt{open}-Funktion des Treibers auf, die hier \mintinline{c}{waveshare_driver_open()} genannt wird. \newline
+Ein Prozess der so auf den Treiber zugreifen möchte, legt eine Struktur \mintinline{c}{struct file} an, die Parameter für den Zugriff auf den Treiber angibt, also ob lesender oder schreibender Zugriff erfolgen soll, ob es sich dabei um einen blockierenden Zugriff handelt, welches physische Gerät geöffnet werden soll. Diese ruft die im Folgenden näher erläuterte \texttt{open}-Funktion des Treibers auf, die hier \mintinline{c}{waveshare_driver_open()} genannt wird. \newline
 
 
 Die \mintinline{c}{waveshare_driver_open()} Funktion ist dafür verantwortlich zu überprüfen ob eine zugreifende Instanz den Treiber öffnen darf. 
@@ -175,9 +177,9 @@ Im Quelltext wird die vom aufrufenden Prozess übergebene Struktur \mintinline{c
 
 
 \begin{listing} [H]
-\caption{\texttt{waveshare\_driver\_open}}
+\caption{waveshare\_driver\_open}
 \label{lst:waveshare_driver_open}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
 static atomic_t access_counter = ATOMIC_INIT(-1);
 
 static int waveshare_driver_open (struct inode *devicefile, struct file *driverinstance) {
@@ -201,15 +203,15 @@ static int waveshare_driver_open (struct inode *devicefile, struct file *driveri
 
 
 \subsection{waveshare\_driver\_close()}
-Mit dem Systemaufruf \texttt{close()} gibt eine Anwendung über die korrespondierende Treiberfunktion mögliche bestehende Zugriffssperren auf einen Treiber, also eine Ressource, wieder frei. In der Struktur \texttt{file\_operations} wird die Referenz auf die implementierte \mintinline{c}{waveshare_driver_close()}-Funktion unter dem Element \texttt{release} gespeichert. 
+Mit dem Systemaufruf \texttt{close()} gibt eine Anwendung über die korrespondierende Treiberfunktion mögliche bestehende Zugriffssperren auf einen Treiber, also eine Ressource, wieder frei. In der Struktur \texttt{file\_operations} wird die Referenz auf die implementierte \mintinline{c}{waveshare_driver_close()}-Funktion (Listing \ref{lst:waveshare_driver_close}) unter dem Element \texttt{release} gespeichert. 
 
 Besitzt die zugreifende Instanz keine Schreibsperren, ist für den hier vorgestellten Treiber nichts weiter zu tun. Andernfalls, wenn das Zugriffsflag einer Instanz Schreibzugriff signalisiert, gibt diese die Ressource frei indem der Zugriffszähler in einem atomaren Vorgang verringert wird. 
 
 
 \begin{listing} [H]
-\caption{\texttt{waveshare\_driver\_close}}
+\caption{waveshare\_driver\_close}
 \label{lst:waveshare_driver_close}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
 static int waveshare_driver_close (struct inode *devicefile, struct file *driverinstance) {
 	
 	if ( ((driverinstance->f_flags&O_ACCMODE) == O_RDWR) ||
@@ -228,7 +230,7 @@ Im Folgenden soll der Datenaustausch über den Systemcall \texttt{read} vorgeste
 
 Leider kann diese Funktion, sowie weitere Funktionen zur Kommunikation zwischen Userspace und Kernelspace, nur an einem Beispiel statt an einer konkreten Kommunikation erläutert werden. Schwierigkeiten mit dem Aufbau der Verbindung zum Display über die \texttt{UART}-Treiber des Kernels verhindern dies. Der geplante Verbindungsaufbau und die erwähnten Schwierigkeiten werden in dieser Arbeit noch näher erläutert. 
 
-Trotzdem soll durch die beispielhafte Implementierung ein Verständnis für die Vorgänge auf Seiten des Treibers bei der Abarbeitung dieses Systemcalls geschaffen werden und erläutert, was für eine konkrete Implementierung für den Anwendungsfall des Display verändert werden müsste. Die beispiehafte Implementierung ist bis auf die eigentlich vorgesehene Anwendung voll funktionstüchtig.\newline
+Trotzdem soll durch die beispielhafte Implementierung ein Verständnis für die Vorgänge auf Seiten des Treibers bei der Abarbeitung dieses Systemcalls geschaffen werden und erläutert, was für eine konkrete Implementierung für den Anwendungsfall des Display verändert werden müsste. Die beispielhafte Implementierung ist bis auf die eigentlich vorgesehene Anwendung voll funktionstüchtig.\newline
 
 
 Das Gegenstück des Systemaufrufes \texttt{read} auf Treiberseite ist die Funktion \\
@@ -247,9 +249,9 @@ Nun findet das tatsächliche kopieren der zum Lesen zu Verfügung stehenden Date
 
 
 \begin{listing} [H]
-\caption{\texttt{waveshare\_driver\_read}}
+\caption{waveshare\_driver\_read}
 \label{lst:waveshare_driver_read}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
 // Gibt an, wie viele Byte gelesen werden können, sollte im funktionalen 
 // Treiber dynamisch anhand der Daten in einem Displaypuffer angepasst werden.
 static atomic_t bytes_available = ATOMIC_INIT(5);
@@ -257,8 +259,7 @@ static atomic_t bytes_available = ATOMIC_INIT(5);
 #define READ_POSSIBLE (atomic_read(&bytes_available) != 0)
 
 
-ssize_t waveshare_driver_read (struct file *driverinstance, char __user *buffer, 
-size_t max_bytes_to_read, loff_t *offset) {
+ssize_t waveshare_driver_read (struct file *driverinstance, char __user *buffer, size_t max_bytes_to_read, loff_t *offset {
 
 	size_t to_copy = 0; 
 	size_t not_copied = 0; 
@@ -306,9 +307,9 @@ Darauf folgt der Schreibvorgang der Daten vom Userspace in den Kernelspace. Wie 
 
 
 \begin{listing} [H]
-\caption{\texttt{waveshare\_driver\_write}}
+\caption{waveshare\_driver\_write}
 \label{lst:waveshare_driver_write}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
 // Gibt an, wie viele Byte geschrieben werden können, sollte im funktionalen 
 // Treiber dynamisch anhand der Daten in einem Displaypuffer angepasst werden.
 static atomic_t bytes_to_write = ATOMIC_INIT(10);
@@ -316,8 +317,7 @@ static atomic_t bytes_to_write = ATOMIC_INIT(10);
 #define WRITE_POSSIBLE (atomic_read(&bytes_to_write) != 0)
 
 
-ssize_t waveshare_driver_write (struct file *driverinstance, const char __user *buffer, 
-size_t max_bytes_to_write, loff_t *offset) {
+ssize_t waveshare_driver_write (struct file *driverinstance, const char __user *buffer,size_t max_bytes_to_write, loff_t *offset) {
 	size_t to_copy;
 	size_t not_copied;
 	
@@ -351,7 +351,7 @@ size_t max_bytes_to_write, loff_t *offset) {
 \subsection{Testen der read und write Funktionen}
 Ob die Systemaufrufe und vor allem die Implementierungen im Treiber erwartungsgemäß funktionieren, kann unter Linux sehr leicht getestet werden. Das kompilierte Modul wird an die richtige Stelle kopiert und geladen. \\
 
-Mit dem Befehl \texttt{cat} kann die Funktion \mintinline{c}{waveshare_driver_read()} getestet werden. Allerdings liest \texttt{cat} bis EOF, also 0 Byte zurückgegeben wird, was bei der Funktion normalerweise nicht vorkommt. Dadurch ließt \texttt{cat} immer wieder den Inhalt des Treibers, bis der Benutzer manuell via STR+C abbricht. \\
+Mit dem Befehl \texttt{cat} kann die Funktion \mintinline{c}{waveshare_driver_read()} getestet werden. Allerdings liest \texttt{cat} bis EOF, also 0 Byte zurückgegeben wird, was bei der Funktion normalerweise nicht vorkommt, siehe Abbildung \ref{pic:cat_read}. Dadurch ließt \texttt{cat} immer wieder den Inhalt des Treibers, bis der Benutzer manuell via STR+C abbricht. \\
 
 \mintinline{bash}{cat /dev/waveshare} \\
 
@@ -364,7 +364,7 @@ Mit dem Befehl \texttt{cat} kann die Funktion \mintinline{c}{waveshare_driver_re
   \label{pic:cat_read}
 \end{figure}
 
-Der Befehl \texttt{echo} ermöglicht es die Funktion \mintinline{c}{waveshare_driver_write()} zu triggern. \\
+Der Befehl \texttt{echo} ermöglicht es die Funktion \mintinline{c}{waveshare_driver_write()} wie in Abbildung \ref{pic:echo_write} zu triggern. \\
 
 \mintinline{bash}{echo hallo > /dev/waveshare} \\
 
@@ -390,11 +390,10 @@ Die Bitmaske, die nun besagte Informationen enthält, wird an die aufrufende Anw
 
 
 \begin{listing} [H]
-\caption{\texttt{waveshare\_driver\_poll}}
+\caption{waveshare\_driver\_poll}
 \label{lst:waveshare_driver_poll}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
-unsigned int waveshare_driver_poll (struct file *driverinstance, 
-  struct poll_table_struct *event_list) {
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+unsigned int waveshare_driver_poll (struct file *driverinstance, struct poll_table_struct *event_list) {
 	
 	unsigned int mask = 0;
 	
@@ -431,11 +430,10 @@ Hier können z.B. Ergebnisse des Treibers auf sehr einfache Weise im Userspace v
 
 
 \begin{listing} [H]
-\caption{\texttt{waveshare\_sysfs\_read}}
+\caption{waveshare\_sysfs\_read}
 \label{lst:waveshare_sysfs_read}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
-static ssize_t waveshare_sysfs_read (struct device *dev, struct device_attribute *attr, 
-  char *buf) {
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static ssize_t waveshare_sysfs_read (struct device *dev, struct device_attribute *attr, char *buf) {
 
 	char example [] = {"TEST"};
 
@@ -450,11 +448,10 @@ Auch diese Funktion ist nicht sehr spannend, da der Datenaustausch ausschließli
 
 
 \begin{listing} [H]
-\caption{\texttt{waveshare\_sysfs\_write}}
+\caption{waveshare\_sysfs\_write}
 \label{lst:waveshare_sysfs_write}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
-static ssize_t waveshare_sysfs_write (struct device *dev, struct device_attribute *attr, 
-  const char *buf, size_t size) {
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static ssize_t waveshare_sysfs_write (struct device *dev, struct device_attribute *attr, const char *buf, size_t size) {
 	int val = 0;
 	PRINT ("write a number");
 	
@@ -470,9 +467,9 @@ Nachdem die Zugriffsfunktionen für das Attribut definiert wurden, werden sie ü
 
 
 \begin{listing} [H]
-\caption{Das \texttt{DEVICE\_ATTR} Macro}
+\caption{Das DEVICE\_ATTR Macro}
 \label{lst:device_attr}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
 static DEVICE_ATTR (wav_sysfs, 0644, waveshare_sysfs_read, waveshare_sysfs_write);
 \end{minted}
 \end{listing}
@@ -483,7 +480,7 @@ Zuletzt erfolgt noch das Erstellen der eigenen sysfs-Geräteklasse \glqq wavesha
 \begin{listing} [H]
 \caption{sysfs Geräteklasse und Attribut erstellen}
 \label{lst:sysfs_class_create}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
 static int __init waveshare_init (void) {
 [...]
 

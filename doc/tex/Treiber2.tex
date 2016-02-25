@@ -19,7 +19,7 @@ In der Struktur \texttt{platform\_driver}, die die Adressen der hardwarespezifis
 \begin{listing} [H]
 \caption{Verknüpfung von Hardware und Treiber über Compatible-Strings}
 \label{lst:compatible-strings}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
 // In den Kernelquellen
 // linux/arch/arm/boot/dts/am33xx.dtsi
 uart0: serial@44e09000 {
@@ -72,13 +72,13 @@ Das folgende Bild \ref{pic:hotplugging} zeigt die Logs des Kernels nachdem das K
 
 
 \section{Die serielle Kommunikation über das \texttt{UART}-Interface im Kernel} %TODO titel ändern \citep{platformLWN} 
-Im folgenden wird die Hardwareinitialisierung im Kernel über das \texttt{UART}-Interface vorgestellt. Über dieses Hardware-Interface soll eine serielle Kommunikation realisiert werden. Dazu wird der Serial Core Treiber des Kernels genutzt, auf dem der Waveshare-Treiber als \glqq Stacked Driver\grqq~aufgebaut wird. Serielle Geräte, wie auch das Waveshare-Display, fallen in Linux unter die Kategorie der \texttt{tty}-Geräte. Benannt nach der ältesten seriellen Schnittstelle blieb dieser Name bis heute erhalten. \\ %TODO hier evtl /proc/tty/waveshare ... o.ä. erwähnen 
+Im folgenden wird die Hardwareinitialisierung im Kernel über das \texttt{UART}-Interface vorgestellt. Über dieses Hardware-Interface soll eine serielle Kommunikation realisiert werden. Dazu wird der Serial Core Treiber des Kernels genutzt, auf dem der Waveshare-Treiber als \glqq Stacked Driver\grqq~aufgebaut wird. Serielle Geräte, wie auch das Waveshare-Display, fallen in Linux unter die Kategorie der \texttt{tty}-Geräte. Benannt nach der ältesten seriellen Schnittstelle blieb dieser Name bis heute erhalten. \\  
 
 \subsection{Registrierung beim Serial Core Treiber} %TODO Titel ändern
 Die Initialisierung des \texttt{UART}-Treibers beginnt schon in der Modul-Initialisierung. 
 Hier wird mit der Funktion \mintinline{c}{uart_register_driver()} (Listing \ref{lst:hwabhInit}, Zeile 21) der Waveshare Treiber beim Serial Core Treiber des Kernels registriert. Dazu wird der Funktion die Struktur \mintinline{c}{struct uart_driver waveshare_uart_driver} (Zeile 1) übergeben. Darin sind Besitzer, Namen sowie die maximale Anzahl an unterstützten \texttt{UART} Ports und eine eventuell angebotene Konsole angegeben. 
 
-Darauf wird mit der Funktion \mintinline{c}{platform_driver_register()} wird der Treiber beim Kernel noch als Plattform Treiber angemeldet. In der hier übergebenen Struktur \\ 
+Darauf wird der Treiber mit der Funktion \mintinline{c}{platform_driver_register()} beim Kernel noch als Plattform Treiber angemeldet. In der hier übergebenen Struktur \\ 
 \mintinline{c}{struct platform_driver waveshare_serial_driver} (Listing \ref{lst:hwabhInit}, Zeile 9) sind die Funktionen hinterlegt, die für die weitergehende Initialisierung der seriellen Kommunikation zur Hardware genutzt werden. 
 Unabhängig vom verwendeten Hardwaretyp werden diese als \texttt{probe} und \texttt{release} bezeichnet. Der Nutzen der Struktur \texttt{waveshare\_uart\_of\_ids} wurde schon zuvor im Kapitel über Hotplugging erläutert. \\
 
@@ -86,9 +86,9 @@ Nach einer erfolgreichen Initialisierungen sind neue Einträge im \texttt{proc}-
 
 
 \begin{listing} [H]
-\caption{Hardwareabhängige Initialisierung in \texttt{waveshare\_init}}
+\caption{Hardwareabhängige Initialisierung in waveshare\_init}
 \label{lst:hwabhInit}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
 static struct uart_driver waveshare_uart_driver = {
 	.owner = THIS_MODULE,
 	.driver_name = "waveshare",
@@ -146,9 +146,9 @@ Das Gegenstück zur \texttt{probe()}-Funktion ist die \texttt{release()}-Funktio
 \texttt{waveshare\_uart\_remove()}, in der die getätigten Registrierungen beim Serial Core Treiber bzw. beim Kernel aufgehoben werden müssen. Allozierter Speicher muss nicht explizit freigegeben werden, da dies durch die besondere Allokation automatisch geschieht. So bleibt nur noch mit der Funktion \texttt{uart\_remove\_one\_port()} die Registrierung beim Serial Core Treiber zu lösen. 
 
 \begin{listing} [H]
-\caption{Hardwareabhängige Initialisierung in \texttt{waveshare\_uart\_probe()}}
+\caption{Hardwareabhängige Initialisierung in waveshare\_uart\_probe()}
 \label{lst:hwabhProbe}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
 struct waveshare_uart_port {
 	struct uart_port port;
 };
@@ -164,7 +164,8 @@ static int waveshare_uart_probe (struct platform_device *pdev) {
 	struct resource *mem_res;
 	unsigned int baud;
 	
-	wav_port = devm_kzalloc (&pdev->dev, sizeof (struct waveshare_uart_port), GFP_KERNEL);
+	wav_port = devm_kzalloc (&pdev->dev, 
+	  sizeof (struct waveshare_uart_port), GFP_KERNEL);
 	if (!wav_port) {
 		return -EINVAL;
 	}
@@ -211,16 +212,14 @@ Auf diese Weise könnten weitere Befehle sowie das Setzen von Text und Grafiken 
 \begin{listing} [H]
 \caption{Reset des Displays}
 \label{lst:displayReset}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
-static inline void waveshare_uart_write (struct waveshare_uart_port *up, 
-  int offset, char value) {
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {c}
+static inline void waveshare_uart_write (struct waveshare_uart_port *up, int offset, char value) {
 	return writeb (value, up->port.membase + offset);
 }
 
 static int waveshare_uart_startup (struct uart_port *port) {
 
-	struct waveshare_uart_port *wave_port = 
-	  container_of (port, struct waveshare_uart_port, port);
+	struct waveshare_uart_port *wave_port = container_of (port, struct waveshare_uart_port, port);
 	
 	waveshare_uart_write (wave_port, 0x00, 0xA5);
 	waveshare_uart_write (wave_port, 0x00, 0x00);
@@ -245,3 +244,14 @@ static int waveshare_uart_startup (struct uart_port *port) {
 %TODO was wäre wenn es geklappt hätte... fehlt evt doch nur ein struct? unterschlag ich jetzt...
 
 \chapter{Fazit}
+Das Ziel dieser Projektarbeit war es einen im Linux Kernel angesiedelten Treiber für das Waveshare e-Paper Display zu schreiben. Dazu wurde ein allgemeines Kernelmodul geschrieben und um die Treiberfunktionalität für das Display erweitert.
+Hierbei sollte besondere Aufmerksamkeit in die Unterschiede zur klassischen Anwendungsentwicklung fließen. 
+
+Während Schnittstellen in dieser normalerweise sehr gut für andere Entwickler dokumentiert und spezifiziert sind, muss der Entwickler im Kernelspace mit eher minimalistischer Dokumentation arbeiten. Oft gilt hier \glqq der Quellcode ist genug Dokumentation\grqq~und so ist es nötig sehr viel Code zu lesen um Funktionsweisen und Einsatz einiger Mechanismen zu verstehen. 
+Ebenso kommt es durch die Entwicklung des Linux Kernels in relativ kurzen Intervallen oft zu Änderungen der Kernel-APIs. Dadurch sind die Dokumentationen im Kernel nicht immer aktuell und die wenigen vorhandenen Fachbücher zum Linux Kernel sehr schnell hoffnungslos veraltet. Es erfordert eine hohe Einsatzbereitschaft des Entwicklers mit dieser Situation umzugehen und sich immer wieder neu einzulesen. Andererseits bringt das Entwickeln im Kernelspace ein sehr umfassendes Verständnis von den Vorgängen im Betriebssystem, die auch der klassischen Anwendungsentwicklung zu Gute kommen. Im Kernel müssen viele Konzepte beachtet werden, die sich auch z.B. in der parallelen Anwendungsprogrammierung wiederfinden, da bei einem Treiber immer davon ausgegangen werden muss, dass dieser von mehreren Prozessen gleichzeitig verwendet wird.  
+
+Bedauerlicherweise wurden in dieser Arbeit nicht alle gesteckten Ziele erreicht. So ist die Treiberfunktionalität nicht gegeben, während das grundlegende Kernelmodul ordnungsgemäß arbeitet und dem Anwender die üblichen Schnittstellen zum Zugriff bereitstellt. Dass es nicht möglich war in der vorhandenen Zeit das Problem zu lösen liegt auch an einem weiteren Unterschied zur Anwendungsentwicklung. Einen Debugger der in der Lage ist auf Hochsprachenebene in Echtzeit Schritt für Schritt durch Kernelcode zu gehen gibt es nur in einem experimentellem Stadium und nicht für die verwendete ARM-Plattform. Ebenso erwies sich die Realisierung der seriellen Kommunikation über das \texttt{UART}-Interface im Kernel als deutlich aufwendiger und komplexer als von ähnliche Schnittstellen im Kernel bekannt. Der vorhandene Low-Level-Treiber ist sehr schlecht in seiner genauen Funktionsweise dokumentiert und überlässt dem Entwickler viel Arbeit auf der Ebene der Byte-Übertragung. Dadurch ist es sehr schwierig auftretende Probleme zuzuordnen und zu beheben. Für das konkrete Problem in dieser Arbeit lässt sich kein Fehler feststellen, wieso der Treiber nicht in die erforderliche Funktion läuft, konnte nicht geklärt werden. An dieser Thematik könnte weiter angeknüpft werden. 
+
+Trotz aller Eigenheiten die die Entwicklung im Kernelspace mit sich bringt und den ambitionierten Zielen dieser Arbeit war die Entwicklung des Treibers eine sehr lohnenswerte Erfahrung mit sehr vielen Einblicken in die Funktionsweise eines Betriebssystems, die in jedem Bereich der Informatik von Nutzen sind. 
+
+ 

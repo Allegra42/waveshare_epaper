@@ -14,7 +14,7 @@ Der Fokus soll hierbei vor allem auf allgemeinen Prinzipien und Funktionsweisen 
 \chapter{Hardware}
 
 \section{Beaglebone Black}
-Zur Durchführung der Projektarbeit wird das \textsc{Beaglebone Black}, ein eingebettetes Entwicklerboard auf Basis des ARM-Prozessors AM335x von \textsc{Texas Instruments} eingesetzt. Das Beaglebone bietet mit einer Taktrate von 1GHz (Singlecore), 512MB RAM und vielen zugänglichen Hardware- und Debug-Schnittstellen, sowie einer sehr guten Dokumentation ideale Voraussetzungen für Hardwareintegration und Debugging. 
+Zur Durchführung der Projektarbeit wird das \textsc{Beaglebone Black}, ein eingebettetes Entwicklerboard auf Basis des ARM-Prozessors AM335x von \textsc{Texas Instruments} eingesetzt. Das Beaglebone (zu sehen in Abbildung \ref{pic:Beaglebone}) bietet mit einer Taktrate von 1GHz (Singlecore), 512MB RAM und vielen zugänglichen Hardware- und Debug-Schnittstellen, sowie einer sehr guten Dokumentation ideale Voraussetzungen für Hardwareintegration und Debugging. 
 
 %Bild: beaglebone.org
 \begin{figure}[ht]
@@ -28,7 +28,7 @@ Zur Durchführung der Projektarbeit wird das \textsc{Beaglebone Black}, ein eing
 
 
 \section{Waveshare e-Paper-Display}
-Bei dem e-Paper-Display handelt es sich um ein Modell des Herstellers \textsc{Waveshare} mit einer Auflösung von 800 x 600 Pixeln und einer Größe von 4,3 inch, dass sehr einfach über die bekannte \texttt{UART}-Schnittstelle angesprochen werden kann. 
+Bei dem e-Paper-Display (Abbildung \ref{pic:waveshare}) handelt es sich um ein Modell des Herstellers \textsc{Waveshare} mit einer Auflösung von 800 x 600 Pixeln und einer Größe von 4,3 inch, dass sehr einfach über die bekannte \texttt{UART}-Schnittstelle angesprochen werden kann. 
 E-Paper-Displays sind vor allem dadurch interessant, dass einige Modelle wie auch das Gewählte, in der Lage sind die Anzeige auch ohne Spannungszufuhr aufrecht zu erhalten.
 
 %Bilder: waveshare.com
@@ -53,9 +53,9 @@ Der Treiber wird für die Kernelversionen 4.x der \textsc{ARM}-Plattform geschri
 \section{Aufbau der Hardware}
 Das e-Paper Display besitzt ein \texttt{UART}-Interface, welches die serielle Kommunikation zwischen \textsc{Beaglebone} und Display über zwei Pins ermöglicht. Dazu wird die \texttt{DIN}-Leitung des Displays an den \texttt{TXD}-Pin des \texttt{UART-1}-Interface des \textsc{Beaglebones} angeschlossen. Ebenso wird mit der \texttt{DOUT}-Leitung und dem \texttt{RXD}-Pin des gleichen Interfaces verfahren. Die Leitungen \texttt{RST}, der Reset und \texttt{WAKEUP} des Displays werden an den \texttt{GPIO}\footnote{General Purpose Input/Output (Allzweck Ein-/Ausgabe), ein Pin dessen Verhalten frei programmiert werden kann}-Schnittstellen des \textsc{Beaglebone} angelegt und sorgen dafür, dass der Displayinhalt gelöscht, bzw. das Display aus einem Ruhezustand geholt werden kann. Zuletzt müssen noch Versorgungsspannung (\texttt{VCC}, 5V) und Erdung (\texttt{GND}) an die entsprechenden Pins des \textsc{Beaglebone} angeschlossen werden.  
 
-Das \textsc{Beaglebone} selbst wird über ein USB-Kabel an den Hostrechner angeschlossen und kann darüber über das \texttt{ssh}-Protokoll erreicht werden. Um die zusätzliche Hardware versorgen zu können, muss das Board zusätzlich über ein 5V-Netzteil mit Strom versorgt werden. 
+Das \textsc{Beaglebone} selbst wird über ein USB-Kabel an den Hostrechner angeschlossen und kann darüber über das \texttt{ssh}-Protokoll erreicht werden. Um die zusätzliche Hardware versorgen zu können, muss das Board zusätzlich über ein 5V-Netzteil mit Strom versorgt werden. Der Aufbau ist in Abbildung \ref{pic:hw_aufbau} zu sehen.
 
-Um schon ab dem Bootvorgang Kernellogs zeitgleich lesen zu können wird die serielle Debugging-Schnittstelle des \textsc{Beaglebone} mithilfe eines USB-Serial-Wandlers und dem Programm \texttt{Minicom} ausgelesen. 
+Um schon ab dem Bootvorgang Kernellogs zeitgleich lesen zu können wird die serielle Debugging-Schnittstelle des \textsc{Beaglebone} mithilfe eines USB-Serial-Wandlers und dem Programm \texttt{Minicom}, wie in Abbildung \ref{pic:minicom} zu sehen, ausgelesen. 
 
 %Bild: eigenes Bild
 \begin{figure}[H]
@@ -83,7 +83,7 @@ Das \texttt{UART}\footnote{UART - Universal Asynchronous Receiver Transmitter}-P
 \newline
 
 Befehle an das Display werden in einem spezifizierten Befehlsrahmen übertragen und interpretiert. Um einen plattformübergreifenden Datenaustausch sicher zu stellen, werden die Daten in der sogenannten Network Byte Order, also dem Big Endian Format übertragen. Dabei werden zuerst die höherwertigen Bytes gesendet (Most Significant Byte, MSB), dann die Niederwertigen (Least Significant Byte, LSB).
-Der Befehlsrahmen umfasst einen Befehlsrahmenkopf (frame header), die Länge des Rahmens, den Typ des Befehls, Befehlsparameter oder Nutzdaten, ein festgelegtes Befehlsrahmenende und ein Parity-Byte.
+Der Befehlsrahmen umfasst einen Befehlsrahmenkopf (frame header), die Länge des Rahmens, den Typ des Befehls, Befehlsparameter oder Nutzdaten, ein festgelegtes Befehlsrahmenende und ein Parity-Byte. Die Tabelle \ref{tab:Befehlsrahmen} zeigt den Aufbau dieses Befehlsrahmens.
 
 \begin{table}[h]
 \begin{tabular}{|m{2.7cm}||m{1.6cm}|m{1.9cm}|m{1.6cm}|m{1.9cm}|m{2.7cm}|m{1.4cm}|}
@@ -108,12 +108,12 @@ Kernelmodule müssen genau zu der Kernelversion, also den Schnittstellen des Ker
 Handelt es sich wie im Fall dieser Arbeit um unterschiedliche Plattformen und Kernelversionen, muss der Quelltext der genau passenden Kernelversion, sowie ein \texttt{GCC}-Compiler für die Zielplattform, ein \texttt{Cross-Compiler}, geladen werden. Natürlich kann auch direkt auf der Zielplattform, dem Beaglebone entwickelt werden, allerdings aufgrund dessen geringer Leistungsfähigkeit nicht empfehlenswert.
 
 \subsection{Kernelquellen}
-Für die hier verwendete Kernelversion können die Quelltexte wie folgende geladen und kompiliert werden. \texttt{CROSS\_COMPILE} gibt dabei an, welcher Cross-Compiler verwendet werden soll. Liegt dieser außerhalb der von \texttt{PATH}\footnote{Linux Umgebungsvariable, die alle Pfade enthält unter denen ausführbare Befehle gesucht werden} erfassten Pfade, muss hier der vollständige Pfad zum Cross-Compiler angegeben werden.
+Für die hier verwendete Kernelversion können die Quelltexte wie im folgenden Listing \ref{lst:getKernelsourcen} gezeigt, geladen und kompiliert werden. \texttt{CROSS\_COMPILE} gibt dabei an, welcher Cross-Compiler verwendet werden soll. Liegt dieser außerhalb der von \texttt{PATH}\footnote{Linux Umgebungsvariable, die alle Pfade enthält unter denen ausführbare Befehle gesucht werden} erfassten Pfade, muss hier der vollständige Pfad zum Cross-Compiler angegeben werden.
 
 \begin{listing} [H]
 \caption{Laden und Kompilieren der Kernelquellen}
 \label{lst:getKernelsourcen}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {bash}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {bash}
 # Laden der Kernel-Quellen mit dem Versionsverwaltungssystem Git
 git clone git@github.com:beagleboard/linux.git
 cd linux
@@ -137,13 +137,13 @@ cp arch/arm/boot/zImage /path/to/sdcard/boot/
 Kernelmodule können entweder als fester Bestandteil des Kernels (In-Tree) oder als dynamisch ladbares Modul außerhalb des Kernels kompiliert werden. Im ersten Fall muss bei jeder Änderung der gesamte Kernel neu kompiliert und auf die SD-Karte des Beaglebone geladen werden, was aufgrund der Größe der Linux-Kernel-Quellen für Entwicklung und Testen eines neuen Treibers nicht zielführend ist. Treiber die in dieser Form in den Linux-Kernel eingebunden sind meist für Hardwarezugriffe verantwortlich die geschehen müssen, bevor der Kernel soweit hochgefahren ist um externe Module laden zu können. %Sicherheitsaspekte?
 Für diese Projektarbeit soll mit der zweiten Möglichkeit, dem dynamisch ladbaren Modul, dass nur gegen die Kernelquellen gelinkt wird gearbeitet werden. Der Vorteil hierbei liegt zum einen darin, dass wirklich nur das Modul laufend neu kompiliert wird, zum anderen ist es so möglich im laufenden Betrieb das Modul zu entladen, gegen eine neuere Variante auszutauschen und wieder zum Kernel zu laden. 
 
-Der Build des Linux-Kernels wird über das \texttt{GNU Make} Build-Management-System gesteuert, dass auch für das hier behandelte einzelne Kernel-Modul verwenden werden soll. Hierfür muss ein \texttt{Makefile} (M zwingend groß geschrieben) erstellt werden. Dass verwendete \texttt{Makefile} kann sowohl für ein In-Tree-Build, als auch wie in diesem Fall für ein konkretes Modul außerhalb der Kernelquellen verwendet werden. Um das Modul mit der richtigen Kernelversion zu verknüpfen, wird im Makefile der Pfad zu den Quelltexten angegeben. Stimmt die Kernelversion nicht genau überein, kann das Modul nicht geladen werden! 
+Der Build des Linux-Kernels wird über das \texttt{GNU Make} Build-Management-System gesteuert, dass auch für das hier behandelte einzelne Kernel-Modul verwenden werden soll. Hierfür muss ein \texttt{Makefile} (M zwingend groß geschrieben) erstellt werden. Dass verwendete \texttt{Makefile}, zu sehen in Listing \ref{lst:Makefile}, kann sowohl für ein In-Tree-Build, als auch wie in diesem Fall für ein konkretes Modul außerhalb der Kernelquellen verwendet werden. Um das Modul mit der richtigen Kernelversion zu verknüpfen, wird im Makefile der Pfad zu den Quelltexten angegeben. Stimmt die Kernelversion nicht genau überein, kann das Modul nicht geladen werden! 
 
 Mit dem Aufruf von Make wird eine Objektdatei (\texttt{waveshare.o}) erzeugt die zusammen mit der Information über die Kernel-Version (\texttt{init/vermagic.o}) zum ladbaren Kernelmodul \texttt{waveshare.ko} gelinkt wird. %TODO Treiberbuch S 85 mitte 
 \begin{listing} [H]
 \caption{Makefile}
 \label{lst:Makefile}
-\begin{minted} [frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {make}
+\begin{minted} [xleftmargin=18pt, breaklines, frame=lines, framesep=2mm, fontsize=\footnotesize, linenos] {make}
 # Pfad zu den Kernelquellen
 KERNEL_DIR=~/Development/linux
 
@@ -171,7 +171,8 @@ clean:
 
 %$ 
 
-Das kompilierte Modul kann an jedem Ort liegen und mit \texttt{Root}-Rechten über den Befehl \mintinline{bash}{insmod waveshare.ko} (Pfadangabe ist erforderlich, falls das Modul nicht im aktuellen Verzeichnis liegt) zum Kernel geladen werden. Sollen auch eventuelle Abhängigkeiten des Moduls beim Laden beachtet werden oder das Modul Hotplugging unterstützen, muss das Modul im Zielsystem unter \mintinline{bash}{lib/modules/4.1.12-ti-r29/kernel/drivers/treibergattung} abgelegt und mit dem Befehl \mintinline{bash}{depmod -a} Abhängigkeiten aufgelöst sowie Map-Dateien für die Hotplugging-Infrastruktur erzeugt werden. %TODO SOURCE: depmod http://linux.die.net/man/8/depmod
+Das kompilierte Modul kann an jedem Ort liegen und mit \texttt{Root}-Rechten über den Befehl \mintinline{bash}{insmod waveshare.ko} (Pfadangabe ist erforderlich, falls das Modul nicht im aktuellen Verzeichnis liegt) zum Kernel geladen werden. Sollen auch eventuelle Abhängigkeiten des Moduls beim Laden beachtet werden oder das Modul Hotplugging unterstützen, muss das Modul im Zielsystem unter \\ 
+\mintinline{bash}{lib/modules/4.1.12-ti-r29/kernel/drivers/treibergattung} abgelegt und mit dem Befehl \mintinline{bash}{depmod -a} Abhängigkeiten aufgelöst sowie Map-Dateien für die Hotplugging-Infrastruktur erzeugt werden. %TODO SOURCE: depmod http://linux.die.net/man/8/depmod
 Danach kann das Modul mit \texttt{Root}-Rechten und dem Befehl \mintinline{bash}{modprobe waveshare} geladen werden. Ist das Modul geladen, erscheint es in der Ausgabe von \mintinline{bash}{lsmod}. %TODO Ausgabe lsmod einfügen
 
 

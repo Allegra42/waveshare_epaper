@@ -44,7 +44,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.2.3}waveshare\_driver\_read - Kommunikation zwischen Userspace und Kernelspace}{18}{subsection.4.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.4}waveshare\_driver\_write - Kommunikation zwischen Userspace und Kernelspace}{20}{subsection.4.2.4}
+\contentsline {subsection}{\numberline {4.2.4}waveshare\_driver\_write - Kommunikation zwischen Userspace und Kernelspace}{21}{subsection.4.2.4}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.2.5}Testen der read und write Funktionen}{22}{subsection.4.2.5}
 \defcounter {refsection}{0}\relax 
@@ -66,8 +66,8 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.2.3}Die probe()-Funktion}{34}{subsection.5.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2.4}Prototypische Steuerung des e-Paper Displays}{36}{subsection.5.2.4}
+\contentsline {subsection}{\numberline {5.2.4}Prototypische Steuerung des e-Paper Displays}{37}{subsection.5.2.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Fazit}{37}{chapter.6}
+\contentsline {chapter}{\numberline {6}Fazit}{38}{chapter.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Bibliografie}{38}{chapter.6}
+\contentsline {chapter}{Bibliografie}{40}{chapter.6}
