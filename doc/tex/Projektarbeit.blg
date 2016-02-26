@@ -1,28 +1,28 @@
 [0] Config.pm:327> INFO - This is Biber 2.2
 [1] Config.pm:330> INFO - Logfile is 'Projektarbeit.blg'
-[69] biber:286> INFO - === Do Feb 25, 2016, 00:04:02
-[70] Biber.pm:334> INFO - Reading 'Projektarbeit.bcf'
-[255] Biber.pm:674> INFO - Using all citekeys in bib section 0
-[277] Biber.pm:3054> INFO - Processing section 0
-[293] Biber.pm:3193> INFO - Looking for bibtex format file 'BibliographyProjektarbeit.bib' for section 0
-[294] bibtex.pm:1072> INFO - Decoding LaTeX character macros into UTF-8
-[296] bibtex.pm:935> INFO - Found BibTeX data source 'BibliographyProjektarbeit.bib'
-[334] Utils.pm:147> WARN - BibTeX subsystem: /tmp/iJz_5saNdQ/BibliographyProjektarbeit.bib_6342.utf8, line 14, warning: undefined macro "http://archlinuxarm.org/platforms/armv7/ti/beaglebone-black"
-[334] Utils.pm:147> WARN - BibTeX subsystem: /tmp/iJz_5saNdQ/BibliographyProjektarbeit.bib_6342.utf8, line 20, warning: undefined macro "http://wiki.beyondlogic.org/index.php/BeagleBoneBlack_Building_Kernel"
-[334] Utils.pm:147> WARN - BibTeX subsystem: /tmp/iJz_5saNdQ/BibliographyProjektarbeit.bib_6342.utf8, line 28, warning: undefined macro "http://wiki.beyondlogic.org/index.php/BeagleBoneBlack_Building_Kernel"
-[334] Utils.pm:147> WARN - BibTeX subsystem: /tmp/iJz_5saNdQ/BibliographyProjektarbeit.bib_6342.utf8, line 35, warning: undefined macro "http://hipstercircuits.com/serial-over-usb-on-beaglebone/"
-[334] Utils.pm:147> WARN - BibTeX subsystem: /tmp/iJz_5saNdQ/BibliographyProjektarbeit.bib_6342.utf8, line 43, warning: undefined macro "http://patrakov.blogspot.de/2011/01/writing-systemd-service-files.html"
-[335] Utils.pm:147> WARN - BibTeX subsystem: /tmp/iJz_5saNdQ/BibliographyProjektarbeit.bib_6342.utf8, line 53, warning: undefined macro "http://free-electrons.com/doc/serial-drivers.pdf"
-[335] Utils.pm:147> WARN - BibTeX subsystem: /tmp/iJz_5saNdQ/BibliographyProjektarbeit.bib_6342.utf8, line 61, warning: undefined macro "http://free-electrons.com/doc/serial-drivers-lab.pdf"
-[335] Utils.pm:147> WARN - BibTeX subsystem: /tmp/iJz_5saNdQ/BibliographyProjektarbeit.bib_6342.utf8, line 71, warning: undefined macro "https://static.lwn.net/images/pdf/LDD3/ch18.pdf"
-[335] Utils.pm:147> WARN - BibTeX subsystem: /tmp/iJz_5saNdQ/BibliographyProjektarbeit.bib_6342.utf8, line 78, warning: undefined macro "https://www.kernel.org/doc/Documentation/serial/driver"
-[335] Utils.pm:147> WARN - BibTeX subsystem: /tmp/iJz_5saNdQ/BibliographyProjektarbeit.bib_6342.utf8, line 91, warning: undefined macro "http://elinux.org/Linux_Drivers_Device_Tree_Guide"
-[335] Utils.pm:147> WARN - BibTeX subsystem: /tmp/iJz_5saNdQ/BibliographyProjektarbeit.bib_6342.utf8, line 99, warning: undefined macro "http://kroah.com/log/blog/2013/06/26/how-to-create-a-sysfs-file-correctly/"
-[335] Utils.pm:147> WARN - BibTeX subsystem: /tmp/iJz_5saNdQ/BibliographyProjektarbeit.bib_6342.utf8, line 108, warning: undefined macro "http://www.waveshare.com/w/upload/7/71/4.3inch-e-Paper-UserManual.pdf"
-[649] UCollate.pm:66> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[649] UCollate.pm:66> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
-[649] Biber.pm:2931> INFO - Sorting list 'nty' of type 'entry' with scheme 'nty' and locale 'de-DE'
-[649] Biber.pm:2935> INFO - No sort tailoring available for locale 'de-DE'
-[690] bbl.pm:505> INFO - Writing 'Projektarbeit.bbl' with encoding 'UTF-8'
-[691] bbl.pm:596> INFO - Output to Projektarbeit.bbl
-[692] Biber.pm:107> INFO - WARNINGS: 12
+[65] biber:286> INFO - === Fr Feb 26, 2016, 21:15:57
+[65] Biber.pm:334> INFO - Reading 'Projektarbeit.bcf'
+[166] Biber.pm:674> INFO - Using all citekeys in bib section 0
+[184] Biber.pm:3054> INFO - Processing section 0
+[199] Biber.pm:3193> INFO - Looking for bibtex format file 'BibliographyProjektarbeit.bib' for section 0
+[201] bibtex.pm:1072> INFO - Decoding LaTeX character macros into UTF-8
+[203] bibtex.pm:935> INFO - Found BibTeX data source 'BibliographyProjektarbeit.bib'
+[239] Utils.pm:147> WARN - BibTeX subsystem: /tmp/llOS3RrFsm/BibliographyProjektarbeit.bib_11633.utf8, line 14, warning: undefined macro "http://archlinuxarm.org/platforms/armv7/ti/beaglebone-black"
+[239] Utils.pm:147> WARN - BibTeX subsystem: /tmp/llOS3RrFsm/BibliographyProjektarbeit.bib_11633.utf8, line 20, warning: undefined macro "http://wiki.beyondlogic.org/index.php/BeagleBoneBlack_Building_Kernel"
+[239] Utils.pm:147> WARN - BibTeX subsystem: /tmp/llOS3RrFsm/BibliographyProjektarbeit.bib_11633.utf8, line 28, warning: undefined macro "http://wiki.beyondlogic.org/index.php/BeagleBoneBlack_Building_Kernel"
+[239] Utils.pm:147> WARN - BibTeX subsystem: /tmp/llOS3RrFsm/BibliographyProjektarbeit.bib_11633.utf8, line 35, warning: undefined macro "http://hipstercircuits.com/serial-over-usb-on-beaglebone/"
+[240] Utils.pm:147> WARN - BibTeX subsystem: /tmp/llOS3RrFsm/BibliographyProjektarbeit.bib_11633.utf8, line 43, warning: undefined macro "http://patrakov.blogspot.de/2011/01/writing-systemd-service-files.html"
+[240] Utils.pm:147> WARN - BibTeX subsystem: /tmp/llOS3RrFsm/BibliographyProjektarbeit.bib_11633.utf8, line 53, warning: undefined macro "http://free-electrons.com/doc/serial-drivers.pdf"
+[240] Utils.pm:147> WARN - BibTeX subsystem: /tmp/llOS3RrFsm/BibliographyProjektarbeit.bib_11633.utf8, line 61, warning: undefined macro "http://free-electrons.com/doc/serial-drivers-lab.pdf"
+[240] Utils.pm:147> WARN - BibTeX subsystem: /tmp/llOS3RrFsm/BibliographyProjektarbeit.bib_11633.utf8, line 71, warning: undefined macro "https://static.lwn.net/images/pdf/LDD3/ch18.pdf"
+[240] Utils.pm:147> WARN - BibTeX subsystem: /tmp/llOS3RrFsm/BibliographyProjektarbeit.bib_11633.utf8, line 78, warning: undefined macro "https://www.kernel.org/doc/Documentation/serial/driver"
+[240] Utils.pm:147> WARN - BibTeX subsystem: /tmp/llOS3RrFsm/BibliographyProjektarbeit.bib_11633.utf8, line 91, warning: undefined macro "http://elinux.org/Linux_Drivers_Device_Tree_Guide"
+[240] Utils.pm:147> WARN - BibTeX subsystem: /tmp/llOS3RrFsm/BibliographyProjektarbeit.bib_11633.utf8, line 99, warning: undefined macro "http://kroah.com/log/blog/2013/06/26/how-to-create-a-sysfs-file-correctly/"
+[240] Utils.pm:147> WARN - BibTeX subsystem: /tmp/llOS3RrFsm/BibliographyProjektarbeit.bib_11633.utf8, line 108, warning: undefined macro "http://www.waveshare.com/w/upload/7/71/4.3inch-e-Paper-UserManual.pdf"
+[450] UCollate.pm:66> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[450] UCollate.pm:66> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[450] Biber.pm:2931> INFO - Sorting list 'nty' of type 'entry' with scheme 'nty' and locale 'de-DE'
+[451] Biber.pm:2935> INFO - No sort tailoring available for locale 'de-DE'
+[491] bbl.pm:505> INFO - Writing 'Projektarbeit.bbl' with encoding 'UTF-8'
+[492] bbl.pm:596> INFO - Output to Projektarbeit.bbl
+[493] Biber.pm:107> INFO - WARNINGS: 12
