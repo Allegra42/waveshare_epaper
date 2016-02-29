@@ -1,1 +1,0 @@
-cmd_/home/anna/Development/waveshare_epaper/waveshare_module/waveshare.ko := arm-none-eabi-ld -EL -r  -T ./scripts/module-common.lds --build-id  -o /home/anna/Development/waveshare_epaper/waveshare_module/waveshare.ko /home/anna/Development/waveshare_epaper/waveshare_module/waveshare.o /home/anna/Development/waveshare_epaper/waveshare_module/waveshare.mod.o

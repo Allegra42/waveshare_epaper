@@ -1,1 +1,0 @@
-cmd_/home/anna/Development/waveshare_epaper/waveshare_module/built-in.o :=  rm -f /home/anna/Development/waveshare_epaper/waveshare_module/built-in.o; arm-none-eabi-ar rcsD /home/anna/Development/waveshare_epaper/waveshare_module/built-in.o
