@@ -1,5 +1,0 @@
-[0] Config.pm:327> INFO - This is Biber 2.2
-[0] Config.pm:330> INFO - Logfile is 'BibliographyProjektarbeit.bib.blg'
-[37] biber:286> INFO - === Di Feb 16, 2016, 23:54:30
-[49] Utils.pm:163> ERROR - Cannot find control file 'BibliographyProjektarbeit.bib.bcf'! - did you pass the "backend=biber" option to BibLaTeX?
-[50] Biber.pm:111> INFO - ERRORS: 1
